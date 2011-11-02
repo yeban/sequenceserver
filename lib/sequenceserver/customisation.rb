@@ -1,5 +1,14 @@
 module SequenceServer
   module Customisation
+    def default_link(options)
+      case options[:sequence_id]
+      when /^lcl\|([^\s]*)/
+        id = $1
+        (@all_retrievable_ids ||= []) << id
+        "/get_sequence/?id=#{id}&db=#{options[:databases].join(' ')}" # several dbs... separate by ' '
+      end
+    end
+
     ## When not commented out, this method is used to take a
     ## sequence ID, and return a hyperlink that
     ## replaces the hit in the BLAST output.
@@ -29,32 +38,79 @@ module SequenceServer
     #   end
     # end
 
-    ## Much like construct_custom_sequence_hyperlink, except
-    ## instead of just a hyperlink being defined, the whole
-    ## line as it appears in the blast results is generated.
-    ##
-    ## This is a therefore more flexible setup than is possible
-    ## with construct_custom_sequence_hyperlink, because doing
-    ## things such as adding two hyperlinks for the one hit
-    ## are possible.
-    ##
-    ## When this method is commented out, the behaviour is that
-    ## the construct_custom_sequence_hyperlink method is used,
-    ## or failing that the default method of that is used.
-    # def construct_custom_sequence_hyperlinking_line(options)
-    #   matches = options[:sequence_id].match(/^\s*psu\|(\S+) /)
-    #   if matches #if the sequence_id conforms to our expectations
-    #     # All is good. Return the hyperlink.
-    #     link1 = "http://apiloc.bio21.unimelb.edu.au/apiloc/gene/#{matches[1]}"
-    #     link2 = "http://google.com/?q=#{matches[1]}"
-    #     return "<a href='#{link1}'>ApiLoc page</a>, <a href='#{link2}'>Google search</a>"
-    #   else
-    #     # Parsing the sequence_id didn't work. Don't include a hyperlink for this
-    #     # sequence_id, but log that there has been a problem.
-    #     settings.log.warn "Unable to parse sequence id `#{options[:sequence_id]}'"
-    #     # Return nil so no hyperlink is generated.
-    #     return nil
-    #   end
-    # end
+    # Hook into SequenceServer's BLAST result formatting process to insert
+    # links to Hymenopterabase Genome Browser corresponding to a 'hit'.
+    def construct_custom_sequence_hyperlinking_line(options)
+      line = "><a href='#{url(default_link(options))}'>#{options[:sequence_id]}</a>"
+      case options[:sequence_id]
+      when /^lcl\|(PB.*-RA) /
+        # pbar cds and protein
+        id = $1
+        browser = "http://genomes.arc.georgetown.edu/cgi-bin/gbrowse/pbarbatus_1/?name=#{id}"
+        line << " [<a href='#{browser}'>Genome Browser</a>]\n"
+      when /^lcl\|pbar_(scf\d*) /
+        # pbar genomic
+        id = $1
+        browser = "http://genomes.arc.georgetown.edu/cgi-bin/gbrowse/pbarbatus_1/?name=#{id}"
+        line << " [<a href='#{browser}'>Genome Browser</a>]\n"
+      when /locus=(Si_gnF.scaffold\d*)\[/
+        # sinv protein
+        id = $1
+        browser = "http://genomes.arc.georgetown.edu/cgi-bin/gbrowse/sinvicta_1/?name=#{id}"
+        line << " [<a href='#{browser}'>Genome Browser</a>]\n"
+      when /^lcl\|(Si_gnF.scaffold\d*) /
+        # sinv genomic
+        id = $1
+        browser = "http://genomes.arc.georgetown.edu/cgi-bin/gbrowse/sinvicta_1/?name=#{id}"
+        line << " [<a href='#{browser}'>Genome Browser</a>]\n"
+      when /^lcl\|(LH\d*-RA) /
+        # lhum cds and protein
+        id = $1
+        browser = "http://genomes.arc.georgetown.edu/cgi-bin/gbrowse/lhumile_1/?name=#{id}"
+        line << " [<a href='#{browser}'>Genome Browser</a>]\n"
+      when /^lcl\|(scf\d*) /
+        # lhum genomic
+        id = $1
+        browser = "http://genomes.arc.georgetown.edu/cgi-bin/gbrowse/lhumile_1/?name=#{id}"
+        line << " [<a href='#{browser}'>Genome Browser</a>]\n"
+      when /^lcl\|(ACEP_\d*-RA) /
+        # acep cds and protein
+        id = $1.gsub(/EP_000/, '')
+        browser = "http://genomes.arc.georgetown.edu/cgi-bin/gbrowse/acephalotes_1/?name=#{id}"
+        line << " [<a href='#{browser}'>Genome Browser</a>]\n"
+      when /^lcl\|Acep_(scaffold\d*) /
+        # acep genomic
+        id = $1
+        browser = "http://genomes.arc.georgetown.edu/cgi-bin/gbrowse/acephalotes_1/?name=#{id}:#{options[:hit_coordinates].join('..')}"
+        line << " [<a href='#{browser}'>Genome Browser</a>]\n"
+      when /^lcl\|Cflo_(\d*)--/
+        # cflo cds and protein
+        id = "CFLO#{$1}-RA"
+        browser = "http://genomes.arc.georgetown.edu/cgi-bin/gbrowse/cfloridanus_1/?name=#{id}"
+        line << " [<a href='#{browser}'>Genome Browser</a>]\n"
+      when /^lcl\|Cflo_gn3.3_((scaffold\d*)|(C\d*)) /
+        # cflo genomic
+        id = $1
+        browser = "http://genomes.arc.georgetown.edu/cgi-bin/gbrowse/cfloridanus_1/?name=#{id}"
+        line << " [<a href='#{browser}'>Genome Browser</a>]\n"
+      when /^lcl\|Hsal_(\d*)--/
+        # hsal cds and protein
+        id = "HSAL#{$1}-RA"
+        browser = "http://genomes.arc.georgetown.edu/cgi-bin/gbrowse/hsaltator_1/?name=#{id}"
+        line << " [<a href='#{browser}'>Genome Browser</a>]\n"
+      when /^lcl\|Hsal_gn3.3_((scaffold\d*)|(C\d*)) /
+        # hsal genomic
+        id = $1
+        browser = "http://genomes.arc.georgetown.edu/cgi-bin/gbrowse/hsaltator_1/?name=#{id}"
+        line << " [<a href='#{browser}'>Genome Browser</a>]\n"
+      else
+        # Parsing the sequence_id didn't work. Don't include a hyperlink for this
+        # sequence_id, but log that there has been a problem.
+        settings.log.warn "Unable to parse sequence id `#{options[:sequence_id]}'"
+        # Return nil so no hyperlink is generated.
+        return nil
+      end
+      line
+    end
   end
 end
