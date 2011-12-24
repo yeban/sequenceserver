@@ -1,5 +1,12 @@
 module SequenceServer
   module Customisation
+
+    # TODO: move this module to another file perhaps
+    module Uniprot
+      require 'yaml'
+      SINV = YAML.load_file('./ext/uniprot/sinv.yml')
+    end
+
     def default_link(options)
       case options[:sequence_id]
       when /^lcl\|([^\s]*)/
@@ -39,7 +46,8 @@ module SequenceServer
     # end
 
     # Hook into SequenceServer's BLAST result formatting process to insert
-    # links to Hymenopterabase Genome Browser corresponding to a 'hit'.
+    # links to Hymenopterabase Genome Browser, and/or Uniprot page
+    # corresponding to a 'hit'.
     def construct_custom_sequence_hyperlinking_line(options)
       line = "><a href='#{url(default_link(options))}'>#{options[:sequence_id]}</a>"
       case options[:sequence_id]
@@ -60,7 +68,13 @@ module SequenceServer
         bid = sid.match(/locus=(Si_gnF.scaffold\d*)\[/)[1]
         browser = "http://genomes.arc.georgetown.edu/cgi-bin/gbrowse/sinvicta_1/?name=#{bid}"
 
-        line << " [<a href='#{browser}'>Genome Browser</a>]\n"
+        # construct uniprot link
+        ukey = sid.match(/SI2.2.0_(\d*)/)[1]
+        uid  = Uniprot::SINV["SINV_#{ukey}"]
+        uniprot = "http://www.uniprot.org/uniprot/#{uid}"
+
+        # construct the entire line
+        line << " [<a href='#{browser}'>Genome Browser</a>] [<a href='#{uniprot}'>Uniprot</a>]\n"
       when /^lcl\|(Si_gnF.scaffold\d*) /
         # sinv genomic
         id = $1
