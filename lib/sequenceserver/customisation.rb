@@ -24,12 +24,12 @@ module SequenceServer
       case options[:sequence_id]
       when /^lcl\|(PB.*-RA) /
         # pbar cds and protein
-        id = $1
+        id = "#{$1}:#{options[:hit_coordinates].join('..')}"
         browser = "http://genomes.arc.georgetown.edu/cgi-bin/gbrowse/pbarbatus_1/?name=#{id}"
         line << " [<a href='#{browser}'>Genome Browser</a>]\n"
       when /^lcl\|pbar_(scf\d*) /
         # pbar genomic
-        id = $1
+        id = "#{$1}:#{options[:hit_coordinates].join('..')}"
         browser = "http://genomes.arc.georgetown.edu/cgi-bin/gbrowse/pbarbatus_1/?name=#{id}"
         line << " [<a href='#{browser}'>Genome Browser</a>]\n"
       when /lcl\|SI2.2.0/ # => sinv
@@ -48,17 +48,17 @@ module SequenceServer
         line << " [<a href='#{browser}'>Genome Browser</a>] [<a href='#{uniprot}'>Uniprot</a>]\n"
       when /^lcl\|(Si_gnF.scaffold\d*) /
         # sinv genomic
-        id = $1
+        id = "#{$1}:#{options[:hit_coordinates].join('..')}"
         browser = "http://genomes.arc.georgetown.edu/cgi-bin/gbrowse/sinvicta_1/?name=#{id}"
         line << " [<a href='#{browser}'>Genome Browser</a>]\n"
       when /^lcl\|(LH\d*-RA) /
         # lhum cds and protein
-        id = $1
+        id = "#{$1}:#{options[:hit_coordinates].join('..')}"
         browser = "http://genomes.arc.georgetown.edu/cgi-bin/gbrowse/lhumile_1/?name=#{id}"
         line << " [<a href='#{browser}'>Genome Browser</a>]\n"
       when /^lcl\|(scf\d*) /
         # lhum genomic
-        id = $1
+        id = "#{$1}:#{options[:hit_coordinates].join('..')}"
         browser = "http://genomes.arc.georgetown.edu/cgi-bin/gbrowse/lhumile_1/?name=#{id}"
         line << " [<a href='#{browser}'>Genome Browser</a>]\n"
       when /^lcl\|(ACEP_\d*-RA) /
@@ -78,7 +78,7 @@ module SequenceServer
         line << " [<a href='#{browser}'>Genome Browser</a>]\n"
       when /^lcl\|Cflo_gn3.3_((scaffold\d*)|(C\d*)) /
         # cflo genomic
-        id = $1
+        id = "#{$1}:#{options[:hit_coordinates].join('..')}"
         browser = "http://genomes.arc.georgetown.edu/cgi-bin/gbrowse/cfloridanus_1/?name=#{id}"
         line << " [<a href='#{browser}'>Genome Browser</a>]\n"
       when /^lcl\|Hsal_(\d*)--/
@@ -88,7 +88,7 @@ module SequenceServer
         line << " [<a href='#{browser}'>Genome Browser</a>]\n"
       when /^lcl\|Hsal_gn3.3_((scaffold\d*)|(C\d*)) /
         # hsal genomic
-        id = $1
+        id = "#{$1}:#{options[:hit_coordinates].join('..')}"
         browser = "http://genomes.arc.georgetown.edu/cgi-bin/gbrowse/hsaltator_1/?name=#{id}"
         line << " [<a href='#{browser}'>Genome Browser</a>]\n"
       else
