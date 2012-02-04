@@ -36,7 +36,7 @@ module SequenceServer
         sid = options[:sequence_id]
 
         # construct Hymenopterabase genome browser link
-        bid = sid.match(/locus=(Si_gnF.scaffold\d*)\[/)[1]
+        bid = sid.match(/(Si_gnF.scaffold\d*)\[(\d*..\d*)\]/)[1..2].join(':')
         browser = "http://genomes.arc.georgetown.edu/cgi-bin/gbrowse/sinvicta_1/?name=#{bid}"
 
         # construct uniprot link
