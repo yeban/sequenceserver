@@ -108,8 +108,7 @@ module SequenceServer
       end
 
       # set and return success status
-      return @success = @error.empty?
-
+      return @success = !@result.empty?
     ensure
       # delete tempfile if it was created
       @tempfile.unlink if @tempfile
