@@ -290,12 +290,10 @@ module SequenceServer
       settings.log.info('Ran to blast archive: ' + blast.command) if settings.logging
 
       unless blast.success?
-        # Only the lines that indicate actual error is of interest to us.
-        error = blast.error.select{|l| l.match(/Error/)}.first
-
-        # Most likely BLAST failed because BLAST+ didn't like user input.
-        # Let's echo the error message back to the client claiming 'Bad Request
-        # (400)'.
+        # User's request passed all of SS's validation criteria.  So SS doesn't
+        # know how to account for this failure.  Most probably BLAST failed
+        # because BLAST+ didn't like user input.  Let's just echo the error
+        # message back to the client claiming 'Bad Request (400)'.
         halt 400, error
       end
 
