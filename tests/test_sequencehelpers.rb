@@ -55,17 +55,6 @@ class Tester < Test::Unit::TestCase
   end
 end
 
-class AppTester < Test::Unit::TestCase
-  def test_process_advanced_blast_options
-    app = SequenceServer::App.new!
-
-    assert_nothing_raised {app.validate_advanced_parameters('')}
-    assert_nothing_raised {app.validate_advanced_parameters('-word_size 5')}
-    assert_raise(ArgumentError, 'security advanced option parser'){app.validate_advanced_parameters('-word_size 5; rm -rf /')}
-    assert_raise(ArgumentError, 'conflicting advanced option'){app.validate_advanced_parameters('-db roar')}
-  end
-end
-
 class SystemHelpersTester < Test::Unit::TestCase
   include SequenceServer::Helpers::SystemHelpers
 

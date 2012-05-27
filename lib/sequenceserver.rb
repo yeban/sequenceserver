@@ -6,6 +6,7 @@ require 'logger'
 require 'fileutils'
 require 'sequenceserver/helpers'
 require 'sequenceserver/blast'
+require 'sequenceserver/clioptions'
 require 'sequenceserver/sequencehelpers'
 require 'sequenceserver/sinatralikeloggerformatter'
 require 'sequenceserver/customisation'
@@ -251,10 +252,9 @@ module SequenceServer
       end
 
       # check the advanced options are sensible
-      begin #FIXME
-        validate_advanced_parameters(params[:advanced])
-      rescue ArgumentError => error
-        halt 400, "Advanced parameters invalid: #{error}"
+      valid, message = CLIOptions.validate(params[:advanced])
+      unless valid
+        halt 400, "Error in advanced parameters. #{message}"
       end
 
       # log params
@@ -268,7 +268,7 @@ module SequenceServer
       method        = params['method']
       databases     = params[:databases]
       sequence      = params[:sequence]
-      advanced_opts = params['advanced']
+      advanced_opts = to_opts(params['advanced'])
 
       # evaluate empty sequence as nil, otherwise as fasta
       sequence = sequence.empty? ? nil : to_fasta(sequence)
@@ -294,7 +294,7 @@ module SequenceServer
         # know how to account for this failure.  Most probably BLAST failed
         # because BLAST+ didn't like user input.  Let's just echo the error
         # message back to the client claiming 'Bad Request (400)'.
-        halt 400, error
+        halt 400, blast.error
       end
 
       # convert blast archive to HTML version
@@ -379,6 +379,12 @@ HEADER
         sequence.insert(0, ">Submitted_By_#{ip}_at_#{time}\n")
       end
       return sequence
+    end
+
+    def to_opts(options)
+      CLIOptions.parse(options).reduce("") do |string, tuple|
+        string << " -#{tuple.first} #{tuple.last}"
+      end
     end
 
     def format_blast_results(result, databases)
@@ -516,16 +522,6 @@ HEADER
         return "><a href='#{url(link)}'>#{sequence_id}</a> \n"
       end
 
-    end
-
-    # Advanced options are specified by the user. Here they are checked for interference with SequenceServer operations.
-    # raise ArgumentError if an error has occurred, otherwise return without value
-    def validate_advanced_parameters(advanced_options)
-      raise ArgumentError, "Invalid characters detected in the advanced options" unless advanced_options =~ /\A[a-z0-9\-_\. ']*\Z/i
-      disallowed_options = %w(-out -html -outfmt -db -query)
-      disallowed_options.each do |o|
-        raise ArgumentError, "The advanced BLAST option \"#{o}\" is used internally by SequenceServer and so cannot be specified by the you" if advanced_options =~ /#{o}/i
-      end
     end
   end
 end

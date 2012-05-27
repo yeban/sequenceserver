@@ -51,8 +51,34 @@ module SequenceServer
       last_response.status.must_equal 400
     end
 
-    it 'returns Bad Request (400) if incorrect advanced params are supplied' do
+    it 'returns Bad Request (400) if advanced params is not a YAML map' do
       @params['advanced'] = '-word_size 5; rm -rf /'
+      post '/', @params
+      last_response.status.must_equal 400
+
+      @params['advanced'] = 'word_size: 5, foo: bar'
+      post '/', @params
+      last_response.status.must_equal 400
+    end
+
+    it 'returns Bad Request (400) if an unknown advanced param is specified' do
+      @params['advanced'] = '{word_size: 5, foo: bar}'
+      post '/', @params
+      last_response.status.must_equal 400
+
+      @params['advanced'] = '{word_size: 5, foo}'
+      post '/', @params
+      last_response.status.must_equal 400
+    end
+
+    it 'returns Bad Request (400) if incompatible advanced params are specified' do
+      @params['advanced'] = '{subject_loc: a, gilist: b}'
+      post '/', @params
+      last_response.status.must_equal 400
+    end
+
+    it 'returns Bad Request (400) if dependency for a dependend option is not specified' do
+      @params['advanced'] = '{entrez_query: a, gilist: b}'
       post '/', @params
       last_response.status.must_equal 400
     end

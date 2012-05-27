@@ -113,6 +113,13 @@ if (!SS) {
 }()); //end SS module
 
 $(document).ready(function(){
+    $.valHooks.text = {
+        get: function( elem ) {
+            if (elem.name === 'advanced' && elem.value) {
+                return "{" + elem.value + "}";
+            }
+        }
+    };
     // poll the sequence textbox for a change in user input
     $('#sequence').poll();
 
