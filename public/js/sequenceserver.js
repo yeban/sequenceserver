@@ -204,6 +204,26 @@ $(document).ready(function(){
     $("input#advanced").enablePlaceholder({"withPlaceholderClass": "greytext"});
     $("textarea#sequence").enablePlaceholder({"withPlaceholderClass": "greytext"});
 
+    var options = $('.advanced pre').map(function (index, opt) {
+        return $(this).text().match(/\w+/)[0];
+    })
+
+    $('#advanced').typeahead({
+        source  : options,
+        matcher : function (item) {
+          var entries = this.query.split(/{|.*,|}/).filter(function (val) {
+              return val;
+          });
+          this.query  = entries[0].trim();
+          return ~item.toLowerCase().indexOf(this.query.toLowerCase());
+        },
+        updater : function (item) {
+          var text = this.$element.val().replace(/{|}/g, '');
+          var re   = new RegExp(this.query + '$')
+          return text.replace(re, item);
+        }
+    });
+
     $('.advanced pre').hover(function () {
         $(this).addClass('hover-focus');
     },
