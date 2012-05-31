@@ -117,12 +117,19 @@ module SequenceServer
       end
 
       # A Hash of all possible options.
-      attr_reader :options
+      attr_reader :specs
+      attr_reader :description
+
+      def category(name)
+        yield
+        @description ||= []
+        @description << [name, @specs.values.map(&:description)]
+      end
 
       # option a new option to the table of options.
       def option(name, &block)
-        @options ||= {}
-        @options[name] = Option.new(name, &block).freeze
+        @specs ||= {}
+        @specs[name] = Option.new(name, &block).freeze
       end
 
       def validate(argv)
@@ -154,23 +161,25 @@ module SequenceServer
 
     extend OptSpec
 
-    option 'query_loc' do
-      describe <<DESC
+    category 'foo' do
+      option 'query_loc' do
+        describe <<DESC
 -query_loc <String>
   Location on the query sequence in 1-based offsets (Format: start-stop)
 DESC
-      value_should_be_of_type('String')
-      value_should_be_of_format(/\w+-\w+/)
-    end
+        value_should_be_of_type('String')
+        value_should_be_of_format(/\w+-\w+/)
+      end
 
-    option 'task' do
-      describe <<DESC
+      option 'task' do
+        describe <<DESC
 -task <String, Permissible values: 'blastp' 'blastp-short'>
   Task to execute
   Default = 'blastp'
 DESC
-      value_should_be_of_type('String')
-      value_should_be_one_of('blastp', 'blastp-short')
+        value_should_be_of_type('String')
+        value_should_be_one_of('blastp', 'blastp-short')
+      end
     end
 
     option 'evalue' do
@@ -480,3 +489,5 @@ DESC
     end
   end
 end
+
+p SequenceServer::CLIOptions.description
