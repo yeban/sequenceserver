@@ -3,8 +3,13 @@ require 'yaml'
 module SequenceServer
   module CLIOptions
 
-    # OptSpec is a simple DSL to describe CLI options, and utility method to
-    # check the validity of a CLI option string.
+    # OptSpec is a simple framework to describe CLI options for BLAST+ and
+    # validate user input against the specification.
+    #
+    # Each option is defined as a set of constraints that a user input must
+    # 'pass' for it to be considered 'valid'.  User input is expected to be a
+    # YAML map, so parsing is taken care of by existing YAML libraries.
+    # Converting a YAML map to CLI format is trivial.
     module OptSpec
 
       class SpecFailed < StandardError; end
