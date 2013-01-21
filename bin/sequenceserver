@@ -49,11 +49,20 @@ OPTIONS
 
 BANNER
     opts.on('-p', '--port PORT', 'Port to run SequenceServer on') do |port|
-      options['port'] = Integer(port)
+      begin
+        options['port'] = Integer(port)
+      rescue ArgumentError
+        puts "Port should be a number. Typo?"
+        exit
+      end
     end
 
     opts.on('-c', '--config CONFIG_FILE', 'Use the given configuration file') do |config_file|
       options['config_file'] = File.expand_path(config_file)
+      unless File.exist?(config_file)
+        puts "Couldn't find #{config_file}. Typo?"
+        exit
+      end
     end
 
     opts.on('-v', '--version', 'Print version number of SequenceServer that will be loaded.' ) do |config_file|
@@ -89,10 +98,6 @@ $PROGRAM_NAME = 'sequenceserver'
 
 config_file = options['config_file']
 unless File.exists?(config_file)
-  # FIXME: We want to generate a dummy config file in user's home directory if
-  # it doesn't exist.  However, if the user passes a config file with -c option
-  # and that doesn't exist, this will create a dummy config file at that
-  # location too.  Not sure we want that.
   puts 'Configuration file not found.'
   example_config_file = File.expand_path('../../example.config.yml', __FILE__)
   FileUtils.cp(example_config_file, config_file)
