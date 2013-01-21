@@ -5,6 +5,10 @@ require 'optparse'
 require 'bundler/setup'
 require 'sequenceserver'
 
+options = {}
+options['port'] = 4567
+options['config_file'] = File.expand_path('~/.sequenceserver.conf')
+
 # e.g:
 # sequenceserver --config .sequenceserver.conf format_database
 begin
@@ -45,11 +49,11 @@ OPTIONS
 
 BANNER
     opts.on('-p', '--port PORT', 'Port to run SequenceServer on') do |port|
-      SequenceServer::App.port = Integer(port)
+      options['port'] = Integer(port)
     end
 
     opts.on('-c', '--config CONFIG_FILE', 'Use the given configuration file') do |config_file|
-      SequenceServer::App.config_file = File.expand_path(config_file)
+      options['config_file'] = File.expand_path(config_file)
     end
 
     opts.on('-v', '--version', 'Print version number of SequenceServer that will be loaded.' ) do |config_file|
@@ -83,4 +87,55 @@ end
 # display name for tools like `ps`
 $PROGRAM_NAME = 'sequenceserver'
 
-SequenceServer::App.run!
+config_file = options['config_file']
+unless File.exists?(config_file)
+  # FIXME: We want to generate a dummy config file in user's home directory if
+  # it doesn't exist.  However, if the user passes a config file with -c option
+  # and that doesn't exist, this will create a dummy config file at that
+  # location too.  Not sure we want that.
+  puts 'Configuration file not found.'
+  example_config_file = File.expand_path('../../example.config.yml', __FILE__)
+  FileUtils.cp(example_config_file, config_file)
+  puts "Generated a dummy configuration file: #{config_file}."
+  puts "\nPlease edit #{config_file} to indicate the location of BLAST binaries and databases, and run SequenceServer again."
+  exit
+end
+
+begin
+  puts "\n== Initializing SequenceServer..."
+  app = SequenceServer::App.new(options['config_file'])
+  rescue IOError => error
+    puts "Fail: #{error}"
+    exit
+  rescue ArgumentError => error
+    # _possibly_ triggered by an error in YAML
+    puts "Error in config.yml: #{error}"
+    puts "YAML is white space sensitive. Is your config.yml properly indented?"
+    exit
+end
+
+url = "http://localshost:#{options['port']}"
+puts "\n== Launched SequenceServer at: #{url}"
+puts "== Press CTRL + C to quit."
+
+begin
+  Rack::Handler.default.run(app,
+                            :Port => options['port'],
+                            :Logger => Logger.new('/dev/null')) do |server|
+    # for Thin
+    server.silent = true if server.respond_to? :silent
+
+    [:INT, :TERM].each do |sig|
+      trap(sig) do
+        server.respond_to?(:stop!) ? server.stop! : server.stop
+        puts "\n== Thank you for using SequenceServer :)." +
+             "\n== Please cite: " +
+             "\n==             Priyam A., Woodcroft B.J., Wurm Y (in prep)." +
+             "\n==             Sequenceserver: BLAST searching made easy."
+      end
+    end
+  end
+rescue Errno::EADDRINUSE, RuntimeError
+  puts "\n== Failed to start SequenceServer."
+  puts "== Is SequenceServer already running at: #{url}?"
+end

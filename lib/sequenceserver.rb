@@ -39,25 +39,8 @@ module SequenceServer
       # test suite.
       set :test_database, File.join(root, 'tests', 'database')
 
-      # path to example configuration file
-      #
-      # SequenceServer ships with a dummy configuration file. Users can simply
-      # copy it and make necessary changes to get started.
-      set :example_config_file, File.join(root, 'example.config.yml')
-
-      # path to SequenceServer's configuration file
-      #
-      # The configuration file is a simple, YAML data store.
-      set :config_file, Proc.new{ File.expand_path('~/.sequenceserver.conf') }
-
       set :log,       Logger.new(STDERR)
       log.formatter = SinatraLikeLogFormatter.new()
-    end
-
-    # Settings for the self hosted server.
-    configure do
-      # The port number to run SequenceServer standalone.
-      set :port, 4567
     end
 
     configure :development do
@@ -71,56 +54,6 @@ module SequenceServer
       end
       not_found do
         erb :'500'
-      end
-    end
-
-    class << self
-      # Run SequenceServer as a self-hosted server.
-      #
-      # By default SequenceServer uses Thin, Mongrel or WEBrick (in that
-      # order). This can be configured by setting the 'server' option.
-      def run!(options={})
-        set options
-
-        # perform SequenceServer initializations
-        puts "\n== Initializing SequenceServer..."
-        app = new(config_file)
-
-        # find out the what server to host SequenceServer with
-        handler      = detect_rack_handler
-        handler_name = handler.name.gsub(/.*::/, '')
-
-        puts
-        log.info("Using #{handler_name} web server.")
-
-        if handler_name == 'WEBrick'
-          puts "\n== We recommend using Thin web server for better performance."
-          puts "== To install Thin: [sudo] gem install thin"
-        end
-
-        url = "http://#{bind}:#{port}"
-        puts "\n== Launched SequenceServer at: #{url}"
-        puts "== Press CTRL + C to quit."
-        handler.run(app, :Host => bind, :Port => port, :Logger => Logger.new('/dev/null')) do |server|
-          [:INT, :TERM].each { |sig| trap(sig) { quit!(server, handler) } }
-          set :running, true
-
-          # for Thin
-          server.silent = true if handler_name == 'Thin'
-        end
-      rescue Errno::EADDRINUSE, RuntimeError
-        puts "\n== Failed to start SequenceServer."
-        puts "== Is SequenceServer already running at: #{url}"
-      end
-
-      # Stop SequenceServer.
-      def quit!(server, handler_name)
-        # Use Thin's hard #stop! if available, otherwise just #stop.
-        server.respond_to?(:stop!) ? server.stop! : server.stop
-        puts "\n== Thank you for using SequenceServer :)." +
-             "\n== Please cite: " +
-             "\n==             Priyam A., Woodcroft B.J., Wurm Y (in prep)." +
-             "\n==             Sequenceserver: BLAST searching made easy." unless handler_name =~/cgi/i
       end
     end
 
@@ -157,19 +90,6 @@ module SequenceServer
 
       # Sinatra, you do your magic now.
       super()
-    rescue IOError => error
-      settings.log.fatal("Fail: #{error}")
-      exit
-    rescue ArgumentError => error
-      settings.log.fatal("Error in config.yml: #{error}")
-      puts "YAML is white space sensitive. Is your config.yml properly indented?"
-      exit
-    rescue Errno::ENOENT # config file not found
-      settings.log.info('Configuration file not found')
-      FileUtils.cp(settings.example_config_file, settings.config_file)
-      settings.log.info("Generated a dummy configuration file: #{config_file}")
-      puts "\nPlease edit #{settings.config_file} to indicate the location of your BLAST databases and run SequenceServer again."
-      exit
     end
 
     get '/' do

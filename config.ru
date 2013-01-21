@@ -2,5 +2,5 @@ require 'rubygems'
 require 'bundler/setup'
 require 'sequenceserver'
 
-SequenceServer::App.init
-run SequenceServer::App
+app = SequenceServer::App.new(File.expand_path('~/.sequenceserver.conf'))
+run app
