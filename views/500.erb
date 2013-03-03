@@ -9,7 +9,7 @@
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
 
     <%# without a space after erb's closing tag, a / gets appended to css' path %>
-    <link rel="stylesheet" media="screen" type="text/css" href=<%= uri('/css/beige.css') %> />
+    <link rel="stylesheet" media="screen" type="text/css" href=<%= uri('/css/beige.css', false) %> />
 </head>
 
 <body>

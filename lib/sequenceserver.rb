@@ -311,7 +311,7 @@ HEADER
 
       link_to_fasta_of_all = "/get_sequence/?id=#{@all_retrievable_ids.join(' ')}&db=#{string_of_used_databases}"
       # #dbs must be sep by ' '
-      retrieval_text       = @all_retrievable_ids.empty? ? '' : "<a href='#{url(link_to_fasta_of_all)}'>FASTA of #{@all_retrievable_ids.length} retrievable hit(s)</a>"
+      retrieval_text       = @all_retrievable_ids.empty? ? '' : "<a href='#{url(link_to_fasta_of_all, false)}'>FASTA of #{@all_retrievable_ids.length} retrievable hit(s)</a>"
 
       "<h2>Results</h2>"+
       retrieval_text +
@@ -361,7 +361,7 @@ HEADER
         return line
       else
         settings.log.debug('Added link for: `' + sequence_id + '\''+ link)
-        return "><a href='#{url(link)}'>#{sequence_id}</a> \n"
+        return "><a href='#{url(link, false)}'>#{sequence_id}</a> \n"
       end
 
     end

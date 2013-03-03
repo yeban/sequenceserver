@@ -8,25 +8,25 @@
   <meta name="author" content="Cedric Wurm" />
   <meta name="description" content="Custom BLAST server provided by SequenceServer (http://www.sequenceserver.com)"/>
   <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
-  <script type="text/javascript" src="<%= uri('/js/store.min.js') %>"></script>
-  <script type="text/javascript" src="<%= uri('/js/jquery.js') %>"></script>
-  <script type="text/javascript" src="<%= uri('/js/jquery.ui.js') %>"></script>
-  <script type="text/javascript" src="<%= uri('/js/jquery.enablePlaceholder.min.js') %>"></script>
-  <script type="text/javascript" src="<%= uri('/js/jquery.activity.js') %>"></script>
-  <script type="text/javascript" src="<%= uri('/js/jquery.scrollspy.js') %>"></script>
-  <script type="text/javascript" src="<%= uri('/js/jquery.index.js') %>"></script>
-  <script type="text/javascript" src="<%= uri('/js/bootstrap.transition.js') %>"></script>
-  <script type="text/javascript" src="<%= uri('/js/bootstrap.dropdown.js') %>"></script>
-  <script type="text/javascript" src="<%= uri('/js/bootstrap.modal.js') %>"></script>
-  <script type="text/javascript" src="<%= uri('/js/sequenceserver.js') %>"></script>
-  <script type="text/javascript" src="<%= uri('/js/sequenceserver.blast.js') %>"></script>
+  <script type="text/javascript" src="<%= uri('/js/store.min.js', false) %>"></script>
+  <script type="text/javascript" src="<%= uri('/js/jquery.js', false) %>"></script>
+  <script type="text/javascript" src="<%= uri('/js/jquery.ui.js', false) %>"></script>
+  <script type="text/javascript" src="<%= uri('/js/jquery.enablePlaceholder.min.js', false) %>"></script>
+  <script type="text/javascript" src="<%= uri('/js/jquery.activity.js', false) %>"></script>
+  <script type="text/javascript" src="<%= uri('/js/jquery.scrollspy.js', false) %>"></script>
+  <script type="text/javascript" src="<%= uri('/js/jquery.index.js', false) %>"></script>
+  <script type="text/javascript" src="<%= uri('/js/bootstrap.transition.js', false) %>"></script>
+  <script type="text/javascript" src="<%= uri('/js/bootstrap.dropdown.js', false) %>"></script>
+  <script type="text/javascript" src="<%= uri('/js/bootstrap.modal.js', false) %>"></script>
+  <script type="text/javascript" src="<%= uri('/js/sequenceserver.js', false) %>"></script>
+  <script type="text/javascript" src="<%= uri('/js/sequenceserver.blast.js', false) %>"></script>
 
   <%# without a space after erb's closing tag, a / gets appended to css' path %>
-  <link rel="stylesheet" media="screen" type="text/css" href="<%= uri('/css/bootstrap.min.css') %>" />
-  <link rel="stylesheet" media="screen" type="text/css" href="<%= uri('/css/bootstrap.dropdown.css') %>" />
-  <link rel="stylesheet" media="screen" type="text/css" href="<%= uri('/css/bootstrap.modal.css') %>" />
-  <link rel="stylesheet" media="screen" type="text/css" href="<%= uri('/css/bootstrap.icons.css') %>" />
-  <link rel="stylesheet" media="screen" type="text/css" href="<%= uri('/css/custom.css') %>" />
+  <link rel="stylesheet" media="screen" type="text/css" href="<%= uri('/css/bootstrap.min.css', false) %>" />
+  <link rel="stylesheet" media="screen" type="text/css" href="<%= uri('/css/bootstrap.dropdown.css', false) %>" />
+  <link rel="stylesheet" media="screen" type="text/css" href="<%= uri('/css/bootstrap.modal.css', false) %>" />
+  <link rel="stylesheet" media="screen" type="text/css" href="<%= uri('/css/bootstrap.icons.css', false) %>" />
+  <link rel="stylesheet" media="screen" type="text/css" href="<%= uri('/css/custom.css', false) %>" />
 </head>
 
 <body>
@@ -46,7 +46,7 @@
         <h1>BLAST Sequence(s)</h1>
       </div>
 
-      <form method="post" id="blast" action="<%= uri('/#result') %>">
+      <form method="post" id="blast" action="<%= uri('/#result', false) %>">
         <div class="row">
           <div class="span16">
             <div class="control-group">
