@@ -35,7 +35,7 @@ module SequenceServer
       @databases = databases
 
       # create a tempfile for the given query
-      qfile = Tempfile.new('sequenceserver_query')
+      qfile = Tempfile.new('sequenceserver_query', '/home/fourmidable/archive/www/sequenceserver/tmp')
       qfile.puts(query)
       qfile.close
       @query = qfile
