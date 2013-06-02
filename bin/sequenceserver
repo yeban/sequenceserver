@@ -2,7 +2,6 @@
 
 require 'rubygems'
 require 'optparse'
-require 'bundler/setup'
 require 'sequenceserver'
 
 options = {}
@@ -63,11 +62,6 @@ BANNER
         puts "Couldn't find #{config_file}. Typo?"
         exit
       end
-    end
-
-    opts.on('-v', '--version', 'Print version number of SequenceServer that will be loaded.' ) do |config_file|
-      puts SequenceServer.version
-      exit
     end
   end.order!
 
