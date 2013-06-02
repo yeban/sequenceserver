@@ -59,8 +59,7 @@ module SequenceServer
       def scan_blast_db(db_root, blastdbcmd = 'blastdbcmd')
         raise IOError, "Database directory doesn't exist: #{db_root}" unless File.directory?( db_root )
 
-        find_dbs_command = %|#{blastdbcmd} -recursive -list #{db_root} -list_outfmt "%p %f %t" 2>&1|
-
+        find_dbs_command = %|#{blastdbcmd} -recursive -list #{db_root} -list_outfmt \\'%p %f %t\\' 2>&1|
         begin
           db_list = %x|#{find_dbs_command}|
           if db_list.empty?
