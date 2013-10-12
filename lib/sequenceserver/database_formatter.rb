@@ -38,7 +38,7 @@ module SequenceServer
         exit
       end
 
-      formatted_dbs = %x|#{@app.binaries['blastdbcmd']} -recursive -list #{db_path} -list_outfmt "%f" 2>&1|.split("\n")
+      formatted_dbs = %x|#{@app.binaries['blastdbcmd']} -recursive -list \\'#{db_path}\\' -list_outfmt "%f" 2>&1|.split("\n")
       commands = []
       Find.find(db_path) do |file|
         LOG.debug("Assessing file #{file}..")
@@ -97,7 +97,7 @@ module SequenceServer
 
     def db_table(db_path)
       LOG.info("Summary of formatted blast databases:\n")
-      output = %x|#{@app.binaries['blastdbcmd']} -recursive -list #{db_path} -list_outfmt "%p %f %t" &2>1 |
+      output = %x|#{@app.binaries['blastdbcmd']} -recursive -list \\'#{db_path}\\' -list_outfmt "%p %f %t" &2>1 |
       LOG.info(output)
     end
 

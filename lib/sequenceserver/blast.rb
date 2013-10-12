@@ -65,7 +65,7 @@ module SequenceServer
 
     # The command that will be executed.
     def command
-      @command ||= "#@method -db '#@databases' -query '#{@query.path}' #@options"
+      @command ||= "#@method -db \\'#@databases\\' -query \\'#{@query.path}\\' #@options"
     end
 
     # Return success status.
