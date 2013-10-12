@@ -20,7 +20,8 @@ module SequenceServer
     # links to Hymenopterabase Genome Browser, and/or Uniprot page
     # corresponding to a 'hit'.
     def construct_custom_sequence_hyperlinking_line(options)
-      line = "><a href='#{url(default_link(options))}'>#{options[:sequence_id]}</a>"
+      line = "><a href='#{url(default_link(options), false)}' target='_blank'>#{options[:sequence_id]}</a>"
+
       case options[:sequence_id]
       when /^lcl\|(PB.*-RA) /
         # pbar cds and protein
