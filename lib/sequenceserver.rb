@@ -360,7 +360,7 @@ HEADER
         return line
       else
         settings.log.debug('Added link for: `' + sequence_id + '\''+ link)
-        return "><a href='#{url(link, false)}'>#{sequence_id}</a> \n"
+        return "><a href='#{url(link, false)}' target='_blank'>#{sequence_id}</a> \n"
       end
 
     end
