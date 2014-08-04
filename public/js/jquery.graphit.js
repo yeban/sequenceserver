@@ -137,11 +137,11 @@
                 svg_legend.append('text')
                         .attr('transform', 'translate(0, '+legend+')')
                         .attr('x', 6*(width-2*margin)/10 - margin/2)
-                        .text("Low evalue");
+                        .text("High evalue");
                 svg_legend.append('text')
                         .attr('transform', 'translate(0, '+legend+')')
                         .attr('x', 9*(width-2*margin)/10 + margin/2)
-                        .text("High evalue");
+                        .text("Low evalue");
 
                 svg.append('linearGradient')
                     .attr('id', 'legend-grad')
@@ -157,6 +157,3 @@
         }
     });
 }( jQuery ));
-
-
-$('#blast').submit($.draw());
