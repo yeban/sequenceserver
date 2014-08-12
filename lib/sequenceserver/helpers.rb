@@ -57,7 +57,7 @@ module SequenceServer
       #   > scan_blast_db('/home/yeban/blast_db')
       #   => { "protein" => [], "nucleotide" => [] }
       def scan_blast_db(db_root, blastdbcmd = 'blastdbcmd')
-        raise IOError, "Database directory doesn't exist: #{db_root}" unless File.directory?( db_root )
+        #raise IOError, "Database directory doesn't exist: #{db_root}" unless File.directory?( db_root )
 
         find_dbs_command = %|#{blastdbcmd} -recursive -list #{db_root} -list_outfmt \\'%p %f %t\\' 2>&1|
         begin

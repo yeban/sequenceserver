@@ -35,7 +35,7 @@ module SequenceServer
       @databases = databases
 
       # create a tempfile for the given query
-      qfile = Tempfile.new('sequenceserver_query', '/home/fourmidable/archive/www/sequenceserver/tmp')
+      qfile = Tempfile.new('sequenceserver_query', '/Users/fourmidable/archive/www/tmp')
       qfile.puts(query)
       qfile.close
       @query = qfile
@@ -65,7 +65,7 @@ module SequenceServer
 
     # The command that will be executed.
     def command
-      @command ||= "#@method -db \\'#@databases\\' -query \\'#{@query.path}\\' #@options"
+      @command ||= "#@method -db \\'#@databases\\' -query \\'/home/fourmidable/archive/www/tmp/#{File.basename(@query.path)}\\' #@options"
     end
 
     # Return success status.
