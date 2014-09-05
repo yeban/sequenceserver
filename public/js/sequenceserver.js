@@ -283,6 +283,13 @@ $(document).ready(function(){
                 }
             });
 
+            $('[data-toggle="tooltip"]').tooltip({
+                'placement': 'top',
+                'container': 'body',
+                'html': 'true',
+                'white-space': 'nowrap'
+            });
+
             $("[data-table='view']").each(function(index) {
                 $(this).tablesorter({
                     theme: 'default',
