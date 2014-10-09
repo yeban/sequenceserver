@@ -207,8 +207,10 @@ module SequenceServer
 
         chars = 60
         lines = (hsp.length / chars.to_f).ceil
+
+        # Plus one to fix a weird error causing misalignment
         width = [hsp.qend, hsp.send, hsp.qstart,
-                 hsp.qend].map(&:to_s).map(&:length).max
+                 hsp.qend].map(&:to_s).map(&:length).max + 1
 
         # blastn results are inconsistent with the other methods as it
         # automatically reverse the start and end coordinates (based on
