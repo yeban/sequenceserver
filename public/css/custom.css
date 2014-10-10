@@ -4,6 +4,10 @@ code {
   word-wrap: break-word;
 }
 
+.disabled {
+  color: #ccc;
+}
+
 .text-monospace {
   font-family: monospace;
 }
