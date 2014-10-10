@@ -70,6 +70,7 @@ module SequenceServer
       assert_blast_databases_present_in_database_dir
 
       scan_databases_dir
+      make_blast_databases
 
       @config[:num_threads] = Integer(@config[:num_threads])
       assert_num_threads_valid @config[:num_threads]
@@ -102,9 +103,16 @@ module SequenceServer
     # Recursively scan `database_dir` for un-formatted FASTA and format them
     # for use with BLAST+.
     def make_blast_databases
-      unformatted_fastas.each do |file, sequence_type|
+      fastas_to_format = unformatted_fastas
+      if not fastas_to_format.empty? and not databases.empty?
+        puts "Found unformatted FASTA files, format them now?"
+        response = STDIN.gets.chomp
+        return if response.match(/^[nN]$/i)
+      end
+      fastas_to_format.each do |file, sequence_type|
         make_blast_database(file, sequence_type)
       end
+      scan_databases_dir
     end
 
     # Returns an Array of FASTA files that may require formatting, and the type
