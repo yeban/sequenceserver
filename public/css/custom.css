@@ -109,6 +109,12 @@ body {
 .biojs-vis-sequence pre {
   max-height: 340px;
   overflow-y: scroll;
+  background-color: #ffe;
+  word-break: normal;
+  word-wrap: normal;
+  padding: 0px;
+  margin: 0px;
+  border: none;
 }
 
 .notifications {
