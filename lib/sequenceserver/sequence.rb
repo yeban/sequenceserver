@@ -51,9 +51,6 @@ module SequenceServer
       # Returns an Array of `Sequence` objects each capturing a sequence
       # fetched from BLAST database.
       def from_blastdb(accessions, database_ids)
-        accessions = Array accessions
-        database_ids = Array database_ids
-
         accessions = accessions.join(',')
         database_names = Database[database_ids].map(&:name).join(' ')
 

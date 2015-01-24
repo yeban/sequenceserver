@@ -22,7 +22,13 @@ module SequenceServer
       return uid if uid.nil?
 
       uniprot = "http://www.uniprot.org/uniprot/#{uid}"
-      return {:title => 'View on UniProt', :url => uniprot}
+      {
+        :title => 'View on UniProt',
+        :url => Addressable::URI.escape(url),
+        :order => 10,
+        :classes => [],
+        :icon => ['fa-external-link']
+      }
     end
   end
 end
