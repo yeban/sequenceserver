@@ -1,3 +1,5 @@
+require 'addressable/uri'
+
 module SequenceServer
   # Module to contain methods for generating sequence retrieval links.
   module Links
@@ -52,7 +54,7 @@ module SequenceServer
 
       {
         :title => 'View Sequence',
-        :url => url,
+        :url => Addressable::URI.escape(url),
         :order => 0,
         :classes => ['view-sequence'],
         :icon => ['fa-eye']
@@ -68,7 +70,7 @@ module SequenceServer
 
       {
         :title => 'Download FASTA',
-        :url => url,
+        :url => Addressable::URI.escape(url),
         :order => 1,
         :classes => [],
         :icon => ['fa-download']
@@ -88,7 +90,7 @@ module SequenceServer
       end
       {
         :title => 'View on NCBI',
-        :url => url,
+        :url => Addressable::URI.escape(url),
         :order => 2,
         :classes => [],
         :icon => ['fa-external-link']

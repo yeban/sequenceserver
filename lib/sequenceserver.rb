@@ -3,6 +3,7 @@ require 'fileutils'
 require 'sinatra/base'
 require 'thin'
 require 'json'
+require 'addressable/uri'
 
 require 'sequenceserver/logger'
 require 'sequenceserver/sequence'
@@ -312,6 +313,10 @@ module SequenceServer
     # in identifiers) and retreival_databases (we don't allow whitespace in a
     # database's name, so it's safe).
     get '/get_sequence/' do
+      params.each do |key, value|
+        params[key] = Addressable::URI.unencode(value)
+      end
+
       sequence_ids = params[:sequence_ids].split(/\s/)
       database_ids = params[:database_ids].split(/\s/)
 
