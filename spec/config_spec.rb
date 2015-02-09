@@ -83,5 +83,16 @@ module SequenceServer
                           :num_threads => 20)
       config[:num_threads].should eq 20
     end
+
+    it 'can write config to config_file, if config_file set' do
+      config = Config.new(:database_dir => 'spec/database/sample',
+                          :config_file  => 'write.conf')
+      config.write_config_file
+      File.exist?('write.conf').should be_truthy
+      File.unlink('write.conf')
+
+      config = Config.new(:config_file => nil)
+      config.write_config_file.should be_falsey
+    end
   end
 end
