@@ -18,35 +18,36 @@ import _ from 'underscore';
         });
     };
 
-    var setupResponsiveness = function ($queryDiv, $graphDiv, index, opts, hits)  {
+    var setupResponsiveness = function ($graphDiv, index, opts, hits, algorithm, queryLen, id)  {
         var currentWidth = $(window).width();
         var debounced_draw = _.debounce(function () {
             if (currentWidth !== $(window).width()) {
-                var shownHits = $queryDiv.find('.ghit > g').length;
-                $.graphIt($queryDiv, $graphDiv, shownHits, index, opts, hits);
+                //var shownHits = $queryDiv.find('.ghit > g').length;
+                $.graphIt($graphDiv, shownHits, index, opts, hits, algorithm, queryLen, id);
                 currentWidth = $(window).width();
             }
         }, 125);
         $(window).resize(debounced_draw);
     };
 
-    var graphControls = function ($queryDiv, $graphDiv, isInit, opts, hits) {
+    var graphControls = function ($graphDiv, isInit, opts, hits, algorithm, queryLen, id) {
         var MIN_HITS_TO_SHOW = 20;
 
-        var totalHits, shownHits, lessButton, moreButton;
+        //var totalHits, shownHits, lessButton, moreButton;
+        var totalHits, lessButton, moreButton;
 
         var countHits = function () {
             totalHits = hits.length;
-            shownHits = $queryDiv.find('.ghit > g').length;
+            //shownHits = $queryDiv.find('.ghit > g').length;
         };
 
-        var setupButtons = function($queryDiv, $graphDiv) {
+        var setupButtons = function($graphDiv) {
             $graphDiv
             .append(
                 $('<button/>')
                 .addClass('btn btn-link more')
                 .attr('type', 'button')
-                .attr('data-parent-query', $queryDiv.attr('id'))
+                .attr('data-parent-query', id)
                 .html('View More&nbsp;')
                 .append(
                     $('<i/>')
@@ -55,7 +56,7 @@ import _ from 'underscore';
                 $('<button/>')
                 .addClass('btn btn-link less')
                 .attr('type', 'button')
-                .attr('data-parent-query', $queryDiv.attr('id'))
+                .attr('data-parent-query', id)
                 .html('View Less&nbsp;')
                 .append(
                     $('<i/>')
@@ -90,13 +91,13 @@ import _ from 'underscore';
 
         // Setup view buttons' state properly if called for first time.
         if (isInit === true) {
-            setupButtons($queryDiv, $graphDiv);
+            setupButtons($graphDiv);
             initButtons();
         }
 
         moreButton.on('click', function (e) {
             countHits();
-            $.graphIt($queryDiv, $graphDiv, shownHits, MIN_HITS_TO_SHOW, opts, hits);
+            $.graphIt($graphDiv, shownHits, MIN_HITS_TO_SHOW, opts, hits, algorithm, queryLen, id);
             initButtons();
             setupTooltip();
             e.stopPropagation();
@@ -108,18 +109,20 @@ import _ from 'underscore';
 
             // Decrease number of shown hits by defined constant.
             if (diff >= MIN_HITS_TO_SHOW) {
-                $.graphIt($queryDiv, $graphDiv, shownHits, -MIN_HITS_TO_SHOW, opts, hits);
+                $.graphIt($graphDiv, shownHits, -MIN_HITS_TO_SHOW, opts, hits, algorithm, queryLen, id);
                 initButtons();
             }
             else if (diff !== 0) {
                 // Ensure a certain number of hits always stay in graph.
-                $.graphIt($queryDiv, $graphDiv, shownHits, MIN_HITS_TO_SHOW - shownHits, opts, hits);
+                $.graphIt($graphDiv, shownHits, MIN_HITS_TO_SHOW - shownHits, opts, hits, algorithm, queryLen, id);
                 initButtons();
             }
             setupTooltip();
             e.stopPropagation();
         });
     };
+
+    var shownHits;
 
     /* Extracts data from document data-attribs are returns in
      * suitable object.
@@ -190,7 +193,7 @@ import _ from 'underscore';
      * are provided by the calling function.
      */
     $.extend({
-        graphIt: function ($queryDiv, $graphDiv, index, howMany, opts, inhits) {
+        graphIt: function ($graphDiv, index, howMany, opts, inhits, algorithm, queryLen, id) {
             /* barHeight: Height of each hit track.
              * barPadding: Padding around each hit track.
              * legend: Height reserved for the overview legend.
@@ -204,6 +207,7 @@ import _ from 'underscore';
             },
                 options = $.extend(defaults, opts);
                 var hits = inhits.slice(0 , index + howMany);
+                shownHits = hits.length;
 
             // Don't draw anything when no hits are obtained.
             if (hits.length < 1) return false;
@@ -214,8 +218,7 @@ import _ from 'underscore';
                 $graphDiv.find('svg').remove();
             }
 
-            var queryLen = $queryDiv.data().queryLen;
-            var q_i = $queryDiv.attr('id');
+            var q_i = id;
 
             var width = $graphDiv.width();
             var height = hits.length * (options.barHeight + options.barPadding) +
@@ -245,7 +248,7 @@ import _ from 'underscore';
 
             x.domain([1, queryLen]);
 
-            var algorithm = $queryDiv.data().algorithm;
+            //var algorithm = $queryDiv.data().algorithm;
             var formatter = Graph.prototype._create_formatter(x, SEQ_TYPES[algorithm]);
 
             var _tValues = x.ticks(11);
@@ -377,9 +380,9 @@ import _ from 'underscore';
             // Bind listener events once all the graphical elements have
             // been drawn for first time.
             if (index === 0) {
-                graphControls($queryDiv, $graphDiv, true, opts, inhits);
+                graphControls($graphDiv, true, opts, inhits, algorithm, queryLen, id);
                 // Redraw the SVG on a browser resize...
-                setupResponsiveness($queryDiv, $graphDiv, index, opts, inhits);
+                setupResponsiveness($graphDiv, index, opts, inhits, algorithm, queryLen, id);
             }
             // Refresh tooltip each time graph is redrawn.
             setupTooltip();

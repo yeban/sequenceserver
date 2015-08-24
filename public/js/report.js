@@ -836,6 +836,7 @@ var GraphicalOverview = React.createClass({
     componentDidMount: function () {
         var hits = this.toGraph(this.props.query.hits, this.props.query.number);
         $.graphIt(this.svgContainer().parent().parent(), this.svgContainer(), 0, 20, null, hits);
+        //$.graphIt($graphDiv, 0, 20, null, hits, that.props.program, that.props.query.length, that.props.id);
     }
 });
 
@@ -939,6 +940,7 @@ var Query = React.createClass({
                 }
             </div>
         )
+                //<GraphicalOverview query={this.props.query} program={this.props.data.program} id={this.domID()}/>
     },
 });
 
