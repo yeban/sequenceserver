@@ -409,10 +409,6 @@ svg:not(:root) {
   padding-left: 0;
 }
 
-.footer a:first-child {
-  vertical-align: super;
-}
-
 .dnd-overlay {
   position: absolute;
   top: 51px;
