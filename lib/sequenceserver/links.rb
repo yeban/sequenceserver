@@ -11,6 +11,23 @@ module SequenceServer
     NCBI_ID_PATTERN    = /gi\|(\d+)\|/
     UNIPROT_ID_PATTERN = /sp\|(\w+)\|/
 
+    BROWSE_PREFIX = "http://hymenopteragenome.org:8080"
+    NAME_PATTERNS = {
+      "Apis mellifera" =>  "Amel_4.5",
+      "Lasioglossum albipes" => "Lalb_v2",
+      "Bombus impatiens" => "Bimp_2.0_NCBI",
+      "Bombus terrestris" => "Bter_1.0",
+      "Nasonia vitripennis" => "Nvit_2.0",
+      "Acromyrmex echinatior" => "Aech_2.0",
+      "Atta cephalotes" => "Acep_1.0",
+      "Camponotus floridanus" => "Cflo_3.3",
+      "Cardiocondyle obscurior" => "Cobs_1.4",
+      "Harpeganthos saltator" => "Hsal_3.3",
+      "Linepithema humile" => "Lhum_1.0",
+      "Pogonymex barbatus" => "Pbar_1.0",
+      "Solenopsis invicta" => "Sinv_1.0"
+    }
+
     # Link generators return a Hash like below.
     #
     # {
@@ -90,6 +107,19 @@ module SequenceServer
       }
     end
 
+    def custom_hymenoptera
+      title = querydb.map(&:title).first.split(" - ")[0].sub(/\[.*?\] /, "")
+      return nil unless NAME_PATTERNS.has_key? title
+      url = "#{BROWSE_PREFIX}/#{NAME_PATTERNS[title]}/jbrowse/"
+
+      {
+        order: 2,
+        title: 'Genome Browser',
+        url: url,
+        icon: 'fa-external-link'
+      }
+    end
+
     def ncbi
       return nil unless id.match(NCBI_ID_PATTERN)
       ncbi_id = Regexp.last_match[1]
@@ -115,6 +145,7 @@ module SequenceServer
         :icon  => 'fa-external-link'
       }
     end
+
   end
 end
 

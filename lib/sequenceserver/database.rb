@@ -4,6 +4,7 @@ require 'digest/md5'
 require 'forwardable'
 
 require 'sequenceserver/sequence'
+require 'sequenceserver/name_generator'
 
 # Define Database class.
 module SequenceServer
@@ -157,10 +158,16 @@ module SequenceServer
 
       # Create BLAST database, given FASTA file and sequence type in FASTA file.
       def make_blast_database(file, type)
-        return unless make_blast_database? file, type
-        title = get_database_title(file)
-        taxid = fetch_tax_id
-        _make_blast_database(file, type, title, taxid)
+        unless config[:self_fmt_db_name]
+          return unless make_blast_database? file, type
+          title = get_database_title(file)
+          taxid = fetch_tax_id
+          _make_blast_database(file, type, title, taxid)
+        else
+          namegen = NameGenerator.new file
+          title, taxid = namegen.get
+          _make_blast_database(file, type, title, taxid)
+        end
       end
 
       def _make_blast_database(file, type, title, taxid, quiet = false)
