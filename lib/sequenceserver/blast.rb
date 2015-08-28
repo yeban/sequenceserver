@@ -35,7 +35,7 @@ module SequenceServer
         method  = params[:method]
         #
         # BLAST+ expects query sequence as a file.
-        qfile = Tempfile.new('sequenceserver_query')
+        qfile = Tempfile.new('sequenceserver_query', '/data/home/fourmidable/archive/www/sequenceserver/tmp')
         qfile.puts(params[:sequence])
         qfile.close
         #
