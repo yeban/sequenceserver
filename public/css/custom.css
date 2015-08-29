@@ -259,6 +259,7 @@ a.disabled:hover {
 
 .databases .checkbox {
   padding-left: 5px;
+  padding-top: 0px;
 }
 
 .databases label {
@@ -443,6 +444,10 @@ svg:not(:root) {
 .list-group.databases .list-group-item {
   border: none;
   padding: 1px 0;
+}
+
+li.list-group-item {
+  height: 25px;
 }
 
 .list-group.databases .list-group-item input {
