@@ -11,21 +11,27 @@ module SequenceServer
     NCBI_ID_PATTERN    = /gi\|(\d+)\|/
     UNIPROT_ID_PATTERN = /sp\|(\w+)\|/
 
-    BROWSE_PREFIX = "http://hymenopteragenome.org:8080"
-    NAME_PATTERNS = {
-      "Apis mellifera" =>  "Amel_4.5",
-      "Lasioglossum albipes" => "Lalb_v2",
-      "Bombus impatiens" => "Bimp_2.0_NCBI",
-      "Bombus terrestris" => "Bter_1.0",
-      "Nasonia vitripennis" => "Nvit_2.0",
-      "Acromyrmex echinatior" => "Aech_2.0",
-      "Atta cephalotes" => "Acep_1.0",
-      "Camponotus floridanus" => "Cflo_3.3",
-      "Cardiocondyle obscurior" => "Cobs_1.4",
-      "Harpeganthos saltator" => "Hsal_3.3",
-      "Linepithema humile" => "Lhum_1.0",
-      "Pogonymex barbatus" => "Pbar_1.0",
-      "Solenopsis invicta" => "Sinv_1.0"
+    HBASE_PREFIX = 'http://hymenopteragenome.org:8080'
+    #Species name, scaffold+no, %3A, start, stop
+    METAZOA_FMT = "http://metazoa.ensembl.org/%s/Location/View?r=%s%%3A%d-%d"
+    #http://metazoa.ensembl.org/Solenopsis_invicta/Location/View?r=Si_gnG.scaffold10535:2330000-2380000
+
+    METAZOA_SPECIES = ["Apis mellifera", "Atta cephalotes", "Nasonia vitripennis", "Solenopsis invicta"]
+
+    HBASE_PATTERNS = {
+      'Apis mellifera' =>  'Amel_4.5',
+      'Lasioglossum albipes' => 'Lalb_v2',
+      'Bombus impatiens' => 'Bimp_2.0_NCBI',
+      'Bombus terrestris' => 'Bter_1.0',
+      'Nasonia vitripennis' => 'Nvit_2.0',
+      'Acromyrmex echinatior' => 'Aech_2.0',
+      'Atta cephalotes' => 'Acep_1.0',
+      'Camponotus floridanus' => 'Cflo_3.3',
+      'Cardiocondyle obscurior' => 'Cobs_1.4',
+      'Harpeganthos saltator' => 'Hsal_3.3',
+      'Linepithema humile' => 'Lhum_1.0',
+      'Pogonymex barbatus' => 'Pbar_1.0',
+      'Solenopsis invicta' => 'Sinv_1.'
     }
 
     # Link generators return a Hash like below.
@@ -107,14 +113,35 @@ module SequenceServer
       }
     end
 
-    def custom_hymenoptera
-      title = querydb.map(&:title).first.split(" - ")[0].sub(/\[.*?\] /, "")
-      return nil unless NAME_PATTERNS.has_key? title
-      url = "#{BROWSE_PREFIX}/#{NAME_PATTERNS[title]}/jbrowse/"
+    def hymenoptera_base
+      title = querydb.map(&:title).first.split(" - ")[0].gsub(/\[.*?\] /, "")
+      return nil unless HBASE_PATTERNS.has_key? title
+
+      browse_start = hsps.map(&:sstart).min
+      browse_end = hsps.map(&:send).max
+      url = "#{HBASE_PREFIX}/#{HBASE_PATTERNS[title]}/jbrowse/?loc=#{browse_start}..#{browse_end}"
 
       {
         order: 2,
-        title: 'Genome Browser',
+        title: 'HymenopteraBase',
+        url: url,
+        icon: 'fa-external-link'
+      }
+    end
+
+    def metaoza
+      title = querydb.map(&:title).first.split(" - ")[0].gsub(/\[.*?\] /, "")
+      return nil unless METAZOA_SPECIES.include? title
+
+      browse_start = hsps.map(&:sstart).min
+      browse_end = hsps.map(&:send).max
+      scaffold = /[a-z]*scaffold[0-9]{1,100}/.match self.title
+      species = title.gsub(" ", "_")
+      url = METAZOA_FMT % [species, scaffold, browse_start, browse_end]
+
+      {
+        order: 2,
+        title: 'Metazoa',
         url: url,
         icon: 'fa-external-link'
       }
@@ -126,7 +153,7 @@ module SequenceServer
       ncbi_id = encode ncbi_id
       url = "http://www.ncbi.nlm.nih.gov/#{querydb.first.type}/#{ncbi_id}"
       {
-        :order => 2,
+        :order => 3,
         :title => 'NCBI',
         :url   => url,
         :icon  => 'fa-external-link'
@@ -139,7 +166,7 @@ module SequenceServer
       uniprot_id = encode uniprot_id
       url = "http://www.uniprot.org/uniprot/#{uniprot_id}"
       {
-        :order => 2,
+        :order => 3,
         :title => 'Uniprot',
         :url   => url,
         :icon  => 'fa-external-link'

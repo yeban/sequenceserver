@@ -164,7 +164,7 @@ module SequenceServer
           taxid = fetch_tax_id
           _make_blast_database(file, type, title, taxid)
         else
-          namegen = NameGenerator.new file
+          namegen = NameGenerator.new file, make_db_title(File.basename file)
           title, taxid = namegen.get
           _make_blast_database(file, type, title, taxid)
         end
