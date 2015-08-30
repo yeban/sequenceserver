@@ -12,9 +12,7 @@ module SequenceServer
     UNIPROT_ID_PATTERN = /sp\|(\w+)\|/
 
     HBASE_PREFIX = 'http://hymenopteragenome.org:8080'
-    #Species name, scaffold+no, %3A, start, stop
     METAZOA_FMT = "http://metazoa.ensembl.org/%s/Location/View?r=%s%%3A%d-%d"
-    #http://metazoa.ensembl.org/Solenopsis_invicta/Location/View?r=Si_gnG.scaffold10535:2330000-2380000
 
     METAZOA_SPECIES = ["Apis mellifera", "Atta cephalotes", "Nasonia vitripennis", "Solenopsis invicta"]
 

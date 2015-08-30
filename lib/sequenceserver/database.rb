@@ -172,7 +172,7 @@ module SequenceServer
 
       def _make_blast_database(file, type, title, taxid, quiet = false)
         cmd = 'makeblastdb -parse_seqids -hash_index ' \
-              "-in #{file} -dbtype #{type.to_s.slice(0, 4)} -title '#{title}'" \
+              "-in #{file} -dbtype #{type.to_s.slice(0, 4)} -title \"#{title}\"" \
               " -taxid #{taxid}"
         cmd << ' &> /dev/null' if quiet
         system cmd
