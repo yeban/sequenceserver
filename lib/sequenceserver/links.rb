@@ -133,9 +133,11 @@ module SequenceServer
 
       browse_start = hsps.map(&:sstart).min
       browse_end = hsps.map(&:send).max
-      scaffold = /[a-z]*scaffold[0-9]{1,100}/.match self.title
+      scaffName = /[^\s\\]*[a-z][0-9]{1,100}/.match(self.title)
+
+      return nil if scaffName == nil
       species = title.gsub(" ", "_")
-      url = METAZOA_FMT % [species, scaffold, browse_start, browse_end]
+      url = METAZOA_FMT % [species, scaffName, browse_start, browse_end]
 
       {
         order: 2,
