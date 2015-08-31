@@ -20,11 +20,11 @@
   <link href='http://fonts.googleapis.com/css?family=Roboto:400' rel='stylesheet' type='text/css'>
   <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
   <% if settings.production? %>
-    <link rel="stylesheet" media="screen,print" type="text/css" href="css/sequenceserver.min.css"/>
+    <link rel="stylesheet" media="screen,print" type="text/css" href="<%= uri('/dist/css/sequenceserver.min.css', false) %>"/>
   <% else %>
-    <link rel="stylesheet" media="screen,print" type="text/css" href="css/bootstrap.min.css"/>
-    <link rel="stylesheet" media="screen,print" type="text/css" href="css/font-awesome.min.css"/>
-    <link rel="stylesheet" media="screen,print" type="text/css" href="css/custom.css"/>
+    <link rel="stylesheet" media="screen,print" type="text/css" href="<%= uri('/css/bootstrap.min.css', false) %>"/>
+    <link rel="stylesheet" media="screen,print" type="text/css" href="<%= uri('/css/custom.css', false) %>"/>
+    <link rel="stylesheet" media="screen,print" type="text/css" href="<%= uri('/css/font-awesome.min.css', false) %>"/>
   <% end %>
 </head>
 
@@ -421,18 +421,18 @@
 
   <!-- JS -->
   <% if settings.production? %>
-    <script src="js/sequenceserver.min.js"></script>
+    <script src="<%= uri('/dist/js/sequenceserver.min.js', false) %>"></script>
   <% else %>
-    <script type="text/javascript" src="js/underscore.min.js"></script>
-    <script type="text/javascript" src="js/jquery.min.js"></script>
-    <script type="text/javascript" src="js/jquery-ui.min.js"></script>
-    <script type="text/javascript" src="js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="js/webshims/polyfiller.js"></script>
-    <script type="text/javascript" src="js/d3.v3.min.js"></script>
-    <script type="text/javascript" src="js/sequenceserver.js"></script>
-    <script type="text/javascript" src="js/sequenceserver.blast.js"></script>
-    <script type="text/javascript" src="js/jquery.t.js"></script>
-    <script type="text/javascript" src="js/sequence.js"></script>
+    <script type="text/javascript" src="<%= uri('/js/underscore.min.css', false) %>"></script>
+    <script type="text/javascript" src="<%= uri('/js/jquery.min.js', false) %>"></script>
+    <script type="text/javascript" src="<%= uri('/js/jquery-ui.min.js', false) %>"></script>
+    <script type="text/javascript" src="<%= uri('/js/bootstrap.min.js', false) %>"></script>
+    <script type="text/javascript" src="<%= uri('/js/webshims/polyfiller.js', false) %>"></script>
+    <script type="text/javascript" src="<%= uri('/js/d3.v3.min.js', false) %>"></script>
+    <script type="text/javascript" src="<%= uri('/js/sequenceserver.js', false) %>"></script>
+    <script type="text/javascript" src="<%= uri('/js/sequenceserver.blast.js', false) %>"></script>
+    <script type="text/javascript" src="<%= uri('/js/jquery.t.js', false) %>"></script>
+    <script type="text/javascript" src="<%= uri('/js/sequence.js', false) %>"></script>
   <% end %>
 
   <!-- twitter -->

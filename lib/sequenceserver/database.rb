@@ -100,8 +100,7 @@ module SequenceServer
       #
       # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
       def scan_databases_dir
-        cmd = "blastdbcmd -recursive -list #{config[:database_dir]}" \
-              ' -list_outfmt "%f	%t	%p	%n	%l	%d"'
+        cmd = "blastdbcmd -recursive -list \\'#{config[:database_dir]}\\' -list_outfmt \\'%f \\| %t \\| %p \\| %n \\| %l \\| %d\\'"
         Open3.popen3(cmd) do |_, out, err|
           out = out.read
           err = err.read
@@ -110,7 +109,7 @@ module SequenceServer
             name = line.split('	')[0]
             next if multipart_database_name?(name)
             begin
-              self << Database.new(*line.split('	'))
+              self << Database.new(*line.split(' | '))
             rescue NoMethodError => e
               err << "BLAST Database error:\n#{e}\n#{line}"
             end
@@ -172,7 +171,7 @@ module SequenceServer
 
       def _make_blast_database(file, type, title, taxid, quiet = false)
         cmd = 'makeblastdb -parse_seqids -hash_index ' \
-              "-in #{file} -dbtype #{type.to_s.slice(0, 4)} -title \"#{title}\"" \
+              "-in #{file} -dbtype #{type.to_s.slice(0, 4)} -title \\'#{title}\\'" \
               " -taxid #{taxid}"
         cmd << ' &> /dev/null' if quiet
         system cmd
