@@ -14,7 +14,7 @@ require 'sequenceserver/routes'
 # Top level module / namespace.
 module SequenceServer
   # Use a fixed minimum version of BLAST+
-  MINIMUM_BLAST_VERSION = '2.2.27+'
+  MINIMUM_BLAST_VERSION = '2.2.30+'
 
   class << self
     attr_accessor :mount_dbs
