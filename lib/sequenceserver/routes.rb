@@ -117,7 +117,11 @@ target="#{target}">)
 
     # Render the search form.
     get '/' do
-      erb :search, :locals => { :databases => Database.group_by(&:type) }
+      requested_db = SequenceServer.mount_dbs[request.fullpath]
+      requested_list = Database.select do |db|
+        db.name.include? requested_db
+      end
+      erb :search, :locals => { :databases => requested_list.group_by(&:type) }
     end
 
     # BLAST search!

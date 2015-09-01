@@ -143,6 +143,11 @@ module SequenceServer
       def unformatted_fastas
         list = []
         database_dir = config[:database_dir]
+
+        unless database_dir.end_with? '/'
+          database_dir << '/'
+        end
+
         Find.find database_dir do |file|
           next if File.directory? file
           next if Database.include? file

@@ -17,6 +17,8 @@ module SequenceServer
   MINIMUM_BLAST_VERSION = '2.2.27+'
 
   class << self
+    attr_accessor :mount_dbs
+
     def environment
       ENV['RACK_ENV']
     end
@@ -34,6 +36,9 @@ module SequenceServer
     end
 
     def init(config = {})
+      if defined?(@mount_dbs) == nil
+        @mount_dbs = {}
+      end
       @config = Config.new(config)
 
       init_binaries

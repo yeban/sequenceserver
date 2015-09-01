@@ -15,6 +15,9 @@ module SequenceServer
       @config_file = File.expand_path(@config_file)
       @data = parse_config_file.update @data
       @data = defaults.update @data
+      if @data.has_key? :mount_point
+        SequenceServer.mount_dbs[@data[:mount_point]] = File.expand_path @data[:database_dir]
+      end
     end
 
     attr_reader :data, :config_file
