@@ -55,21 +55,32 @@ module SequenceServer
     end
 
     def extract_from_dirty
-      suffix = (@dirty_name.include? 'OGS') ? 'OGS' : nil
-      suffix ||= (@dirty_name.include? 'GCA') ? 'GCA' : ''
-      suffix += ' '
+      suffix = ''
+
+      ['OGS', 'GCA', 'monogynous', 'polygynous'].each do |name|
+	suffix << ((@dirty_name.include? name) ? name + ' ' : '')
+      end
+
+      suffix << ((@dirty_name.include? 'Si gnF') ? 'Si_gnF' : '')
+      suffix << ((@dirty_name.include? 'formica exsecta assembled transcriptome v1') ? '(Badouin et al) ' : '')
+      suffix << ((@dirty_name.include? 'Trinity formica exsecta') ? '(Morandin et al) ' : '')
+
       parts = @dirty_name.split('.')
 
       parts.each do |part|
-        suffix += part.scan(/\d/).join('') + '.'
+        suffix << (clean(part.scan(/\d/).join('')) + '.')
       end
 
-      suffix.chomp!('.').lstrip!
-      if suffix.start_with? '.'
-        return suffix[/.(.*)/m,1]
-      end
-
-      suffix
+      clean(suffix)
     end
+
+    def clean(name_seg)
+      cleaned = name_seg.chomp('.').lstrip
+      if cleaned.start_with? '.'
+	cleaned = cleaned[/.(.*)/m,1]
+      end
+      cleaned
+    end
+
   end
 end
