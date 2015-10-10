@@ -185,7 +185,8 @@ var Query = React.createClass({
     value: function (val) {
         if (val !== undefined) {
             this.setState({
-                value: val
+                value: val,
+                type: this.guessQueryType(val)
             })
             return this;
         }
@@ -239,7 +240,7 @@ var Query = React.createClass({
      *
      * Called by `componentDidUpdate`.
      */
-    hideShowButton: function () {
+    hideShowControls: function () {
         if (!this.isEmpty()) {
             // Calculation below is based on -
             // http://chris-spittles.co.uk/jquery-calculate-scrollbar-width/
@@ -280,8 +281,8 @@ var Query = React.createClass({
      * Components interested in query type should register a callback instead
      * of directly calling this method.
      */
-    type: function () {
-        var sequences = this.value().split(/>.*/);
+    guessQueryType: function (query) {
+        var sequences = query.split(/>.*/);
 
         var type, tmp;
 
@@ -330,18 +331,18 @@ var Query = React.createClass({
         return putative_NA_count > threshold ? 'nucleotide' : 'protein';
     },
 
+    /**
+     * Notify user regarding the given sequence type: an alert message is shown
+     * and the textarea highlighted in red in case of error.
+     */
     notify: function (type) {
-        clearTimeout(this.notification_timeout);
+        // Reset.
         this.indicateNormal();
-        $('.notifications .active').hide().removeClass('active');
+        Notifications.reset();
 
+        // Notify.
         if (type) {
-            $('#' + type + '-sequence-notification').show('drop', {direction: 'up'}).addClass('active');
-
-            this.notification_timeout = setTimeout(function () {
-                $('.notifications .active').hide('drop', {direction: 'up'}).removeClass('active');
-            }, 5000);
-
+            Notifications.show(type);
             if (type === 'mixed') {
                 this.indicateError();
             }
@@ -353,7 +354,8 @@ var Query = React.createClass({
 
     getInitialState: function () {
         return {
-            value: ''
+            value: '',
+            type: undefined
         };
     },
 
@@ -361,131 +363,201 @@ var Query = React.createClass({
     {
         return (
             <div
-                className="col-md-12">
+                className="form-group query-container">
                 <div
-                    className="sequence">
-                    <textarea
-                        className="form-control text-monospace" id="sequence"
-                        rows="10" spellCheck="false" autoFocus="true"
-                        name="sequence"   value={this.state.value}
-                        ref="textarea" onChange={this.handleInput}
-                        placeholder="Paste query sequence(s) or drag file containing query sequence(s) in FASTA format here ..." >
-                    </textarea>
+                    className="col-md-12">
+                    <div
+                        className="sequence">
+                        <textarea
+                            className="form-control text-monospace" id="sequence"
+                            rows="10" spellCheck="false" autoFocus="true"
+                            name="sequence"   value={this.state.value}
+                            ref="textarea" onChange={this.handleInput}
+                            placeholder="Paste query sequence(s) or drag file containing query sequence(s) in FASTA format here ..." >
+                        </textarea>
+                    </div>
+                    <div
+                        className="hidden"
+                        style={{ position: 'absolute', top: '4px', right: '19px' }}
+                        ref="controls">
+                        <button
+                            type="button"
+                            className="btn btn-sm btn-default" id="btn-sequence-clear"
+                            title="Clear query sequence(s)."
+                            onClick={this.clear}>
+                            <span id="sequence-file"></span>
+                            <i className="fa fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        );
+    },
+
+    componentDidUpdate: function (props, state) {
+        if (this.state.type !== state.type) {
+            this.props.onSequenceTypeChange(this.state.type);
+            this.notify(this.state.type);
+        }
+        this.hideShowControls();
+    }
+});
+
+/**
+ * Query type notifications.
+ */
+var Notifications = React.createClass({
+
+    /**
+     * Class methods.
+     */
+    statics: {
+        /**
+         * Hide notifications automatically after this many milliseconds.
+         */
+        TIMEOUT_INTERVAL: 5000,
+
+        /**
+         * Show notification defined for the given type and set a timer to hide
+         * the notification after TIMEOUT_INTERVAL.
+         */
+        show: function (type) {
+            // Reset.
+            clearTimeout(this.timeout);
+            this._active && this._active.hide();
+
+            // Show and set timer.
+            var id = '#' + type + '-sequence-notification';
+            this._active = $(id).show('drop', {direction: 'up'});
+            this.timeout = setTimeout(_.bind(this.hide, this), this.TIMEOUT_INTERVAL);
+        },
+
+        /**
+         * Hide the active notification and clear the timer if any.
+         */
+        hide: function () {
+            clearTimeout(this.timeout);
+            this._active && this._active.hide('drop', {direction: 'up'});
+            this._active = null;
+        }
+    },
+
+
+    // Lifecycle methods. //
+
+    render: function () {
+        return (
+            <div
+                className="notifications" id="notifications">
+                <div
+                    className="notification row"
+                    id="protein-sequence-notification"
+                    style={{ display: 'none' }}>
+                    <div
+                        className="alert-info col-md-6 col-md-offset-3">
+                        Detected: amino-acid sequence(s).
+                    </div>
                 </div>
                 <div
-                    className="hidden"
-                    style={{ position: 'absolute', top: '4px', right: '19px' }}
-                    ref="controls">
-                    <button
-                        type="button"
-                        className="btn btn-sm btn-default" id="btn-sequence-clear"
-                        title="Clear query sequence(s)."
-                        onClick={this.clear}>
-                        <span id="sequence-file"></span>
-                        <i className="fa fa-times"></i>
-                    </button>
+                    className="notification row"
+                    id="nucleotide-sequence-notification"
+                    style={{ display: 'none' }}>
+                    <div
+                        className="alert-info col-md-6 col-md-offset-3">
+                        Detected: nucleotide sequence(s).
+                    </div>
+                </div>
+                <div
+                    className="notification row"
+                    id="mixed-sequence-notification"
+                    style={{ display: 'none' }}>
+                    <div
+                        className="alert-danger col-md-10 col-md-offset-1">
+                        Detected: mixed nucleotide and amino-acid sequences. We
+                        can't handle that. Please try one sequence at a time.
+                    </div>
                 </div>
             </div>
         );
     },
 
     componentDidMount: function () {
-        $('body').click(function () {
-            $('.notifications .active').hide('drop', {direction: 'up'}).removeClass('active');
-        });
+        $(document).click(_.bind(Notifications.hide, Notifications));
     },
-
-    componentDidUpdate: function () {
-        this.hideShowButton();
-        var type = this.type();
-        if (!type || type !== this._type) {
-            this._type = type;
-            this.notify(type);
-            this.props.onSequenceTypeChanged(type);
-        }
-    }
 });
 
-var ProteinNotification = React.createClass({
-    render: function () {
-        return (
-            <div
-                className="notification row"
-                id="protein-sequence-notification"
-                style={{ display: 'none' }}>
-                <div
-                    className="alert-info col-md-6 col-md-offset-3">
-                    Detected: amino-acid sequence(s).
-                </div>
-            </div>
-        );
-    }
-});
 
-var NucleotideNotification = React.createClass({
-    render: function () {
-        return (
-            <div
-                className="notification row"
-                id="nucleotide-sequence-notification"
-                style={{ display: 'none' }}>
-                <div
-                    className="alert-info col-md-6 col-md-offset-3">
-                    Detected: nucleotide sequence(s).
-                </div>
-            </div>
-        );
-    }
-});
-
-var MixedNotification = React.createClass({
-    render: function () {
-        return (
-            <div
-                className="notification row"
-                id="mixed-sequence-notification"
-                style={{ display: 'none' }}>
-                <div
-                    className="alert-danger col-md-10 col-md-offset-1">
-                    Detected: mixed nucleotide and amino-acid sequences. We
-                    can't handle that. Please try one sequence at a time.
-                </div>
-            </div>
-        );
-    }
-});
-
+/**
+ * Databases component.
+ *
+ * Categorises, sorts and renders a list of database recieved via props.
+ */
 var Databases = React.createClass({
-    getInitialState: function () {
-        return {
-            type:      '',
-            databases: []
-        }
+
+    // Internal helpers. //
+
+    /**
+     * Returns a list of databases we have.
+     */
+    databases: function () {
+        return this.props.store.databases;
     },
 
-    databases: function (category) {
-        if (!category) {
-            return this.props.databases.slice();
-        }
-
-        return _.select(this.props.databases,
-                        function (database) {
-                            return database.type === category;
-                        });
-    },
-
-    nselected: function () {
-        return $('input[name="databases[]"]:checked').length;
-    },
-
+    /**
+     * Returns a sorted list of the categories in which the databases fall.
+     */
     categories: function () {
-        return _.uniq(_.map(this.props.databases,
+        return _.uniq(_.map(this.databases(),
                             _.iteratee('type'))).sort();
     },
 
-    handleClick: function (database) {
-        var type = this.nselected() ? database.type : ''
-        this.setState({type: type});
+    /**
+     * Returns the list of databases in the given category, sorted by database
+     * title.
+     */
+    filterDatabases: function (category) {
+        return _.sortBy(_.select(this.databases(),
+                                 function (database) {
+                                     return database.type === category;
+                                 }),
+                                 function (database) {
+                                     return database.title;
+                                 });
+
+    },
+
+    /**
+     * Select the given database.
+     */
+    selectUnselect: function (database) {
+        var selected = this.state.selected;
+        var type;
+
+        if (selected.has(database.id)) {
+            selected.delete(database.id);
+            //if (selected.sizes == 0) type = '';
+        }
+        else {
+            selected.add(database.id);
+            //if (selected.sizes == 1) type = database.type;
+        }
+
+        var type = selected.size && database.type || '';
+
+        this.setState({
+            selected: selected,
+            type: type
+        })
+    },
+
+
+    // Lifecycle methods. //
+
+    getInitialState: function () {
+        return {
+            selected: new Set(),
+            type: ''
+        };
     },
 
     render: function () {
@@ -506,21 +578,17 @@ var Databases = React.createClass({
                                     <ul
                                         className={"list-group databases " + category}>
                                         {
-                                            _.map(this.databases(category), _.bind(function (database) {
+                                            _.map(this.filterDatabases(category), _.bind(function (database) {
                                                 return (
                                                     <li
                                                         className="list-group-item">
                                                         <label
                                                             className={(this.state.type && this.state.type !== database.type) && "disabled"}>
-                                                            <input
-                                                                type="checkbox" name="databases[]" value={database.id} data-type={database.type}
-                                                                disabled={this.state.type && this.state.type !== database.type}
-                                                                onChange=
-                                                                {
-                                                                    _.bind(function () {
-                                                                        this.handleClick(database)
-                                                                    }, this)
-                                                                }/>
+                                                            <input type="checkbox"
+                                                                name="databases[]" value={database.id}
+                                                                checked={this.state.selected.has(database.id)}
+                                                                onChange={_.bind(this.selectUnselect, this, database)}
+                                                                disabled={this.state.type && this.state.type !== database.type}/>
                                                             {" " + (database.title || database.name)}
                                                         </label>
                                                     </li>
@@ -537,32 +605,95 @@ var Databases = React.createClass({
         );
     },
 
-    shouldComponentUpdate: function (props, state) {
-        return !(state.type && state.type === this.state.type);
+    componentWillReceiveProps: function (props) {
+        var databases = props.store.databases;
+        if (databases && databases.length === 1) {
+            this.selectUnselect(databases[0]);
+        }
     },
 
-    componentDidUpdate: function () {
-        if (this.databases() && this.databases().length === 1) {
-            $('.databases').find('input').prop('checked',true);
-            this.handleClick(this.databases()[0]);
-        }
+    shouldComponentUpdate: function (props, state) {
+        return props !== this.props || state !== this.state;
+    },
 
-        this.props.onDatabaseTypeChanged(this.state.type);
+    componentWillUpdate: function (props, state) {
+        if (state.type !== this.state.type) {
+            this.props.onDatabaseTypeChange(state.type);
+        }
     }
 });
 
+
+/**
+ * Search options input field widget.
+ */
 var Options = React.createClass({
 
-    updateBox: function (evt) {
-      this.setState({
-        preOpts: evt.target.value
-      });
+    // Kind of public API. //
+
+    /**
+     * Sets options to the given value or returns current value. Returns `this`
+     * when used as a setter.
+     */
+    value: function (val) {
+        if (val !== undefined) {
+            this.setState({
+                value: val
+            })
+            return this;
+        }
+        return this.state.value;
     },
 
+    /**
+     * Clears input. Returns `this`.
+     *
+     * Clearing input also causes it to be focussed.
+     */
+    clear: function () {
+        return this.value('').focus();
+    },
+
+    /**
+     * Focuses input. Returns `this`.
+     */
+    focus: function () {
+        this.input().focus();
+        return this;
+    },
+
+    /**
+     * Returns true if options is absent ('', undefined, null), false
+     * otherwise.
+     */
+    isEmpty: function () {
+        return !this.value();
+    },
+
+
+    // Internal helpers. //
+
+    /**
+     * Returns jQuery wrapped input field.
+     */
+    input: function () {
+        return $(this.refs.input.getDOMNode());
+    },
+
+    /**
+     * Reacts to user input - called in render.
+     */
+    handleInput: function (evt) {
+        this.value(evt.target.value);
+    },
+
+
+    // Lifecycle methods. //
+
     getInitialState: function () {
-      return {
-        preOpts: ""
-      }
+        return {
+            value: ''
+        }
     },
 
     render: function () {
@@ -581,12 +712,11 @@ var Options = React.createClass({
                                 Advanced parameters:
                             </label>
                             <input
-                                type="text"
-                                className="form-control" name="advanced" id="advanced"
+                                type="text" className="form-control"
+                                name="advanced" value={this.state.value}
+                                ref="input"  onChange={this.handleInput}
                                 title="View, and enter advanced parameters."
                                 placeholder="eg: -evalue 1.0e-5 -num_alignments 100"
-                                value={this.state.preOpts}
-                                onChange={this.updateBox}
                                 />
                             <div
                                 className="input-group-addon cursor-pointer"
@@ -600,6 +730,7 @@ var Options = React.createClass({
         );
     }
 });
+
 
 /**
  * SearchButton widget.
@@ -770,56 +901,89 @@ var SearchButton = React.createClass({
     componentDidUpdate: function () {
         if (this.state.methods.length > 0) {
             this.inputGroup().wiggle();
-            this.props.onAlgoChanged(this.state.methods[0]);
         }
-        else {
-            this.props.onAlgoChanged("");
-        }
+        this.props.onAlgorithmChange(this.state.methods[0]);
     }
 });
 
 /**
  * Search form.
  *
- * Top level component that initialises and holds all other components, and
+ * Contains query, databases, advanced params and submit button components;
  * facilitates communication between them.
  */
 var Form = React.createClass({
 
-    getInitialState: function () {
-     return {
-       curOpts: {}
-     };
+    // Internal helpers. //
+
+    /**
+     * Submit the form programatically.
+     *
+     * Used for the submit keyboard shortcut defined later.
+     *
+     * NOTE: We trigger click on the submit button to do so. This, in my
+     * understanding, has a few advantages over triggering submit on the
+     * form.  For example, this automatically avoids submitting the form
+     * when submit button is disabled. Further, the value attribute of
+     * submit button is correctly picked this way.
+     */
+    submit: function () {
+        $(React.findDOMNode(this.refs.button.refs.submitButton)).click();
     },
 
-    componentDidMount: function () {
-       $.getJSON("searchdata.json", _.bind(function(data) {
-         this.setState({
-            preDefinedOpts: data["options"],
-            databases: data["database"]
-         });
-       }, this));
-
-       $(document).bind("keydown", _.bind(function (e) {
-           if (e.ctrlKey && e.keyCode === 13 &&
-               !$('#method').is(':disabled')) {
-               $(this.getDOMNode()).trigger('submit');
-           }
-       }, this));
+    /**
+     * Called when sequence type changes.
+     *
+     * Passed to the query component which calls it at the right time.
+     */
+    handleSequenceTypeChange: function (type) {
+        this.sequenceType = type;
+        this.refs.button.setState({
+            hasQuery: !this.refs.query.isEmpty(),
+            hasDatabases: !!this.databaseType,
+            methods: this.determineBlastMethod()
+        });
     },
 
+    /**
+     * Called when database type changes.
+     *
+     * Passed to the databases component which calls it at the right time.
+     */
+    handleDatabaseTypeChange: function (type) {
+        this.databaseType = type;
+        this.refs.button.setState({
+            hasQuery: !this.refs.query.isEmpty(),
+            hasDatabases: !!this.databaseType,
+            methods: this.determineBlastMethod()
+        });
+    },
+
+    /**
+     * Called when algorithm changes.
+     *
+     * Passed to the search button component which calls it at the right time.
+     */
+    updateOptions: function (algorithm) {
+        this.refs.options.value(this.props.store.options[algorithm] || '');
+    },
+
+    /**
+     * Determines applicable search algorithms based on the value of
+     * `this.databaseType`, `this.sequenceType` and whether the user
+     * has entered a query or not.
+     *
+     * Returns an array containing zero, one, or two items.
+     */
     determineBlastMethod: function () {
-        var database_type = this.databaseType;
-        var sequence_type = this.sequenceType;
-
         if (this.refs.query.isEmpty()) {
             return [];
         }
 
-        //database type is always known
-        switch (database_type) {
+        // database type is always known
+        switch (this.databaseType) {
             case 'protein':
-                switch (sequence_type) {
+                switch (this.sequenceType) {
                     case undefined:
                         return ['blastp', 'blastx'];
                     case 'protein':
@@ -829,7 +993,7 @@ var Form = React.createClass({
                 }
                 break;
             case 'nucleotide':
-                switch (sequence_type) {
+                switch (this.sequenceType) {
                     case undefined:
                         return ['tblastn', 'blastn', 'tblastx'];
                     case 'protein':
@@ -843,78 +1007,114 @@ var Form = React.createClass({
         return [];
     },
 
-    handleSequenceTypeChanged: function (type) {
-        this.sequenceType = type;
-        this.refs.button.setState({
-            hasQuery: !this.refs.query.isEmpty(),
-            hasDatabases: !!this.databaseType,
-            methods: this.determineBlastMethod()
-        });
-    },
 
-    handleDatabaseTypeChanaged: function (type) {
-        this.databaseType = type;
-        this.refs.button.setState({
-            hasQuery: !this.refs.query.isEmpty(),
-            hasDatabases: !!this.databaseType,
-            methods: this.determineBlastMethod()
-        });
-    },
-
-    handleAlgoChanged: function (algo) {
-      if (this.state.preDefinedOpts.hasOwnProperty(algo)) {
-        this.refs.opts.setState({
-          preOpts: this.state.preDefinedOpts[algo].join(" ")
-        });
-      }
-      else {
-        this.refs.opts.setState({preOpts: ""});
-      }
-    },
+    // Lifecycle methods. //
 
     render: function () {
         return (
-            <div
-                className="container">
-                <form
-                    className="form-horizontal" id="blast"
-                    method="post" target="_blank">
-                    <div
-                        className="form-group query-container">
-                        <Query ref="query" onSequenceTypeChanged={this.handleSequenceTypeChanged}/>
-                    </div>
-                    <div
-                        className="notifications" id="notifications">
-                        <NucleotideNotification/>
-                        <ProteinNotification/>
-                        <MixedNotification/>
-                    </div>
-                    <Databases ref="databases" onDatabaseTypeChanged={this.handleDatabaseTypeChanaged} databases={this.state.databases}/>
-                    <div
-                        className="form-group">
-                        <Options ref="opts"/>
-                        <SearchButton ref="button" onAlgoChanged={this.handleAlgoChanged}/>
-                    </div>
-                </form>
-            </div>
+            <form
+                className="form-horizontal" id="blast"
+                method="post" target="_blank">
+                <Query
+                    ref="query"
+                    onSequenceTypeChange={this.handleSequenceTypeChange}/>
+                <Notifications/>
+                <Databases
+                    ref="databases" store={this.props.store}
+                    onDatabaseTypeChange={this.handleDatabaseTypeChange}/>
+                <div
+                    className="form-group">
+                    <Options ref="options"/>
+                    <SearchButton
+                        ref="button" onAlgorithmChange={this.updateOptions}/>
+                </div>
+            </form>
         );
     }
 });
 
+
+/**
+ * Search page - is exported from search.js.
+ *
+ * Contains search form and drag n drop components. Retrieves data from server
+ * and passes it to child components as props. Data fetched from the server is
+ * stored as Page's state. Further, keyboard shortcuts are set up by Page.
+ */
 var Page = React.createClass({
+
+    // Internal helpers. //
+
+    /**
+     * Setup keyboard shortcuts.
+     *
+     * Currently only the 'Ctrl-Enter' shortcut to trigger form submission.
+     */
+    setupKeyboardShortcuts: function () {
+        $(document).bind('keydown', _.bind(function (e) {
+            if (e.ctrlKey && e.keyCode === 13) {
+                this.refs.form.submit();
+                e.stopPropagation();
+                e.preventDefault();
+            }
+        }, this));
+    },
+
+    /**
+     * Gets data for the entire page from the server. The data received is set
+     * in `this.state.store`, thus triggering a redraw.
+     */
+    fetchData: function () {
+        $.getJSON('searchdata.json', _.bind(function (data) {
+            this.setState({ store: data });
+        }, this));
+    },
+
+    /**
+     * Initialise drag and drop.
+     *
+     * Drag and drop can be activated only after we have a handle to the Query
+     * component.
+     */
+    initDnD: function () {
+        this.refs.dnd.setState({
+            query: this.refs.form.refs.query
+        });
+    },
+
+
+    // Lifecycle methods. //
+
+    /**
+     * Initialise with an empty store.
+     */
+    getInitialState: function () {
+        return {
+            store: {}
+        }
+    },
+
+    /**
+     * Render search from and DnD boilerplate.
+     */
     render: function () {
         return (
             <div>
                 <DnD ref="dnd"/>
-                <Form ref="form"/>
+                <div className="container">
+                    <Form ref="form" store={this.state.store}/>
+                </div>
             </div>
         );
     },
 
+    /**
+     * Fetch data from server and initialises drag n drop.
+     */
     componentDidMount: function () {
-        this.refs.dnd.setState({
-            query: this.refs.form.refs.query
-        })
+        this.initDnD();
+        this.fetchData();
+        this.setupKeyboardShortcuts();
     }
 });
 

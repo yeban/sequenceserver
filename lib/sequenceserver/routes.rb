@@ -62,7 +62,7 @@ module SequenceServer
     end
 
     get '/searchdata.json' do
-      {database: Database.all, options: SequenceServer.config[:options]}.to_json
+      {databases: Database.all, options: SequenceServer.config[:options]}.to_json
     end
 
     # Queues a search job and redirects to a page that will poll for and render
