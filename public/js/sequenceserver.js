@@ -299,8 +299,9 @@ if (!SS) {
         // Encode URIs against strange characters in sequence ids.
         sequence_ids = encodeURIComponent(sequence_ids.join(' '));
         database_ids = encodeURIComponent(database_ids);
+        var baseURL = window.location.pathname;
 
-        var url = "get_sequence/?sequence_ids=" + sequence_ids +
+        var url = baseURL + "/get_sequence/?sequence_ids=" + sequence_ids +
             "&database_ids=" + database_ids + '&download=fasta';
 
         return url;

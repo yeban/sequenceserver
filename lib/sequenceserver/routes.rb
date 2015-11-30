@@ -61,9 +61,14 @@ module SequenceServer
       # See links.rb for example of a Hash object that will be rendered.
       def a(link)
         return unless link[:title] && link[:url]
-        target = absolute?(link[:url]) && '_blank' || '_self'
-        a =  %(<a href="#{link[:url]}" class="#{link[:class]}" \
-target="#{target}">)
+        if absolute?(link[:url])
+          target = '_blank'
+          href = link[:url]
+        else
+          target = '_self'
+          href = url(link[:url], false)
+        end
+        a =  %(<a href="#{href}" class="#{link[:class]}" target="#{target}">)
         a << %(<i class="fa #{link[:icon]}"></i> ) if link[:icon]
         a << "#{link[:title]}</a>"
       end
