@@ -1,85 +1,59 @@
-module SequenceServer
-  # Module to contain methods for generating sequence retrieval links.
-  module Links
-    require 'erb'
+require 'erb'
 
-    # Provide a method to URL encode _query parameters_. See [1].
+module SequenceServer
+
+  module UniProt
+    SINV = YAML.load_file("#{__dir__}/uniprot/sinv.yml")
+  end
+
+  module Ensembl
+    URL_FMT = 'http://metazoa.ensembl.org/%s/Location/View?r=%s:%d-%d'
+    SPECIES = ['Apis_mellifera', 'Atta_cephalotes', 'Solenopsis_invicta',
+               'Nasonia_vitripennis' ]
+
+    extend self
+
+    def url(species, scaffold, start, stop)
+      return unless species && scaffold
+      return unless SPECIES.include? species
+      URL_FMT % [species, scaffold, start, stop]
+    end
+  end
+
+  module Hymenopterabase
+    URL_FMT = 'http://hymenopteragenome.org:8080/%s/jbrowse/?loc=%s:%d..%d'
+    SPECIES = {
+      'Apis_mellifera'          => 'Amel_4.5',
+      'Lasioglossum_albipes'    => 'Lalb_v2',
+      'Bombus_impatiens'        => 'Bimp_2.0_NCBI',
+      'Bombus_terrestris'       => 'Bter_1.0',
+      'Nasonia_vitripennis'     => 'Nvit_2.0',
+      'Acromyrmex_echinatior'   => 'Aech_2.0',
+      'Atta_cephalotes'         => 'Acep_1.0',
+      'Camponotus_floridanus'   => 'Cflo_3.3',
+      'Cardiocondyle_obscurior' => 'Cobs_1.4',
+      'Harpeganthos_saltator'   => 'Hsal_3.3',
+      'Linepithema_humile'      => 'Lhum_1.0',
+      'Pogonymex_barbatus'      => 'Pbar_1.0',
+      'Solenopsis_invicta'      => 'Sinv_1.'
+    }
+
+    extend self
+
+    def url(species, scaffold, start, stop)
+      return unless species && scaffold
+      return unless SPECIES.include? species
+      URL_FMT % [SPECIES[species], scaffold, start, stop]
+    end
+  end
+
+  module Links
     include ERB::Util
-    #
+
     alias_method :encode, :url_encode
 
     NCBI_ID_PATTERN    = /gi\|(\d+)\|/
     UNIPROT_ID_PATTERN = /sp\|(\w+)\|/
-
-    HBASE_PREFIX = 'http://hymenopteragenome.org:8080'
-    METAZOA_FMT = "http://metazoa.ensembl.org/%s/Location/View?r=%s%%3A%d-%d"
-
-    METAZOA_SPECIES = ["Apis mellifera", "Atta cephalotes", "Nasonia vitripennis", "Solenopsis invicta"]
-
-    HBASE_PATTERNS = {
-      'Apis mellifera' =>  'Amel_4.5',
-      'Lasioglossum albipes' => 'Lalb_v2',
-      'Bombus impatiens' => 'Bimp_2.0_NCBI',
-      'Bombus terrestris' => 'Bter_1.0',
-      'Nasonia vitripennis' => 'Nvit_2.0',
-      'Acromyrmex echinatior' => 'Aech_2.0',
-      'Atta cephalotes' => 'Acep_1.0',
-      'Camponotus floridanus' => 'Cflo_3.3',
-      'Cardiocondyle obscurior' => 'Cobs_1.4',
-      'Harpeganthos saltator' => 'Hsal_3.3',
-      'Linepithema humile' => 'Lhum_1.0',
-      'Pogonymex barbatus' => 'Pbar_1.0',
-      'Solenopsis invicta' => 'Sinv_1.'
-    }
-
-    # Link generators return a Hash like below.
-    #
-    # {
-    #   # Required. Display title.
-    #   :title => "title",
-    #
-    #   # Required. Generated url.
-    #   :url => url,
-    #
-    #   # Optional. Left-right order in which the link should appear.
-    #   :order => num,
-    #
-    #   # Optional. Classes, if any, to apply to the link.
-    #   :class => "class1 class2",
-    #
-    #   # Optional. Class name of a FontAwesome icon to use.
-    #   :icon => "fa-icon-class"
-    # }
-    #
-    # If no url could be generated, return nil.
-    #
-    # Helper methods
-    # --------------
-    #
-    # Following helper methods are available to help with link generation.
-    #
-    #   encode:
-    #     URL encode query params.
-    #
-    #     Don't use this function to encode the entire URL. Only params.
-    #
-    #     e.g:
-    #         sequence_id = encode sequence_id
-    #         url = "http://www.ncbi.nlm.nih.gov/nucleotide/#{sequence_id}"
-    #
-    #   querydb:
-    #     Returns an array of databases that were used for BLASTing.
-    #
-    #   whichdb:
-    #     Returns the database from which the given hit came from.
-    #
-    #     e.g:
-    #
-    #         hit_database = whichdb
-    #
-    # Examples:
-    # ---------
-    # See methods provided by default for an example implementation.
 
     def sequence_viewer
       accession  = encode self.accession
@@ -112,41 +86,47 @@ module SequenceServer
     end
 
     def hymenoptera_base
-      title = querydb.map(&:title).first.split(" - ")[0].gsub(/\[.*?\] /, "")
-      return nil unless HBASE_PATTERNS.has_key? title
-
-      browse_start = hsps.map(&:sstart).min
-      browse_end = hsps.map(&:send).max
-      url = "#{HBASE_PREFIX}/#{HBASE_PATTERNS[title]}/jbrowse/?loc=#{browse_start}..#{browse_end}"
+      scaffold = /[^\s\\]*[a-z][0-9]{1,100}/.match(title)
+      url = Hymenopterabase.url(species, scaffold, *coords)
+      return unless url
 
       {
         order: 2,
-        title: 'HymenopteraBase',
+        title: 'Hymenopterabase',
         url: url,
         icon: 'fa-external-link'
       }
     end
 
-    def metaoza
-      title = querydb.map(&:title).first.split(" - ")[0].gsub(/\[.*?\] /, "")
-      return nil unless METAZOA_SPECIES.include? title
-
-      browse_start = hsps.map(&:sstart).min
-      browse_end = hsps.map(&:send).max
-      scaffName = /[^\s\\]*[a-z][0-9]{1,100}/.match(self.title)
-
-      return nil if scaffName == nil
-      species = title.gsub(" ", "_")
-      url = METAZOA_FMT % [species, scaffName, browse_start, browse_end]
+    def ensembl
+      scaffold = /[^\s\\]*[a-z][0-9]{1,100}/.match(title)
+      url = Ensembl.url(species, scaffold, *coords)
+      return unless url
 
       {
         order: 2,
-        title: 'Metazoa',
+        title: 'Ensembl',
         url: url,
         icon: 'fa-external-link'
       }
     end
 
+    # UniProt link generator for SI2.2.0.
+    def uniprot_sinv
+      return nil unless id.match(/SI2.2.0_(\d*)/)
+      key = "SINV_#{Regexp.last_match[1]}"
+      uid = UniProt::SINV[key]
+      return unless uid
+
+      {
+        :order => 3,
+        :title => 'UniProt',
+        :icon  => 'fa-external-link',
+        :url   => "http://www.uniprot.org/uniprot/#{uid}"
+      }
+    end
+
+    # Built-in ncbi link generator.
     def ncbi
       return nil unless id.match(NCBI_ID_PATTERN)
       ncbi_id = Regexp.last_match[1]
@@ -160,6 +140,7 @@ module SequenceServer
       }
     end
 
+    # Built-in uniprot link generator.
     def uniprot
       return nil unless id.match(UNIPROT_ID_PATTERN)
       uniprot_id = Regexp.last_match[1]
@@ -167,12 +148,21 @@ module SequenceServer
       url = "http://www.uniprot.org/uniprot/#{uniprot_id}"
       {
         :order => 3,
-        :title => 'Uniprot',
+        :title => 'UniProt',
         :url   => url,
         :icon  => 'fa-external-link'
       }
     end
 
+    private
+
+    def species
+      whichdb.first.name.split('/')[-2]
+    end
+
+    def coords
+      [hsps.map(&:sstart).min, hsps.map(&:send).max]
+    end
   end
 end
 
