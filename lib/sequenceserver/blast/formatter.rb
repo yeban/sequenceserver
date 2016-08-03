@@ -39,7 +39,7 @@ module SequenceServer
         command =
           "blast_formatter -archive '#{archive_file}'" \
           " -outfmt '#{format} #{specifiers}'" \
-          " -out '#{file.path}' 2> /dev/null"
+          " > '#{file.path}' 2> /dev/null"
         logger.debug("Executing: #{command}")
         Dir.chdir(File.exist?(DOTDIR) && DOTDIR || Dir.pwd) do
           system(command)

@@ -101,7 +101,7 @@ module SequenceServer
       # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
       def scan_databases_dir
         cmd = "blastdbcmd -recursive -list #{config[:database_dir]}" \
-            ' -list_outfmt "%f	%t	%p	%n	%l	%d"'
+              " -list_outfmt \\'%f\\	%t\\	%p\\	%n\\	%l\\	%d\\'"
         Open3.popen3(cmd) do |_, out, err|
           out = out.read
           err = err.read

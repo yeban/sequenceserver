@@ -61,14 +61,9 @@ module SequenceServer
       # See links.rb for example of a Hash object that will be rendered.
       def a(link)
         return unless link[:title] && link[:url]
-        if absolute?(link[:url])
-          target = '_blank'
-          href = link[:url]
-        else
-          target = '_self'
-          href = url(link[:url], false)
-        end
-        a =  %(<a href="#{href}" class="#{link[:class]}" target="#{target}">)
+        target = absolute?(link[:url]) && '_blank' || '_self'
+        a =  %(<a href="#{link[:url]}" class="#{link[:class]}" \
+target="#{target}">)
         a << %(<i class="fa #{link[:icon]}"></i> ) if link[:icon]
         a << "#{link[:title]}</a>"
       end
@@ -122,11 +117,7 @@ module SequenceServer
 
     # Render the search form.
     get '/' do
-      requested_db = SequenceServer.mount_dbs[request.fullpath]
-      requested_list = Database.select do |db|
-        db.name.include? requested_db
-      end
-      erb :search, :locals => { :databases => requested_list.group_by(&:type) }
+      erb :search, :locals => { :databases => Database.group_by(&:type) }
     end
 
     # BLAST search!

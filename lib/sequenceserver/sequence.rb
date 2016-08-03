@@ -186,9 +186,9 @@ module SequenceServer
       private
 
       def run
-        command = "blastdbcmd -outfmt '%g	%i	%a	%t	%s'" \
-                  " -db '#{database_names.join(' ')}'" \
-                  " -entry '#{sequence_ids.join(',')}'"
+        command = "blastdbcmd -outfmt \\'%g\\	%i\\	%a\\	%t\\	%s\\'" \
+                  " -entry \\'#{sequence_ids.join(',')}\\'"            \
+                  " -db \\'#{database_names.join(' ')}\\'"
 
         logger.debug("Executing: #{command}")
 

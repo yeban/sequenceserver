@@ -35,7 +35,8 @@ module SequenceServer
         method  = params[:method]
         #
         # BLAST+ expects query sequence as a file.
-        qfile = Tempfile.new('sequenceserver_query', '/data/home/fourmidable/archive/www/sequenceserver/tmp')
+        ENV['TMPDIR'] = '/data/home/fourmidable/archive/www/sequenceserver/tmp'
+        qfile = Tempfile.new 'sequenceserver_query'
         qfile.puts(params[:sequence])
         qfile.close
         #
@@ -52,8 +53,8 @@ module SequenceServer
         # Run BLAST search.
         #
         # Command to execute.
-        command = "#{method} -db '#{databases.map(&:name).join(' ')}'" \
-                  " -query '#{qfile.path}' #{options}"
+        command = "#{method} -db \\'#{databases.map(&:name).join(' ')}\\'" \
+                  " -query \\'#{qfile.path}\\' #{options}"
         #
         # Debugging log.
         logger.debug("Executing: #{command}")
