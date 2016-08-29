@@ -2,125 +2,14 @@ import _ from 'underscore';
 import React from 'react';
 import d3 from 'd3';
 
-import * as Helpers from './visualisation_helpers';
+import * as Utils from './utils'
 import GraphicalOverview from './alignmentsoverview';
 import Kablammo from './kablammo';
 import './sequence';
+import AlignmentViewer from './alignment_viewer';
 import AlignmentExporter from './alignment_exporter';
 import LengthDistribution from './lengthdistribution';
 import Circos from './circos';
-
-/**
- * Pretty formats number
- */
-var Utils = {
-
-    /**
-     * Prettifies numbers and arrays.
-     */
-    prettify: function (data) {
-        if (this.isTuple(data)) {
-            return this.prettify_tuple(data);
-        }
-        if (this.isFloat(data)) {
-            return this.prettify_float(data);
-        }
-        return data
-    },
-
-    /**
-     * Formats float as "a.bc" or "a x b^c". The latter if float is in
-     * scientific notation. Former otherwise.
-     */
-    prettify_float: function (data) {
-        var matches = data.toString().split("e");
-        var base  = matches[0];
-        var power = matches[1];
-
-        if (power)
-        {
-            var s = parseFloat(base).toFixed(2);
-            var element = <span>{s} &times; 10<sup>{power}</sup></span>;
-            return element;
-        }
-        else {
-            if(!(base % 1==0)) {
-              if (parseFloat(base).toFixed(2) == 0.00) {
-                return parseFloat(base).toFixed(5)
-              }
-                return parseFloat(base).toFixed(2);
-            } else {
-                return base;
-            }
-        }
-    },
-
-    // Formats an array of two elements as "first (last)".
-    prettify_tuple: function (tuple) {
-        return (tuple[0] + " (" + tuple[tuple.length - 1] + ")");
-    },
-
-    // Checks if data is an array.
-    isTuple: function (data) {
-        return (Array.isArray(data) && data.length == 2)
-    },
-
-    // Checks if data if float.
-    isFloat: function (data) {
-        return (typeof(data) == 'number' ||
-                (typeof(data) == 'string' &&
-                    data.match(/(\d*\.\d*)e?([+-]\d+)?/)))
-    },
-
-    /**
-     * Render URL for sequence-viewer.
-     */
-    a: function (link , hitlength) {
-        if (link.title && link.url)
-        {
-            return (
-                <a href={link.url} className={link.class} target='_blank'>
-                    {link.icon && <i className={"fa " + link.icon}></i>}
-                    {" " + link.title + " "}
-                </a>
-            );
-        }
-    },
-
-    /**
-     * Returns fraction as percentage
-     */
-    inPercentage: function (num , den) {
-        return (num * 100.0 / den).toFixed(2);
-    },
-
-    /**
-     * Returns fractional representation as String.
-     */
-    inFraction: function (num , den) {
-        return num + "/" + den;
-    },
-
-    /**
-     * Returns given Float as String formatted to two decimal places.
-     */
-    inTwoDecimal: function (num) {
-        return parseFloat(num).toFixed(2)
-    },
-
-    /**
-     * Formats the given number as "1e-3" if the number is less than 1 or
-     * greater than 10.
-     */
-    inScientificOrTwodecimal: function (num) {
-        if(num >= 1 && num < 10)
-        {
-            return this.inTwoDecimal(num)
-        }
-        return num.toExponential(2);
-    },
-
-};
 
 /**
  * Component for sequence-viewer links.
@@ -309,8 +198,6 @@ var SequenceViewer = (function () {
  * Component for each hit.
  */
 var Hit = React.createClass({
-    mixins: [Utils],
-
     // Internal helpers. //
 
     /**
@@ -320,70 +207,8 @@ var Hit = React.createClass({
         return "Query_" + this.props.query.number + "_hit_" + this.props.hit.number;
     },
 
-    /**
-     * Return prettified stats for the given hsp and based on the BLAST
-     * algorithm.
-     */
-    getStats: function (hsp) {
-        var stats = {
-            'Score': [
-                this.inTwoDecimal(hsp.bit_score),
-                hsp.score
-            ],
-
-            'E value': this.inScientificOrTwodecimal(hsp.evalue),
-
-            'Identities': [
-                this.inFraction(hsp.identity, hsp.length),
-                this.inPercentage(hsp.identity, hsp.length)
-            ],
-
-            'Gaps': [
-                this.inFraction(hsp.gaps, hsp.length),
-                this.inPercentage(hsp.gaps, hsp.length)
-            ],
-
-            'Coverage': hsp.qcovhsp
-        };
-
-        switch (this.props.algorithm) {
-        case 'tblastx':
-            _.extend(stats, {
-                'Frame': this.inFraction(hsp.qframe, hsp.sframe)
-            });
-            // fall-through
-        case 'blastp':
-            _.extend(stats, {
-                'Positives': [
-                    this.inFraction(hsp.positives, hsp.length),
-                    this.inPercentage(hsp.positives, hsp.length)
-                ]
-            });
-            break;
-        case 'blastn':
-            _.extend(stats, {
-                'Strand': (hsp.qframe > 0 ? '+' : '-') +
-                          "/"                          +
-                          (hsp.sframe > 0 ? '+' : '-')
-            });
-            break;
-        case 'blastx':
-            _.extend(stats, {
-                'Query Frame': hsp.qframe
-            });
-            break;
-        case 'tblastn':
-            _.extend(stats, {
-                'Hit Frame': hsp.sframe
-            });
-            break;
-        }
-
-        return stats;
-    },
 
     // Life cycle methods //
-
 
     /**
      * Handles click event for exporting alignments.
@@ -464,64 +289,33 @@ var Hit = React.createClass({
                             <span>{" Select "}</span>
                             {
                                 _.map(this.props.hit.links, _.bind(function (link) {
-                                    return [<span> | </span>, this.a(link)];
+                                    return [<span> | </span>, Utils.a(link)];
                                 }, this))
                             }
                         </label>
                     </div>
-                    <Kablammo key={"Kablammo"+this.props.query.id} query={this.props.query} hit={this.props.hit} algorithm={this.props.algorithm}/>
-                    <table
-                      className="table hsps">
-                        <tbody>
-                            {
-                                _.map (this.props.hit.hsps, _.bind( function (hsp) {
-                                    stats_returned = this.getStats(hsp);
-                                    return (
-                                        <tr
-                                          id={"Alignment_Query_" + this.props.query.number + "_hit_"
-                                                  + this.props.hit.number + "_" + hsp.number}
-                                          key={"Query_"+this.props.query.id+"_Hit_"+this.props.hit.id+"_"+hsp.number}>
-                                            <td>
-                                                {Helpers.toLetters(hsp.number) + "."}
-                                            </td>
-                                            <td
-                                                style={{width: "100%"}}>
-                                                <div
-                                                    className="hsp"
-                                                    id={"Query_" + this.props.query.number + "_hit_"
-                                                         + this.props.hit.number + "_" + hsp.number}
-                                                    data-hsp-evalue={hsp.evalue}
-                                                    data-hsp-start={hsp.qstart}
-                                                    data-hsp-end={hsp.qend}
-                                                    data-hsp-frame={hsp.sframe}>
-                                                    <table
-                                                      className="table table-condensed hsp-stats">
-                                                        <thead>
-                                                        {
-                                                            _.map(stats_returned, function (value , key) {
-                                                                return(<th key={value+"_"+key}>{key}</th>);
-                                                            })
-                                                        }
-                                                        </thead>
-                                                        <tbody>
-                                                            <tr>
-                                                                {
-                                                                    _.map(stats_returned, _.bind(function (value , key) {
-                                                                        return(<th key={value+"_"+key}>{this.prettify(value)}</th>);
-                                                                    }, this))
-                                                                }
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                    <div className="alignment">{hsp.pp}</div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    )
-                                }, this))
-                            }
-                        </tbody>
-                    </table>
+                    <Kablammo key={"Kablammo"+this.props.query.id}
+                        query={this.props.query} hit={this.props.hit}
+                        algorithm={this.props.algorithm}/>
+                    <div className="hsps">
+                        {
+                            _.map(this.props.hit.hsps, _.bind(function (hsp) {
+                                return (
+                                    <div
+                                        id={"Query_" + this.props.query.number +
+                                            "_hit_" + this.props.hit.number + "_"
+                                            + hsp.number}
+                                        key={"Query_" + this.props.query.id +
+                                            "_Hit_" + this.props.hit.id + "_"
+                                            + hsp.number}
+                                        className="hsp">
+                                        <AlignmentViewer hsp={hsp}
+                                            algorithm={this.props.algorithm}/>
+                                    </div>
+                                );
+                          }, this))
+                      }
+                    </div>
                 </div>
             </div>
         );
@@ -532,7 +326,6 @@ var Hit = React.createClass({
  * Renders summary of all hits per query in a tabular form.
  */
 var HitsTable = React.createClass({
-    mixins: [Utils],
     render: function () {
         var count = 0,
           hasName = _.every(this.props.query.hits, function(hit) {
@@ -563,10 +356,10 @@ var HitsTable = React.createClass({
                                         </a>
                                     </td>
                                     {hasName && <td className="text-left">{this.prettify(hit.sciname)}</td>}
-                                    <td className="text-right">{this.prettify(hit.qcovs)}</td>
-                                    <td className="text-right">{this.prettify(hit.score)}</td>
-                                    <td className="text-right">{this.prettify(hit.hsps[0].evalue)}</td>
-                                    <td className="text-right">{this.prettify(hit.hsps[0].identity)}</td>
+                                    <td className="text-right">{Utils.prettify(hit.qcovs)}</td>
+                                    <td className="text-right">{Utils.prettify(hit.score)}</td>
+                                    <td className="text-right">{Utils.prettify(hit.hsps[0].evalue)}</td>
+                                    <td className="text-right">{Utils.prettify(hit.hsps[0].identity)}</td>
                                 </tr>
                             )
                         }, this))
