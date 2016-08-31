@@ -2,197 +2,14 @@ import _ from 'underscore';
 import React from 'react';
 import d3 from 'd3';
 
-import * as Utils from './utils'
-import GraphicalOverview from './alignmentsoverview';
-import Kablammo from './kablammo';
-import './sequence';
-import AlignmentViewer from './alignment_viewer';
-import AlignmentExporter from './alignment_exporter';
+import AlignmentsOverview from './alignmentsoverview';
 import LengthDistribution from './lengthdistribution';
+import AlignmentExporter from './alignment_exporter';
+import AlignmentViewer from './alignment_viewer';
+import Kablammo from './kablammo';
 import Circos from './circos';
 
-/**
- * Component for sequence-viewer links.
- */
-var SequenceViewer = (function () {
-
-    var Viewer = React.createClass({
-
-        /**
-         * The CSS class name that will be assigned to the widget container. ID
-         * assigned to the widget container is derived from the same.
-         */
-        widgetClass: 'biojs-vis-sequence',
-
-        // Lifecycle methods. //
-
-        render: function () {
-            this.widgetID =
-                this.widgetClass + '-' + (new Date().getUTCMilliseconds());
-
-            return (
-                <div
-                    className="fastan">
-                    <div
-                        className="section-header">
-                        <h4>
-                            {this.props.sequence.id}
-                            <small>
-                                &nbsp; {this.props.sequence.title}
-                            </small>
-                        </h4>
-                    </div>
-                    <div
-                        className="section-content">
-                        <div
-                            className={this.widgetClass} id={this.widgetID}>
-                        </div>
-                    </div>
-                </div>
-            );
-        },
-
-        componentDidMount: function () {
-            // attach BioJS sequence viewer
-            var widget = new Sequence({
-                sequence: this.props.sequence.value,
-                target: this.widgetID,
-                format: 'PRIDE',
-                columns: {
-                    size: 40,
-                    spacedEach: 5
-                },
-                formatOptions: {
-                    title: false,
-                    footer: false
-                }
-            });
-            widget.hideFormatSelector();
-        }
-    });
-
-    return React.createClass({
-
-        // Kind of public API. //
-
-        /**
-         * Shows sequence viewer.
-         */
-        show: function () {
-            this.modal().modal('show');
-        },
-
-        /**
-         * Hides sequence viewer.
-         */
-        hide: function () {
-            this.modal().modal('hide');
-        },
-
-
-        // Internal helpers. //
-
-        modal: function () {
-            return $('#sequence-viewer');
-        },
-
-        spinner: function () {
-            return $(React.findDOMNode(this.refs.spinner));
-        },
-
-        renderErrors: function () {
-            return (
-                _.map(this.state.error_msgs, _.bind(function (error_msg) {
-                    return (
-                        <div
-                            className="fastan">
-                            <div
-                                className="section-header">
-                                <h4>
-                                    {error_msg[0]}
-                                </h4>
-                            </div>
-                            <div
-                                className="section-content">
-                                <pre
-                                    className="pre-reset">
-                                    {error_msg[1]}
-                                </pre>
-                            </div>
-                        </div>
-                    );
-                }, this))
-            );
-        },
-
-        renderSequences: function () {
-            return (
-                _.map(this.state.sequences, _.bind(function (sequence) {
-                    return (<Viewer sequence={sequence}/>);
-                }, this))
-            );
-        },
-
-
-        // Lifecycle methods. //
-
-        getInitialState: function () {
-            return {
-                error_msgs: [],
-                sequences:  []
-            };
-        },
-
-        render: function () {
-            return (
-                <div
-                    className="modal-dialog">
-                    <div
-                        className="modal-content">
-                        <div
-                            className="modal-header">
-                            <h3>View sequence</h3>
-                        </div>
-
-                        <div
-                            className="modal-body">
-                            { this.renderErrors() }
-                            { this.renderSequences() }
-                        </div>
-
-                        <div
-                            className="spinner" ref="spinner">
-                            <i className="fa fa-spinner fa-3x fa-spin"></i>
-                        </div>
-                    </div>
-                </div>
-            );
-        },
-
-        componentDidMount: function () {
-            var $anchor = $(event.target).closest('a');
-
-            if (!$anchor.is(':disabled')) {
-                this.show();
-
-                var url = $anchor.attr('href');
-                $.getJSON(url)
-                .done(_.bind(function (response) {
-                    this.setState({
-                        error_msgs: response.error_msgs,
-                        sequences:  response.sequences
-                    })
-                    this.spinner().hide();
-                }, this))
-                .fail(function (jqXHR, status, error) {
-                    SequenceServer.showErrorModal(jqXHR, function () {
-                        this.hide();
-                    });
-                });
-            }
-        },
-    });
-})();
+import * as Utils from './utils';
 
 /**
  * Component for each hit.
@@ -215,11 +32,6 @@ var Hit = React.createClass({
      * Disables Sequenece viewer if hit length is greater than 10,000.
      */
     componentDidMount: function () {
-        //Disable sequence-viewer link if hit length is greater than 10,000
-        if (this.props.hit.length > 10000) {
-            $("#" + this.domID()).find(".view-sequence").addClass('disabled');
-        }
-
         // Event-handler for exporting alignments.
         // Calls relevant method on AlignmentExporter defined in alignment_exporter.js.
         $("#" + this.domID()).find('.export-alignment').on('click',_.bind(function () {
@@ -423,12 +235,10 @@ var Query = React.createClass({
                         <div
                             className="section-content">
 
-                            <GraphicalOverview key={"GO_"+this.props.query.id} query={this.props.query} program={this.props.data.program}/>
-
+                            <AlignmentsOverview key={"GO_"+this.props.query.id} query={this.props.query} program={this.props.data.program}/>
                             <LengthDistribution key={"LD_"+this.props.query.id} query={this.props.query} algorithm={this.props.data.program}/>
                             <HitsTable key={"HT_"+this.props.query.id} query={this.props.query}/>
-                            <div
-                                id="hits">
+                            <div id="hits">
                                 {
                                     _.map(this.props.query.hits, _.bind(function (hit) {
                                         return (
@@ -921,16 +731,6 @@ var Report = React.createClass({
         });
     },
 
-    // Handles sequence-viewer links.
-    setupSequenceViewer: function (event) {
-        $(document).on('click', '.view-sequence', function (event) {
-            event.preventDefault();
-            event.stopPropagation();
-            React.render(<SequenceViewer event={event}/>,
-                         document.getElementById('sequence-viewer'));
-        });
-    },
-
     // Life-cycle methods. //
 
     getInitialState: function () {
@@ -962,7 +762,6 @@ var Report = React.createClass({
         this.setupScrollSpy();
         this.setupHitSelection();
         this.setupDownloadLinks();
-        this.setupSequenceViewer();
     }
 });
 
