@@ -55,7 +55,7 @@ export default class AlignmentViewer extends React.Component {
                 this.sframe_unit() * this.sframe_sign();
             nsseq = lsend + this.sframe_unit() * this.sframe_sign();
 
-            lcoords.push('Sbjct ' + this.formatCoords(lsstart, width) + ' ');
+            lcoords.push('Subject ' + this.formatCoords(lsstart, width) + ' ');
             lcoords.push((<br/>));
             alnmnts = alnmnts.concat(this.formatSeq(lsseq));
             rcoords.push(' ' + lsend);
