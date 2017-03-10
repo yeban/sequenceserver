@@ -38,7 +38,7 @@ export default class AlignmentViewer extends React.Component {
                 this.qframe_unit() * this.qframe_sign();
             nqseq = lqend + this.qframe_unit() * this.qframe_sign();
 
-            lcoords.push('Query ' + this.formatCoords(lqstart, width) + ' ');
+            lcoords.push('Query   ' + this.formatCoords(lqstart, width) + ' ');
             lcoords.push((<br/>));
             alnmnts = alnmnts.concat(this.formatSeq(lqseq));
             rcoords.push(' ' + lqend);
