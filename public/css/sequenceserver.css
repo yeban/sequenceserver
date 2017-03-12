@@ -257,14 +257,6 @@ a.disabled:hover {
   font-size: 18px;
 }
 
-.biojs-vis-sequence pre {
-  margin: 0 0;
-  border: none;
-  padding: 0;
-  border-radius: 0;
-  background-color: inherit;
-}
-
 .query-container {
   margin-top: 35px;
   margin-bottom: 0;
@@ -404,37 +396,12 @@ input[name="advanced"] {
   margin-bottom: 0;
 }
 
-.hsps {
+.hsp {
   padding-bottom: 14px;
-}
-.hsp-stats>thead>tr>th {
-  border-bottom: none;
-  padding: 0;
-}
-.hsp-stats>tbody>tr>td {
-  padding: 0;
-  padding-bottom: 5px;
-  border-bottom: 1px solid #ddd;
-}
-
-.alignment {
-  margin-top: 8px;
-  white-space: pre;
-  font-family: monospace;
-  line-height: 12px;
-  letter-spacing: 1px;
 }
 
 .hit-links {
   letter-spacing: 1px;
-}
-
-.fastan > .section-header {
-  padding-bottom: 8px;
-}
-.fastan > .section-content {
-  padding-top: 8px;
-  padding-left: 0;
 }
 
 .footer a:first-child {
@@ -468,4 +435,19 @@ input[name="advanced"] {
   border-left: 2px solid #f0ad4e;
   padding-left: 16px;
   padding-right: 16px;
+}
+
+
+.viewer * {
+  display: inline-block;
+  font-size: 12px;
+}
+.viewer .header {
+  width: 100%;
+}
+.viewer .alnmnt {
+  letter-spacing: 1px;
+}
+.viewer .coords {
+  color: rgb(170, 170, 170);
 }
