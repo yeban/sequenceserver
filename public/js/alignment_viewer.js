@@ -14,21 +14,37 @@ export default class AlignmentViewer extends React.Component {
         this.hsp = props.hsp;
     }
 
-    // Renders pretty formatted alignment.
-    render () {
-        var chars = 60 // TODO: dynamic
-        var lines = Math.ceil(this.hsp.length / chars)
-        var width = _.max(_.map([this.hsp.qstart, this.hsp.qend,
+    componentWillMount() {
+        // this.chars = 60 // TODO: dynamic
+        this.props.chars = 60;
+        // Redraw if window resized.
+        $(window).resize(_.debounce(_.bind(function () {
+            if ($(window).width() < 680) {
+                this.props.chars = Math.floor($(window).width() / 11);
+            } else {
+                this.props.chars = 60;
+            }
+            this.forceUpdate();
+        }, this), 125));
+    }
+
+    lines() {
+        return Math.ceil(this.hsp.length / this.props.chars);
+    }
+
+    width() {
+        return _.max(_.map([this.hsp.qstart, this.hsp.qend,
                                 this.hsp.sstart, this.hsp.send],
                                 (n) => { return n.toString().length }));
-        var lcoords = [];
-        var rcoords = [];
-        var alnmnts = [];
+    }
 
+    lcoords() {
+        var lcoords = [];
+        var chars = this.props.chars;
         var nqseq = this.nqseq();
         var nsseq = this.nsseq();
-
-        for (let i = 1; i <= lines; i++) {
+        var width = this.width();
+        for (let i = 1; i <= this.lines(); i++) {
             let seq_start_index = chars * (i - 1);
             let seq_stop_index = seq_start_index + chars;
 
@@ -40,14 +56,9 @@ export default class AlignmentViewer extends React.Component {
 
             lcoords.push('Query   ' + this.formatCoords(lqstart, width) + ' ');
             lcoords.push((<br/>));
-            alnmnts = alnmnts.concat(this.formatSeq(lqseq));
-            rcoords.push(' ' + lqend);
-            rcoords.push((<br/>));
 
             var lmseq = this.hsp.midline.slice(seq_start_index, seq_stop_index);
             lcoords.push((<br/>));
-            alnmnts = alnmnts.concat(this.formatSeq(lmseq));
-            rcoords.push((<br/>));
 
             let lsstart = nsseq;
             let lsseq = this.hsp.sseq.slice(seq_start_index, seq_stop_index);
@@ -57,19 +68,90 @@ export default class AlignmentViewer extends React.Component {
 
             lcoords.push('Subject ' + this.formatCoords(lsstart, width) + ' ');
             lcoords.push((<br/>));
+
+            if (i !== this.lines()) {
+                lcoords.push((<br/>));
+            }
+        }
+        return lcoords;
+    }
+
+    alnmnts() {
+        var alnmnts = [];
+        var chars = this.props.chars;
+        var nqseq = this.nqseq();
+        var nsseq = this.nsseq();
+        for (let i = 1; i <= this.lines(); i++) {
+            let seq_start_index = chars * (i - 1);
+            let seq_stop_index = seq_start_index + chars;
+
+            let lqstart = nqseq;
+            let lqseq = this.hsp.qseq.slice(seq_start_index, seq_stop_index);
+            let lqend = nqseq + (lqseq.length - lqseq.split('-').length) *
+                this.qframe_unit() * this.qframe_sign();
+            nqseq = lqend + this.qframe_unit() * this.qframe_sign();
+
+            alnmnts = alnmnts.concat(this.formatSeq(lqseq));
+
+            var lmseq = this.hsp.midline.slice(seq_start_index, seq_stop_index);
+            alnmnts = alnmnts.concat(this.formatSeq(lmseq))
+
+            let lsstart = nsseq;
+            let lsseq = this.hsp.sseq.slice(seq_start_index, seq_stop_index);
+            let lsend = nsseq + (lsseq.length - lsseq.split('-').length) *
+                this.sframe_unit() * this.sframe_sign();
+            nsseq = lsend + this.sframe_unit() * this.sframe_sign();
+
             alnmnts = alnmnts.concat(this.formatSeq(lsseq));
+
+            if (i !== this.lines()) {
+                alnmnts.push((<br/>));
+            }
+        }
+        return alnmnts;
+    }
+
+    rcoords() {
+        var rcoords = [];
+        var chars = this.props.chars;
+        var nqseq = this.nqseq();
+        var nsseq = this.nsseq();
+        for (let i = 1; i <= this.lines(); i++) {
+            let seq_start_index = chars * (i - 1);
+            let seq_stop_index = seq_start_index + chars;
+
+            let lqstart = nqseq;
+            let lqseq = this.hsp.qseq.slice(seq_start_index, seq_stop_index);
+            let lqend = nqseq + (lqseq.length - lqseq.split('-').length) *
+                this.qframe_unit() * this.qframe_sign();
+            nqseq = lqend + this.qframe_unit() * this.qframe_sign();
+
+            rcoords.push(' ' + lqend);
+            rcoords.push((<br/>));
+
+            var lmseq = this.hsp.midline.slice(seq_start_index, seq_stop_index);
+            rcoords.push((<br/>));
+
+            let lsstart = nsseq;
+            let lsseq = this.hsp.sseq.slice(seq_start_index, seq_stop_index);
+            let lsend = nsseq + (lsseq.length - lsseq.split('-').length) *
+                this.sframe_unit() * this.sframe_sign();
+            nsseq = lsend + this.sframe_unit() * this.sframe_sign();
+
             rcoords.push(' ' + lsend);
             rcoords.push((<br/>));
 
-            if (i !== lines) {
-                lcoords.push((<br/>));
-                alnmnts.push((<br/>));
-                rcoords.push((<br/>));
+            if (i !== this.lines()) {
+                rcoords.push((<br/>))
             }
         }
+        return rcoords;
+    }
 
+    // Renders pretty formatted alignment.
+    render () {
         return (
-            <div className="viewer">
+            <div className="viewer" ref="alignmentContainer">
                 <pre className="pre-reset header">
                     {
                         Helpers.toLetters(this.hsp.number) + "."
@@ -82,13 +164,13 @@ export default class AlignmentViewer extends React.Component {
                     }
                 </pre>
                 <pre className="pre-reset coords">
-                    {lcoords}
+                    {this.lcoords()}
                 </pre>
                 <pre className="pre-reset alnmnt">
-                    {alnmnts}
+                    {this.alnmnts()}
                 </pre>
                 <pre className="pre-reset coords">
-                    {rcoords}
+                    {this.rcoords()}
                 </pre>
             </div>
         );
