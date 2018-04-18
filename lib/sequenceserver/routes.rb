@@ -65,7 +65,11 @@ module SequenceServer
         @input_sequence = params[:input_sequence]
         erb :layout
       else
-        job = Job.create(params)
+        begin
+          job = Job.create(params)
+        rescue SystemError => e
+          $systemError = e
+        end
         redirect "/#{job.id}"
       end
     end
