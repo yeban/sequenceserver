@@ -49,7 +49,7 @@ module SequenceServer
       use Rack::Deflater
     end
 
-    # For any request that hits the app,  log incoming params at debug level.
+    # For any request that hits the app, log incoming params at debug level.
     before do
       logger.debug params
     end
@@ -57,15 +57,6 @@ module SequenceServer
     # Returns base HTML. Rest happens client-side: rendering the search form.
     get '/' do
       erb :search, layout: true
-    end
-
-    # Returns data that is used to render the search form client side. These
-    # include available databases and user-defined search options.
-    get '/searchdata.json' do
-      {
-        database: Database.all,
-        options:  SequenceServer.config[:options]
-      }.to_json
     end
 
     # Queues a search job and redirects to `/:jid`.
@@ -79,18 +70,34 @@ module SequenceServer
       end
     end
 
-    # Returns results for the given job id in JSON format.  Returns 202 with
-    # an empty body if the job hasn't finished yet.
-    get '/:jid.json' do |jid|
-      job = Job.fetch(jid)
-      halt 202 unless job.done?
-      Report.generate(job).to_json
-    end
-
     # Returns base HTML. Rest happens client-side: polling for and rendering
     # the results.
     get '/:jid' do |jid|
       erb :report, layout: true
+    end
+
+    # Returns data that is used to render the search form client side. These
+    # include available databases and user-defined search options.
+    get '/searchdata.json' do
+      {
+        database: Database.all, options: SequenceServer.config[:options]
+      }.to_json
+    end
+
+    # Obtain BLAST report in various formats:
+    # - Returns 202 with empty body if job is not yet finished
+    # - Results in JSON format are returned as response body
+    # - Other formats (XML, TSV) initiate file download
+    # - Raises NotFound if job does not exist
+    get '/:jid.:type' do |jid, type|
+      job = Job.fetch(jid)
+      halt 202 unless job.done?
+      if type == 'json'
+        Report.generate(job).to_json
+      else
+        out = BLAST::Formatter.new(job, type)
+        send_file(out.file, filename: out.filename, type: out.mime)
+      end
     end
 
     # @params sequence_ids: whitespace separated list of sequence ids to
@@ -103,7 +110,7 @@ module SequenceServer
     # Use whitespace to separate entries in sequence_ids (all other chars exist
     # in identifiers) and retreival_databases (we don't allow whitespace in a
     # database's name, so it's safe).
-    get '/get_sequence/' do
+    get '/get_sequence' do
       sequence_ids = params[:sequence_ids].split(",")
       database_ids = params[:database_ids].split(",")
       sequences = Sequence::Retriever.new(sequence_ids, database_ids)
@@ -114,16 +121,8 @@ module SequenceServer
       sequence_ids = params["sequence_ids"].split(",")
       database_ids = params["database_ids"].split(",")
       sequences = Sequence::Retriever.new(sequence_ids, database_ids, true)
-      send_file(sequences.file.path,
-                :type     => sequences.mime,
-                :filename => sequences.filename)
-    end
-
-    # Download BLAST report in various formats.
-    get '/download/:jid.:type' do |jid, type|
-      job = Job.fetch(jid)
-      out = BLAST::Formatter.new(job, type)
-      send_file out.file, :filename => out.filename, :type => out.mime
+      send_file(sequences.file.path, type: sequences.mime, filename:
+                sequences.filename)
     end
 
     # Catches any exception raised within the app and returns JSON
