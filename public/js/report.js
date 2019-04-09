@@ -703,6 +703,10 @@ var Hit = React.createClass({
                     onClick={this.downloadAlignment}>
                     <i className="fa fa-download"></i> Alignment
                 </button>
+                |
+                <button className='btn btn-link copy-coords'>
+                    <i className="fa fa-map-marker"></i>{`${this.props.hit.id}:${this.props.hit.coordinates[0].join('-')}`}
+                </button>
                 {
                     _.map(this.props.hit.links, _.bind(function (link) {
                         return [<span> | </span>, this.a(link)];
