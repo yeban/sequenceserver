@@ -566,6 +566,14 @@ var Hit = React.createClass({
         return this.props.hit.length;
     },
 
+    /**
+     * Returns coordinate of the matching region in the hit sequence in a
+     * JBrowse compatible format.
+     */
+    coordStr: function () {
+        return `${this.props.hit.id}:${this.props.hit.coordinates[0].join('-')}`;
+    },
+
     // Internal helpers. //
 
     /**
@@ -704,8 +712,9 @@ var Hit = React.createClass({
                     <i className="fa fa-download"></i> Alignment
                 </button>
                 |
-                <button className='btn btn-link copy-coords'>
-                    <i className="fa fa-map-marker"></i>{`${this.props.hit.id}:${this.props.hit.coordinates[0].join('-')}`}
+                <button className='btn btn-link copy-coords'
+                    onClick={this.copyToClipboard}>
+                    <i className="fa fa-map-marker"></i>{this.coordStr()}
                 </button>
                 {
                     _.map(this.props.hit.links, _.bind(function (link) {
@@ -714,6 +723,11 @@ var Hit = React.createClass({
                 }
             </div>
         );
+    },
+
+    copyToClipboard: function () {
+        navigator.clipboard.writeText(this.coordStr())
+        .catch((error) => { console.log(error) });
     },
 
     hspListJSX: function () {
