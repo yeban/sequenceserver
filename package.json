@@ -10,7 +10,7 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "clean-css": "^3.4.1",
+    "clean-css-cli": "^4.3.0",
     "eslint": "^6.5.1",
     "eslint-plugin-react": "^7.16.0",
     "jspm": "^0.16.2"
