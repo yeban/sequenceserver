@@ -19,14 +19,14 @@ script:
   - EOF
   - chmod +x usr/bin/sequenceserver
 script:
-  - cp ${APPDIR}/../../favicon.png .
+  - cp ${PWD}/../../AppImage/favicon.png .
   - cat > sequenceserver.desktop <<EOF
   - [Desktop Entry]
   - Version=1.0
   - Type=Application
   - Name=SequenceServer
   - Icon=favicon
-  - Exec=sequenceserver
+  - Exec=sequenceserver %F
   - Terminal=true
   - Categories=ConsoleOnly;Science;
   - EOF
