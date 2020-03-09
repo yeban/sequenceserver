@@ -1,6 +1,6 @@
 /* */ 
 (function(process) {
-  var emptyFunction = require("./emptyFunction");
+  var emptyFunction = require('./emptyFunction');
   var EventListener = {
     listen: function(target, eventType, callback) {
       if (target.addEventListener) {
@@ -31,4 +31,4 @@
     registerDefault: function() {}
   };
   module.exports = EventListener;
-})(require("process"));
+})(require('process'));

@@ -1,6 +1,6 @@
 /* */ 
 'use strict';
-var ExecutionEnvironment = require("./ExecutionEnvironment");
+var ExecutionEnvironment = require('./ExecutionEnvironment');
 var contentKey = null;
 function getTextContentAccessor() {
   if (!contentKey && ExecutionEnvironment.canUseDOM) {

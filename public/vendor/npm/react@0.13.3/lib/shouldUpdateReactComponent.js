@@ -1,7 +1,7 @@
 /* */ 
 (function(process) {
   'use strict';
-  var warning = require("./warning");
+  var warning = require('./warning');
   function shouldUpdateReactComponent(prevElement, nextElement) {
     if (prevElement != null && nextElement != null) {
       var prevType = typeof prevElement;
@@ -48,4 +48,4 @@
     return false;
   }
   module.exports = shouldUpdateReactComponent;
-})(require("process"));
+})(require('process'));

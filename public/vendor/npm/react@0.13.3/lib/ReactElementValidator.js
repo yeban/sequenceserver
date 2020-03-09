@@ -1,15 +1,15 @@
 /* */ 
 (function(process) {
   'use strict';
-  var ReactElement = require("./ReactElement");
-  var ReactFragment = require("./ReactFragment");
-  var ReactPropTypeLocations = require("./ReactPropTypeLocations");
-  var ReactPropTypeLocationNames = require("./ReactPropTypeLocationNames");
-  var ReactCurrentOwner = require("./ReactCurrentOwner");
-  var ReactNativeComponent = require("./ReactNativeComponent");
-  var getIteratorFn = require("./getIteratorFn");
-  var invariant = require("./invariant");
-  var warning = require("./warning");
+  var ReactElement = require('./ReactElement');
+  var ReactFragment = require('./ReactFragment');
+  var ReactPropTypeLocations = require('./ReactPropTypeLocations');
+  var ReactPropTypeLocationNames = require('./ReactPropTypeLocationNames');
+  var ReactCurrentOwner = require('./ReactCurrentOwner');
+  var ReactNativeComponent = require('./ReactNativeComponent');
+  var getIteratorFn = require('./getIteratorFn');
+  var invariant = require('./invariant');
+  var warning = require('./warning');
   function getDeclarationErrorAddendum() {
     if (ReactCurrentOwner.current) {
       var name = ReactCurrentOwner.current.getName();
@@ -215,4 +215,4 @@
     }
   };
   module.exports = ReactElementValidator;
-})(require("process"));
+})(require('process'));

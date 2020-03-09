@@ -1,20 +1,20 @@
 /* */ 
 (function(process) {
   'use strict';
-  var CSSPropertyOperations = require("./CSSPropertyOperations");
-  var DOMProperty = require("./DOMProperty");
-  var DOMPropertyOperations = require("./DOMPropertyOperations");
-  var ReactBrowserEventEmitter = require("./ReactBrowserEventEmitter");
-  var ReactComponentBrowserEnvironment = require("./ReactComponentBrowserEnvironment");
-  var ReactMount = require("./ReactMount");
-  var ReactMultiChild = require("./ReactMultiChild");
-  var ReactPerf = require("./ReactPerf");
-  var assign = require("./Object.assign");
-  var escapeTextContentForBrowser = require("./escapeTextContentForBrowser");
-  var invariant = require("./invariant");
-  var isEventSupported = require("./isEventSupported");
-  var keyOf = require("./keyOf");
-  var warning = require("./warning");
+  var CSSPropertyOperations = require('./CSSPropertyOperations');
+  var DOMProperty = require('./DOMProperty');
+  var DOMPropertyOperations = require('./DOMPropertyOperations');
+  var ReactBrowserEventEmitter = require('./ReactBrowserEventEmitter');
+  var ReactComponentBrowserEnvironment = require('./ReactComponentBrowserEnvironment');
+  var ReactMount = require('./ReactMount');
+  var ReactMultiChild = require('./ReactMultiChild');
+  var ReactPerf = require('./ReactPerf');
+  var assign = require('./Object.assign');
+  var escapeTextContentForBrowser = require('./escapeTextContentForBrowser');
+  var invariant = require('./invariant');
+  var isEventSupported = require('./isEventSupported');
+  var keyOf = require('./keyOf');
+  var warning = require('./warning');
   var deleteListener = ReactBrowserEventEmitter.deleteListener;
   var listenTo = ReactBrowserEventEmitter.listenTo;
   var registrationNameModules = ReactBrowserEventEmitter.registrationNameModules;
@@ -264,4 +264,4 @@
       ReactDOMComponent.BackendIDOperations = BackendIDOperations = IDOperations;
     }};
   module.exports = ReactDOMComponent;
-})(require("process"));
+})(require('process'));

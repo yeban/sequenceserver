@@ -1,10 +1,10 @@
 /* */ 
 'use strict';
-var AutoFocusMixin = require("./AutoFocusMixin");
-var ReactBrowserComponentMixin = require("./ReactBrowserComponentMixin");
-var ReactClass = require("./ReactClass");
-var ReactElement = require("./ReactElement");
-var keyMirror = require("./keyMirror");
+var AutoFocusMixin = require('./AutoFocusMixin');
+var ReactBrowserComponentMixin = require('./ReactBrowserComponentMixin');
+var ReactClass = require('./ReactClass');
+var ReactElement = require('./ReactElement');
+var keyMirror = require('./keyMirror');
 var button = ReactElement.createFactory('button');
 var mouseListenerNames = keyMirror({
   onClick: true,

@@ -1,6 +1,6 @@
 /* */ 
 'use strict';
-var ExecutionEnvironment = require("./ExecutionEnvironment");
+var ExecutionEnvironment = require('./ExecutionEnvironment');
 var EVENT_NAME_MAP = {
   transitionend: {
     'transition': 'transitionend',

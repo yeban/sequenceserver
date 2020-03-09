@@ -1,13 +1,13 @@
 /* */ 
 (function(process) {
   'use strict';
-  var ReactElement = require("./ReactElement");
-  var ReactInstanceHandles = require("./ReactInstanceHandles");
-  var ReactMarkupChecksum = require("./ReactMarkupChecksum");
-  var ReactServerRenderingTransaction = require("./ReactServerRenderingTransaction");
-  var emptyObject = require("./emptyObject");
-  var instantiateReactComponent = require("./instantiateReactComponent");
-  var invariant = require("./invariant");
+  var ReactElement = require('./ReactElement');
+  var ReactInstanceHandles = require('./ReactInstanceHandles');
+  var ReactMarkupChecksum = require('./ReactMarkupChecksum');
+  var ReactServerRenderingTransaction = require('./ReactServerRenderingTransaction');
+  var emptyObject = require('./emptyObject');
+  var instantiateReactComponent = require('./instantiateReactComponent');
+  var invariant = require('./invariant');
   function renderToString(element) {
     ("production" !== process.env.NODE_ENV ? invariant(ReactElement.isValidElement(element), 'renderToString(): You must pass a valid ReactElement.') : invariant(ReactElement.isValidElement(element)));
     var transaction;
@@ -41,4 +41,4 @@
     renderToString: renderToString,
     renderToStaticMarkup: renderToStaticMarkup
   };
-})(require("process"));
+})(require('process'));

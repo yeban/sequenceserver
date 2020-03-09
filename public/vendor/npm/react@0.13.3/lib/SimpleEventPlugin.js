@@ -1,22 +1,22 @@
 /* */ 
 (function(process) {
   'use strict';
-  var EventConstants = require("./EventConstants");
-  var EventPluginUtils = require("./EventPluginUtils");
-  var EventPropagators = require("./EventPropagators");
-  var SyntheticClipboardEvent = require("./SyntheticClipboardEvent");
-  var SyntheticEvent = require("./SyntheticEvent");
-  var SyntheticFocusEvent = require("./SyntheticFocusEvent");
-  var SyntheticKeyboardEvent = require("./SyntheticKeyboardEvent");
-  var SyntheticMouseEvent = require("./SyntheticMouseEvent");
-  var SyntheticDragEvent = require("./SyntheticDragEvent");
-  var SyntheticTouchEvent = require("./SyntheticTouchEvent");
-  var SyntheticUIEvent = require("./SyntheticUIEvent");
-  var SyntheticWheelEvent = require("./SyntheticWheelEvent");
-  var getEventCharCode = require("./getEventCharCode");
-  var invariant = require("./invariant");
-  var keyOf = require("./keyOf");
-  var warning = require("./warning");
+  var EventConstants = require('./EventConstants');
+  var EventPluginUtils = require('./EventPluginUtils');
+  var EventPropagators = require('./EventPropagators');
+  var SyntheticClipboardEvent = require('./SyntheticClipboardEvent');
+  var SyntheticEvent = require('./SyntheticEvent');
+  var SyntheticFocusEvent = require('./SyntheticFocusEvent');
+  var SyntheticKeyboardEvent = require('./SyntheticKeyboardEvent');
+  var SyntheticMouseEvent = require('./SyntheticMouseEvent');
+  var SyntheticDragEvent = require('./SyntheticDragEvent');
+  var SyntheticTouchEvent = require('./SyntheticTouchEvent');
+  var SyntheticUIEvent = require('./SyntheticUIEvent');
+  var SyntheticWheelEvent = require('./SyntheticWheelEvent');
+  var getEventCharCode = require('./getEventCharCode');
+  var invariant = require('./invariant');
+  var keyOf = require('./keyOf');
+  var warning = require('./warning');
   var topLevelTypes = EventConstants.topLevelTypes;
   var eventTypes = {
     blur: {phasedRegistrationNames: {
@@ -284,4 +284,4 @@
     }
   };
   module.exports = SimpleEventPlugin;
-})(require("process"));
+})(require('process'));

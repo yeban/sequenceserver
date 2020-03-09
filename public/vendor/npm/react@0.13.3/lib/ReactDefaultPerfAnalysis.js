@@ -1,5 +1,5 @@
 /* */ 
-var assign = require("./Object.assign");
+var assign = require('./Object.assign');
 var DONT_CARE_THRESHOLD = 1.2;
 var DOM_OPERATION_TYPES = {
   '_mountImageIntoNode': 'set innerHTML',

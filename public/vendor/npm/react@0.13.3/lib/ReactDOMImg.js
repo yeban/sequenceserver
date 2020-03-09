@@ -1,10 +1,10 @@
 /* */ 
 'use strict';
-var EventConstants = require("./EventConstants");
-var LocalEventTrapMixin = require("./LocalEventTrapMixin");
-var ReactBrowserComponentMixin = require("./ReactBrowserComponentMixin");
-var ReactClass = require("./ReactClass");
-var ReactElement = require("./ReactElement");
+var EventConstants = require('./EventConstants');
+var LocalEventTrapMixin = require('./LocalEventTrapMixin');
+var ReactBrowserComponentMixin = require('./ReactBrowserComponentMixin');
+var ReactClass = require('./ReactClass');
+var ReactElement = require('./ReactElement');
 var img = ReactElement.createFactory('img');
 var ReactDOMImg = ReactClass.createClass({
   displayName: 'ReactDOMImg',

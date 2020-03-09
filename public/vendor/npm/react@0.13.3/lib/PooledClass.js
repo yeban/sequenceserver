@@ -1,7 +1,7 @@
 /* */ 
 (function(process) {
   'use strict';
-  var invariant = require("./invariant");
+  var invariant = require('./invariant');
   var oneArgumentPooler = function(copyFieldsFrom) {
     var Klass = this;
     if (Klass.instancePool.length) {
@@ -72,4 +72,4 @@
     fiveArgumentPooler: fiveArgumentPooler
   };
   module.exports = PooledClass;
-})(require("process"));
+})(require('process'));

@@ -2163,4 +2163,4 @@
       start();
     }).trigger("click");
   });
-})(require("process"));
+})(require('process'));

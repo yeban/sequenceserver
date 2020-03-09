@@ -1,26 +1,26 @@
 /* */ 
 (function(process) {
   'use strict';
-  var EventPluginUtils = require("./EventPluginUtils");
-  var ReactChildren = require("./ReactChildren");
-  var ReactComponent = require("./ReactComponent");
-  var ReactClass = require("./ReactClass");
-  var ReactContext = require("./ReactContext");
-  var ReactCurrentOwner = require("./ReactCurrentOwner");
-  var ReactElement = require("./ReactElement");
-  var ReactElementValidator = require("./ReactElementValidator");
-  var ReactDOM = require("./ReactDOM");
-  var ReactDOMTextComponent = require("./ReactDOMTextComponent");
-  var ReactDefaultInjection = require("./ReactDefaultInjection");
-  var ReactInstanceHandles = require("./ReactInstanceHandles");
-  var ReactMount = require("./ReactMount");
-  var ReactPerf = require("./ReactPerf");
-  var ReactPropTypes = require("./ReactPropTypes");
-  var ReactReconciler = require("./ReactReconciler");
-  var ReactServerRendering = require("./ReactServerRendering");
-  var assign = require("./Object.assign");
-  var findDOMNode = require("./findDOMNode");
-  var onlyChild = require("./onlyChild");
+  var EventPluginUtils = require('./EventPluginUtils');
+  var ReactChildren = require('./ReactChildren');
+  var ReactComponent = require('./ReactComponent');
+  var ReactClass = require('./ReactClass');
+  var ReactContext = require('./ReactContext');
+  var ReactCurrentOwner = require('./ReactCurrentOwner');
+  var ReactElement = require('./ReactElement');
+  var ReactElementValidator = require('./ReactElementValidator');
+  var ReactDOM = require('./ReactDOM');
+  var ReactDOMTextComponent = require('./ReactDOMTextComponent');
+  var ReactDefaultInjection = require('./ReactDefaultInjection');
+  var ReactInstanceHandles = require('./ReactInstanceHandles');
+  var ReactMount = require('./ReactMount');
+  var ReactPerf = require('./ReactPerf');
+  var ReactPropTypes = require('./ReactPropTypes');
+  var ReactReconciler = require('./ReactReconciler');
+  var ReactServerRendering = require('./ReactServerRendering');
+  var assign = require('./Object.assign');
+  var findDOMNode = require('./findDOMNode');
+  var onlyChild = require('./onlyChild');
   ReactDefaultInjection.inject();
   var createElement = ReactElement.createElement;
   var createFactory = ReactElement.createFactory;
@@ -72,7 +72,7 @@
     });
   }
   if ("production" !== process.env.NODE_ENV) {
-    var ExecutionEnvironment = require("./ExecutionEnvironment");
+    var ExecutionEnvironment = require('./ExecutionEnvironment');
     if (ExecutionEnvironment.canUseDOM && window.top === window.self) {
       if (navigator.userAgent.indexOf('Chrome') > -1) {
         if (typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ === 'undefined') {
@@ -90,4 +90,4 @@
   }
   React.version = '0.13.3';
   module.exports = React;
-})(require("process"));
+})(require('process'));

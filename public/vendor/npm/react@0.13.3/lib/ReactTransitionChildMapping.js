@@ -1,7 +1,7 @@
 /* */ 
 'use strict';
-var ReactChildren = require("./ReactChildren");
-var ReactFragment = require("./ReactFragment");
+var ReactChildren = require('./ReactChildren');
+var ReactFragment = require('./ReactFragment');
 var ReactTransitionChildMapping = {
   getChildMapping: function(children) {
     if (!children) {

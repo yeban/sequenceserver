@@ -1,7 +1,7 @@
 /* */ 
 (function(process) {
   'use strict';
-  var warning = require("./warning");
+  var warning = require('./warning');
   var warned = false;
   function cx(classNames) {
     if ("production" !== process.env.NODE_ENV) {
@@ -17,4 +17,4 @@
     }
   }
   module.exports = cx;
-})(require("process"));
+})(require('process'));

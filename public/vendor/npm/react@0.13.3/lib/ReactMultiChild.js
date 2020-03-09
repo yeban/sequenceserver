@@ -1,10 +1,10 @@
 /* */ 
 (function(process) {
   'use strict';
-  var ReactComponentEnvironment = require("./ReactComponentEnvironment");
-  var ReactMultiChildUpdateTypes = require("./ReactMultiChildUpdateTypes");
-  var ReactReconciler = require("./ReactReconciler");
-  var ReactChildReconciler = require("./ReactChildReconciler");
+  var ReactComponentEnvironment = require('./ReactComponentEnvironment');
+  var ReactMultiChildUpdateTypes = require('./ReactMultiChildUpdateTypes');
+  var ReactReconciler = require('./ReactReconciler');
+  var ReactChildReconciler = require('./ReactChildReconciler');
   var updateDepth = 0;
   var updateQueue = [];
   var markupQueue = [];
@@ -187,4 +187,4 @@
       }
     }};
   module.exports = ReactMultiChild;
-})(require("process"));
+})(require('process'));

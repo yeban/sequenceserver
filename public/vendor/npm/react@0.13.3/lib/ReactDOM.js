@@ -1,9 +1,9 @@
 /* */ 
 (function(process) {
   'use strict';
-  var ReactElement = require("./ReactElement");
-  var ReactElementValidator = require("./ReactElementValidator");
-  var mapObject = require("./mapObject");
+  var ReactElement = require('./ReactElement');
+  var ReactElementValidator = require('./ReactElementValidator');
+  var mapObject = require('./mapObject');
   function createDOMFactory(tag) {
     if ("production" !== process.env.NODE_ENV) {
       return ReactElementValidator.createFactory(tag);
@@ -143,4 +143,4 @@
     tspan: 'tspan'
   }, createDOMFactory);
   module.exports = ReactDOM;
-})(require("process"));
+})(require('process'));

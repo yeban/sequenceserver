@@ -1,20 +1,20 @@
 /* */ 
 (function(process) {
   'use strict';
-  var ReactComponent = require("./ReactComponent");
-  var ReactCurrentOwner = require("./ReactCurrentOwner");
-  var ReactElement = require("./ReactElement");
-  var ReactErrorUtils = require("./ReactErrorUtils");
-  var ReactInstanceMap = require("./ReactInstanceMap");
-  var ReactLifeCycle = require("./ReactLifeCycle");
-  var ReactPropTypeLocations = require("./ReactPropTypeLocations");
-  var ReactPropTypeLocationNames = require("./ReactPropTypeLocationNames");
-  var ReactUpdateQueue = require("./ReactUpdateQueue");
-  var assign = require("./Object.assign");
-  var invariant = require("./invariant");
-  var keyMirror = require("./keyMirror");
-  var keyOf = require("./keyOf");
-  var warning = require("./warning");
+  var ReactComponent = require('./ReactComponent');
+  var ReactCurrentOwner = require('./ReactCurrentOwner');
+  var ReactElement = require('./ReactElement');
+  var ReactErrorUtils = require('./ReactErrorUtils');
+  var ReactInstanceMap = require('./ReactInstanceMap');
+  var ReactLifeCycle = require('./ReactLifeCycle');
+  var ReactPropTypeLocations = require('./ReactPropTypeLocations');
+  var ReactPropTypeLocationNames = require('./ReactPropTypeLocationNames');
+  var ReactUpdateQueue = require('./ReactUpdateQueue');
+  var assign = require('./Object.assign');
+  var invariant = require('./invariant');
+  var keyMirror = require('./keyMirror');
+  var keyOf = require('./keyOf');
+  var warning = require('./warning');
   var MIXINS_KEY = keyOf({mixins: null});
   var SpecPolicy = keyMirror({
     DEFINE_ONCE: null,
@@ -335,4 +335,4 @@
       }}
   };
   module.exports = ReactClass;
-})(require("process"));
+})(require('process'));

@@ -1,9 +1,9 @@
 /* */ 
 (function(process) {
   'use strict';
-  var DOMProperty = require("./DOMProperty");
-  var quoteAttributeValueForBrowser = require("./quoteAttributeValueForBrowser");
-  var warning = require("./warning");
+  var DOMProperty = require('./DOMProperty');
+  var quoteAttributeValueForBrowser = require('./quoteAttributeValueForBrowser');
+  var warning = require('./warning');
   function shouldIgnoreValue(name, value) {
     return value == null || (DOMProperty.hasBooleanValue[name] && !value) || (DOMProperty.hasNumericValue[name] && isNaN(value)) || (DOMProperty.hasPositiveNumericValue[name] && (value < 1)) || (DOMProperty.hasOverloadedBooleanValue[name] && value === false);
   }
@@ -96,4 +96,4 @@
     }
   };
   module.exports = DOMPropertyOperations;
-})(require("process"));
+})(require('process'));

@@ -1,10 +1,10 @@
 /* */ 
 'use strict';
-var DOMProperty = require("./DOMProperty");
-var ReactDefaultPerfAnalysis = require("./ReactDefaultPerfAnalysis");
-var ReactMount = require("./ReactMount");
-var ReactPerf = require("./ReactPerf");
-var performanceNow = require("./performanceNow");
+var DOMProperty = require('./DOMProperty');
+var ReactDefaultPerfAnalysis = require('./ReactDefaultPerfAnalysis');
+var ReactMount = require('./ReactMount');
+var ReactPerf = require('./ReactPerf');
+var performanceNow = require('./performanceNow');
 function roundFloat(val) {
   return Math.floor(val * 100) / 100;
 }

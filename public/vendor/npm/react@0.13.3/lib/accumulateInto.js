@@ -1,7 +1,7 @@
 /* */ 
 (function(process) {
   'use strict';
-  var invariant = require("./invariant");
+  var invariant = require('./invariant');
   function accumulateInto(current, next) {
     ("production" !== process.env.NODE_ENV ? invariant(next != null, 'accumulateInto(...): Accumulated items must not be null or undefined.') : invariant(next != null));
     if (current == null) {
@@ -23,4 +23,4 @@
     return [current, next];
   }
   module.exports = accumulateInto;
-})(require("process"));
+})(require('process'));

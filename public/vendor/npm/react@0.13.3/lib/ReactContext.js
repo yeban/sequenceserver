@@ -1,9 +1,9 @@
 /* */ 
 (function(process) {
   'use strict';
-  var assign = require("./Object.assign");
-  var emptyObject = require("./emptyObject");
-  var warning = require("./warning");
+  var assign = require('./Object.assign');
+  var emptyObject = require('./emptyObject');
+  var warning = require('./warning');
   var didWarn = false;
   var ReactContext = {
     current: emptyObject,
@@ -24,4 +24,4 @@
     }
   };
   module.exports = ReactContext;
-})(require("process"));
+})(require('process'));

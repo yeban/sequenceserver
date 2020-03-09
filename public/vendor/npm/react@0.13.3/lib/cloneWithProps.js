@@ -1,10 +1,10 @@
 /* */ 
 (function(process) {
   'use strict';
-  var ReactElement = require("./ReactElement");
-  var ReactPropTransferer = require("./ReactPropTransferer");
-  var keyOf = require("./keyOf");
-  var warning = require("./warning");
+  var ReactElement = require('./ReactElement');
+  var ReactPropTransferer = require('./ReactPropTransferer');
+  var keyOf = require('./keyOf');
+  var warning = require('./warning');
   var CHILDREN_PROP = keyOf({children: null});
   function cloneWithProps(child, props) {
     if ("production" !== process.env.NODE_ENV) {
@@ -17,4 +17,4 @@
     return ReactElement.createElement(child.type, newProps);
   }
   module.exports = cloneWithProps;
-})(require("process"));
+})(require('process'));

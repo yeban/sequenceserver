@@ -1,10 +1,10 @@
 /* */ 
 'use strict';
-var DOMPropertyOperations = require("./DOMPropertyOperations");
-var ReactComponentBrowserEnvironment = require("./ReactComponentBrowserEnvironment");
-var ReactDOMComponent = require("./ReactDOMComponent");
-var assign = require("./Object.assign");
-var escapeTextContentForBrowser = require("./escapeTextContentForBrowser");
+var DOMPropertyOperations = require('./DOMPropertyOperations');
+var ReactComponentBrowserEnvironment = require('./ReactComponentBrowserEnvironment');
+var ReactDOMComponent = require('./ReactDOMComponent');
+var assign = require('./Object.assign');
+var escapeTextContentForBrowser = require('./escapeTextContentForBrowser');
 var ReactDOMTextComponent = function(props) {};
 assign(ReactDOMTextComponent.prototype, {
   construct: function(text) {

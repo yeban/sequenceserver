@@ -1,12 +1,12 @@
 /* */ 
 (function(process) {
   'use strict';
-  var ReactCompositeComponent = require("./ReactCompositeComponent");
-  var ReactEmptyComponent = require("./ReactEmptyComponent");
-  var ReactNativeComponent = require("./ReactNativeComponent");
-  var assign = require("./Object.assign");
-  var invariant = require("./invariant");
-  var warning = require("./warning");
+  var ReactCompositeComponent = require('./ReactCompositeComponent');
+  var ReactEmptyComponent = require('./ReactEmptyComponent');
+  var ReactNativeComponent = require('./ReactNativeComponent');
+  var assign = require('./Object.assign');
+  var invariant = require('./invariant');
+  var warning = require('./warning');
   var ReactCompositeComponentWrapper = function() {};
   assign(ReactCompositeComponentWrapper.prototype, ReactCompositeComponent.Mixin, {_instantiateReactComponent: instantiateReactComponent});
   function isInternalComponentType(type) {
@@ -52,4 +52,4 @@
     return instance;
   }
   module.exports = instantiateReactComponent;
-})(require("process"));
+})(require('process'));

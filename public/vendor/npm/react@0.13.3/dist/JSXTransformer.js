@@ -11343,4 +11343,4 @@
       }, {"buffer": 3}]
     }, {}, [1])(1);
   });
-})(require("buffer").Buffer, require("process"));
+})(require('buffer').Buffer, require('process'));

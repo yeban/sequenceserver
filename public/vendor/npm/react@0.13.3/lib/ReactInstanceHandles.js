@@ -1,8 +1,8 @@
 /* */ 
 (function(process) {
   'use strict';
-  var ReactRootIndex = require("./ReactRootIndex");
-  var invariant = require("./invariant");
+  var ReactRootIndex = require('./ReactRootIndex');
+  var invariant = require('./invariant');
   var SEPARATOR = '.';
   var SEPARATOR_LENGTH = SEPARATOR.length;
   var MAX_TREE_DEPTH = 100;
@@ -110,4 +110,4 @@
     SEPARATOR: SEPARATOR
   };
   module.exports = ReactInstanceHandles;
-})(require("process"));
+})(require('process'));

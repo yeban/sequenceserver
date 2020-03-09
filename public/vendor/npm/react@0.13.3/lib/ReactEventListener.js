@@ -1,15 +1,15 @@
 /* */ 
 (function(process) {
   'use strict';
-  var EventListener = require("./EventListener");
-  var ExecutionEnvironment = require("./ExecutionEnvironment");
-  var PooledClass = require("./PooledClass");
-  var ReactInstanceHandles = require("./ReactInstanceHandles");
-  var ReactMount = require("./ReactMount");
-  var ReactUpdates = require("./ReactUpdates");
-  var assign = require("./Object.assign");
-  var getEventTarget = require("./getEventTarget");
-  var getUnboundedScrollPosition = require("./getUnboundedScrollPosition");
+  var EventListener = require('./EventListener');
+  var ExecutionEnvironment = require('./ExecutionEnvironment');
+  var PooledClass = require('./PooledClass');
+  var ReactInstanceHandles = require('./ReactInstanceHandles');
+  var ReactMount = require('./ReactMount');
+  var ReactUpdates = require('./ReactUpdates');
+  var assign = require('./Object.assign');
+  var getEventTarget = require('./getEventTarget');
+  var getUnboundedScrollPosition = require('./getUnboundedScrollPosition');
   function findParent(node) {
     var nodeID = ReactMount.getID(node);
     var rootID = ReactInstanceHandles.getReactRootIDFromNodeID(nodeID);
@@ -90,4 +90,4 @@
     }
   };
   module.exports = ReactEventListener;
-})(require("process"));
+})(require('process'));

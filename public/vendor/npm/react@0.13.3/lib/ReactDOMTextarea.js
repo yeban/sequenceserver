@@ -1,16 +1,16 @@
 /* */ 
 (function(process) {
   'use strict';
-  var AutoFocusMixin = require("./AutoFocusMixin");
-  var DOMPropertyOperations = require("./DOMPropertyOperations");
-  var LinkedValueUtils = require("./LinkedValueUtils");
-  var ReactBrowserComponentMixin = require("./ReactBrowserComponentMixin");
-  var ReactClass = require("./ReactClass");
-  var ReactElement = require("./ReactElement");
-  var ReactUpdates = require("./ReactUpdates");
-  var assign = require("./Object.assign");
-  var invariant = require("./invariant");
-  var warning = require("./warning");
+  var AutoFocusMixin = require('./AutoFocusMixin');
+  var DOMPropertyOperations = require('./DOMPropertyOperations');
+  var LinkedValueUtils = require('./LinkedValueUtils');
+  var ReactBrowserComponentMixin = require('./ReactBrowserComponentMixin');
+  var ReactClass = require('./ReactClass');
+  var ReactElement = require('./ReactElement');
+  var ReactUpdates = require('./ReactUpdates');
+  var assign = require('./Object.assign');
+  var invariant = require('./invariant');
+  var warning = require('./warning');
   var textarea = ReactElement.createFactory('textarea');
   function forceUpdateIfMounted() {
     if (this.isMounted()) {
@@ -67,4 +67,4 @@
     }
   });
   module.exports = ReactDOMTextarea;
-})(require("process"));
+})(require('process'));

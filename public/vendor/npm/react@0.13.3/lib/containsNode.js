@@ -1,5 +1,5 @@
 /* */ 
-var isTextNode = require("./isTextNode");
+var isTextNode = require('./isTextNode');
 function containsNode(outerNode, innerNode) {
   if (!outerNode || !innerNode) {
     return false;

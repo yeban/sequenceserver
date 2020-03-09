@@ -1,40 +1,40 @@
 /* */ 
 (function(process) {
   'use strict';
-  var BeforeInputEventPlugin = require("./BeforeInputEventPlugin");
-  var ChangeEventPlugin = require("./ChangeEventPlugin");
-  var ClientReactRootIndex = require("./ClientReactRootIndex");
-  var DefaultEventPluginOrder = require("./DefaultEventPluginOrder");
-  var EnterLeaveEventPlugin = require("./EnterLeaveEventPlugin");
-  var ExecutionEnvironment = require("./ExecutionEnvironment");
-  var HTMLDOMPropertyConfig = require("./HTMLDOMPropertyConfig");
-  var MobileSafariClickEventPlugin = require("./MobileSafariClickEventPlugin");
-  var ReactBrowserComponentMixin = require("./ReactBrowserComponentMixin");
-  var ReactClass = require("./ReactClass");
-  var ReactComponentBrowserEnvironment = require("./ReactComponentBrowserEnvironment");
-  var ReactDefaultBatchingStrategy = require("./ReactDefaultBatchingStrategy");
-  var ReactDOMComponent = require("./ReactDOMComponent");
-  var ReactDOMButton = require("./ReactDOMButton");
-  var ReactDOMForm = require("./ReactDOMForm");
-  var ReactDOMImg = require("./ReactDOMImg");
-  var ReactDOMIDOperations = require("./ReactDOMIDOperations");
-  var ReactDOMIframe = require("./ReactDOMIframe");
-  var ReactDOMInput = require("./ReactDOMInput");
-  var ReactDOMOption = require("./ReactDOMOption");
-  var ReactDOMSelect = require("./ReactDOMSelect");
-  var ReactDOMTextarea = require("./ReactDOMTextarea");
-  var ReactDOMTextComponent = require("./ReactDOMTextComponent");
-  var ReactElement = require("./ReactElement");
-  var ReactEventListener = require("./ReactEventListener");
-  var ReactInjection = require("./ReactInjection");
-  var ReactInstanceHandles = require("./ReactInstanceHandles");
-  var ReactMount = require("./ReactMount");
-  var ReactReconcileTransaction = require("./ReactReconcileTransaction");
-  var SelectEventPlugin = require("./SelectEventPlugin");
-  var ServerReactRootIndex = require("./ServerReactRootIndex");
-  var SimpleEventPlugin = require("./SimpleEventPlugin");
-  var SVGDOMPropertyConfig = require("./SVGDOMPropertyConfig");
-  var createFullPageComponent = require("./createFullPageComponent");
+  var BeforeInputEventPlugin = require('./BeforeInputEventPlugin');
+  var ChangeEventPlugin = require('./ChangeEventPlugin');
+  var ClientReactRootIndex = require('./ClientReactRootIndex');
+  var DefaultEventPluginOrder = require('./DefaultEventPluginOrder');
+  var EnterLeaveEventPlugin = require('./EnterLeaveEventPlugin');
+  var ExecutionEnvironment = require('./ExecutionEnvironment');
+  var HTMLDOMPropertyConfig = require('./HTMLDOMPropertyConfig');
+  var MobileSafariClickEventPlugin = require('./MobileSafariClickEventPlugin');
+  var ReactBrowserComponentMixin = require('./ReactBrowserComponentMixin');
+  var ReactClass = require('./ReactClass');
+  var ReactComponentBrowserEnvironment = require('./ReactComponentBrowserEnvironment');
+  var ReactDefaultBatchingStrategy = require('./ReactDefaultBatchingStrategy');
+  var ReactDOMComponent = require('./ReactDOMComponent');
+  var ReactDOMButton = require('./ReactDOMButton');
+  var ReactDOMForm = require('./ReactDOMForm');
+  var ReactDOMImg = require('./ReactDOMImg');
+  var ReactDOMIDOperations = require('./ReactDOMIDOperations');
+  var ReactDOMIframe = require('./ReactDOMIframe');
+  var ReactDOMInput = require('./ReactDOMInput');
+  var ReactDOMOption = require('./ReactDOMOption');
+  var ReactDOMSelect = require('./ReactDOMSelect');
+  var ReactDOMTextarea = require('./ReactDOMTextarea');
+  var ReactDOMTextComponent = require('./ReactDOMTextComponent');
+  var ReactElement = require('./ReactElement');
+  var ReactEventListener = require('./ReactEventListener');
+  var ReactInjection = require('./ReactInjection');
+  var ReactInstanceHandles = require('./ReactInstanceHandles');
+  var ReactMount = require('./ReactMount');
+  var ReactReconcileTransaction = require('./ReactReconcileTransaction');
+  var SelectEventPlugin = require('./SelectEventPlugin');
+  var ServerReactRootIndex = require('./ServerReactRootIndex');
+  var SimpleEventPlugin = require('./SimpleEventPlugin');
+  var SVGDOMPropertyConfig = require('./SVGDOMPropertyConfig');
+  var createFullPageComponent = require('./createFullPageComponent');
   function autoGenerateWrapperClass(type) {
     return ReactClass.createClass({
       tagName: type.toUpperCase(),
@@ -84,10 +84,10 @@
     if ("production" !== process.env.NODE_ENV) {
       var url = (ExecutionEnvironment.canUseDOM && window.location.href) || '';
       if ((/[?&]react_perf\b/).test(url)) {
-        var ReactDefaultPerf = require("./ReactDefaultPerf");
+        var ReactDefaultPerf = require('./ReactDefaultPerf');
         ReactDefaultPerf.start();
       }
     }
   }
   module.exports = {inject: inject};
-})(require("process"));
+})(require('process'));

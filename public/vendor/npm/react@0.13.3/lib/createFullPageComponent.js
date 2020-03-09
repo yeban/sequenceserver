@@ -1,9 +1,9 @@
 /* */ 
 (function(process) {
   'use strict';
-  var ReactClass = require("./ReactClass");
-  var ReactElement = require("./ReactElement");
-  var invariant = require("./invariant");
+  var ReactClass = require('./ReactClass');
+  var ReactElement = require('./ReactElement');
+  var invariant = require('./invariant');
   function createFullPageComponent(tag) {
     var elementFactory = ReactElement.createFactory(tag);
     var FullPageComponent = ReactClass.createClass({
@@ -19,4 +19,4 @@
     return FullPageComponent;
   }
   module.exports = createFullPageComponent;
-})(require("process"));
+})(require('process'));

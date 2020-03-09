@@ -1,6 +1,6 @@
 /* */ 
 'use strict';
-var DOMProperty = require("./DOMProperty");
+var DOMProperty = require('./DOMProperty');
 var MUST_USE_ATTRIBUTE = DOMProperty.injection.MUST_USE_ATTRIBUTE;
 var SVGDOMPropertyConfig = {
   Properties: {

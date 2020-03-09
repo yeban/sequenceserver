@@ -1,9 +1,9 @@
 /* */ 
 'use strict';
-var ReactReconciler = require("./ReactReconciler");
-var flattenChildren = require("./flattenChildren");
-var instantiateReactComponent = require("./instantiateReactComponent");
-var shouldUpdateReactComponent = require("./shouldUpdateReactComponent");
+var ReactReconciler = require('./ReactReconciler');
+var flattenChildren = require('./flattenChildren');
+var instantiateReactComponent = require('./instantiateReactComponent');
+var shouldUpdateReactComponent = require('./shouldUpdateReactComponent');
 var ReactChildReconciler = {
   instantiateChildren: function(nestedChildNodes, transaction, context) {
     var children = flattenChildren(nestedChildNodes);

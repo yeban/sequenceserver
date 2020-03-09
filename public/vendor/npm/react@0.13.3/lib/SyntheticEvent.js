@@ -1,9 +1,9 @@
 /* */ 
 'use strict';
-var PooledClass = require("./PooledClass");
-var assign = require("./Object.assign");
-var emptyFunction = require("./emptyFunction");
-var getEventTarget = require("./getEventTarget");
+var PooledClass = require('./PooledClass');
+var assign = require('./Object.assign');
+var emptyFunction = require('./emptyFunction');
+var getEventTarget = require('./getEventTarget');
 var EventInterface = {
   type: null,
   target: getEventTarget,

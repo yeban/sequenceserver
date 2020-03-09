@@ -1,10 +1,10 @@
 /* */ 
 (function(process) {
   'use strict';
-  var PooledClass = require("./PooledClass");
-  var ReactFragment = require("./ReactFragment");
-  var traverseAllChildren = require("./traverseAllChildren");
-  var warning = require("./warning");
+  var PooledClass = require('./PooledClass');
+  var ReactFragment = require('./ReactFragment');
+  var traverseAllChildren = require('./traverseAllChildren');
+  var warning = require('./warning');
   var twoArgumentPooler = PooledClass.twoArgumentPooler;
   var threeArgumentPooler = PooledClass.threeArgumentPooler;
   function ForEachBookKeeping(forEachFunction, forEachContext) {
@@ -64,4 +64,4 @@
     count: countChildren
   };
   module.exports = ReactChildren;
-})(require("process"));
+})(require('process'));

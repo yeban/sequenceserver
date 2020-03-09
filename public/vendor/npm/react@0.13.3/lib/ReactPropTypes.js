@@ -1,9 +1,9 @@
 /* */ 
 'use strict';
-var ReactElement = require("./ReactElement");
-var ReactFragment = require("./ReactFragment");
-var ReactPropTypeLocationNames = require("./ReactPropTypeLocationNames");
-var emptyFunction = require("./emptyFunction");
+var ReactElement = require('./ReactElement');
+var ReactFragment = require('./ReactFragment');
+var ReactPropTypeLocationNames = require('./ReactPropTypeLocationNames');
+var emptyFunction = require('./emptyFunction');
 var ANONYMOUS = '<<anonymous>>';
 var elementTypeChecker = createElementTypeChecker();
 var nodeTypeChecker = createNodeChecker();

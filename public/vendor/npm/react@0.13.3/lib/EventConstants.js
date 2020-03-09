@@ -1,6 +1,6 @@
 /* */ 
 'use strict';
-var keyMirror = require("./keyMirror");
+var keyMirror = require('./keyMirror');
 var PropagationPhases = keyMirror({
   bubbled: null,
   captured: null

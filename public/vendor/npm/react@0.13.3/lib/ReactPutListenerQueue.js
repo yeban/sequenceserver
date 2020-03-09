@@ -1,8 +1,8 @@
 /* */ 
 'use strict';
-var PooledClass = require("./PooledClass");
-var ReactBrowserEventEmitter = require("./ReactBrowserEventEmitter");
-var assign = require("./Object.assign");
+var PooledClass = require('./PooledClass');
+var ReactBrowserEventEmitter = require('./ReactBrowserEventEmitter');
+var assign = require('./Object.assign');
 function ReactPutListenerQueue() {
   this.listenersToPut = [];
 }

@@ -1,8 +1,8 @@
 /* */ 
 'use strict';
-var assign = require("./Object.assign");
-var emptyFunction = require("./emptyFunction");
-var joinClasses = require("./joinClasses");
+var assign = require('./Object.assign');
+var emptyFunction = require('./emptyFunction');
+var joinClasses = require('./joinClasses');
 function createTransferStrategy(mergeStrategy) {
   return function(props, key, value) {
     if (!props.hasOwnProperty(key)) {

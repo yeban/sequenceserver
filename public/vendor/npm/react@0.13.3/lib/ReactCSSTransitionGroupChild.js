@@ -1,11 +1,11 @@
 /* */ 
 (function(process) {
   'use strict';
-  var React = require("./React");
-  var CSSCore = require("./CSSCore");
-  var ReactTransitionEvents = require("./ReactTransitionEvents");
-  var onlyChild = require("./onlyChild");
-  var warning = require("./warning");
+  var React = require('./React');
+  var CSSCore = require('./CSSCore');
+  var ReactTransitionEvents = require('./ReactTransitionEvents');
+  var onlyChild = require('./onlyChild');
+  var warning = require('./warning');
   var TICK = 17;
   var NO_EVENT_TIMEOUT = 5000;
   var noEventListener = null;
@@ -89,4 +89,4 @@
     }
   });
   module.exports = ReactCSSTransitionGroupChild;
-})(require("process"));
+})(require('process'));

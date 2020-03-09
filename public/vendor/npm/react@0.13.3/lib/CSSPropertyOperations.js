@@ -1,13 +1,13 @@
 /* */ 
 (function(process) {
   'use strict';
-  var CSSProperty = require("./CSSProperty");
-  var ExecutionEnvironment = require("./ExecutionEnvironment");
-  var camelizeStyleName = require("./camelizeStyleName");
-  var dangerousStyleValue = require("./dangerousStyleValue");
-  var hyphenateStyleName = require("./hyphenateStyleName");
-  var memoizeStringOnly = require("./memoizeStringOnly");
-  var warning = require("./warning");
+  var CSSProperty = require('./CSSProperty');
+  var ExecutionEnvironment = require('./ExecutionEnvironment');
+  var camelizeStyleName = require('./camelizeStyleName');
+  var dangerousStyleValue = require('./dangerousStyleValue');
+  var hyphenateStyleName = require('./hyphenateStyleName');
+  var memoizeStringOnly = require('./memoizeStringOnly');
+  var warning = require('./warning');
   var processStyleName = memoizeStringOnly(function(styleName) {
     return hyphenateStyleName(styleName);
   });
@@ -100,4 +100,4 @@
     }
   };
   module.exports = CSSPropertyOperations;
-})(require("process"));
+})(require('process'));

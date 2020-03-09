@@ -1,16 +1,16 @@
 /* */ 
 (function(process) {
   'use strict';
-  var AutoFocusMixin = require("./AutoFocusMixin");
-  var DOMPropertyOperations = require("./DOMPropertyOperations");
-  var LinkedValueUtils = require("./LinkedValueUtils");
-  var ReactBrowserComponentMixin = require("./ReactBrowserComponentMixin");
-  var ReactClass = require("./ReactClass");
-  var ReactElement = require("./ReactElement");
-  var ReactMount = require("./ReactMount");
-  var ReactUpdates = require("./ReactUpdates");
-  var assign = require("./Object.assign");
-  var invariant = require("./invariant");
+  var AutoFocusMixin = require('./AutoFocusMixin');
+  var DOMPropertyOperations = require('./DOMPropertyOperations');
+  var LinkedValueUtils = require('./LinkedValueUtils');
+  var ReactBrowserComponentMixin = require('./ReactBrowserComponentMixin');
+  var ReactClass = require('./ReactClass');
+  var ReactElement = require('./ReactElement');
+  var ReactMount = require('./ReactMount');
+  var ReactUpdates = require('./ReactUpdates');
+  var assign = require('./Object.assign');
+  var invariant = require('./invariant');
   var input = ReactElement.createFactory('input');
   var instancesByReactID = {};
   function forceUpdateIfMounted() {
@@ -91,4 +91,4 @@
     }
   });
   module.exports = ReactDOMInput;
-})(require("process"));
+})(require('process'));

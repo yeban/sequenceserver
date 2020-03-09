@@ -1,8 +1,8 @@
 /* */ 
 (function(process) {
   'use strict';
-  var ReactElement = require("./ReactElement");
-  var warning = require("./warning");
+  var ReactElement = require('./ReactElement');
+  var warning = require('./warning');
   if ("production" !== process.env.NODE_ENV) {
     var fragmentKey = '_reactFragment';
     var didWarnKey = '_reactDidWarn';
@@ -107,4 +107,4 @@
     }
   };
   module.exports = ReactFragment;
-})(require("process"));
+})(require('process'));

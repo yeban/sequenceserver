@@ -1,12 +1,12 @@
 /* */ 
 'use strict';
-var AutoFocusMixin = require("./AutoFocusMixin");
-var LinkedValueUtils = require("./LinkedValueUtils");
-var ReactBrowserComponentMixin = require("./ReactBrowserComponentMixin");
-var ReactClass = require("./ReactClass");
-var ReactElement = require("./ReactElement");
-var ReactUpdates = require("./ReactUpdates");
-var assign = require("./Object.assign");
+var AutoFocusMixin = require('./AutoFocusMixin');
+var LinkedValueUtils = require('./LinkedValueUtils');
+var ReactBrowserComponentMixin = require('./ReactBrowserComponentMixin');
+var ReactClass = require('./ReactClass');
+var ReactElement = require('./ReactElement');
+var ReactUpdates = require('./ReactUpdates');
+var assign = require('./Object.assign');
 var select = ReactElement.createFactory('select');
 function updateOptionsIfPendingUpdateAndMounted() {
   if (this._pendingUpdate) {

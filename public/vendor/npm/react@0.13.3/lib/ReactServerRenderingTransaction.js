@@ -1,11 +1,11 @@
 /* */ 
 'use strict';
-var PooledClass = require("./PooledClass");
-var CallbackQueue = require("./CallbackQueue");
-var ReactPutListenerQueue = require("./ReactPutListenerQueue");
-var Transaction = require("./Transaction");
-var assign = require("./Object.assign");
-var emptyFunction = require("./emptyFunction");
+var PooledClass = require('./PooledClass');
+var CallbackQueue = require('./CallbackQueue');
+var ReactPutListenerQueue = require('./ReactPutListenerQueue');
+var Transaction = require('./Transaction');
+var assign = require('./Object.assign');
+var emptyFunction = require('./emptyFunction');
 var ON_DOM_READY_QUEUEING = {
   initialize: function() {
     this.reactMountReady.reset();

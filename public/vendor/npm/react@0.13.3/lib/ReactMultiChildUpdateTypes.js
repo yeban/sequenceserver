@@ -1,6 +1,6 @@
 /* */ 
 'use strict';
-var keyMirror = require("./keyMirror");
+var keyMirror = require('./keyMirror');
 var ReactMultiChildUpdateTypes = keyMirror({
   INSERT_MARKUP: null,
   MOVE_EXISTING: null,

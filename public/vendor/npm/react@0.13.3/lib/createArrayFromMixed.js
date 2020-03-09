@@ -1,5 +1,5 @@
 /* */ 
-var toArray = require("./toArray");
+var toArray = require('./toArray');
 function hasArrayNature(obj) {
   return (!!obj && (typeof obj == 'object' || typeof obj == 'function') && ('length' in obj) && !('setInterval' in obj) && (typeof obj.nodeType != 'number') && (((Array.isArray(obj) || ('callee' in obj) || 'item' in obj))));
 }

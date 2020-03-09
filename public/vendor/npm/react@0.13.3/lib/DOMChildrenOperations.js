@@ -1,10 +1,10 @@
 /* */ 
 (function(process) {
   'use strict';
-  var Danger = require("./Danger");
-  var ReactMultiChildUpdateTypes = require("./ReactMultiChildUpdateTypes");
-  var setTextContent = require("./setTextContent");
-  var invariant = require("./invariant");
+  var Danger = require('./Danger');
+  var ReactMultiChildUpdateTypes = require('./ReactMultiChildUpdateTypes');
+  var setTextContent = require('./setTextContent');
+  var invariant = require('./invariant');
   function insertChildAt(parentNode, childNode, index) {
     parentNode.insertBefore(childNode, parentNode.childNodes[index] || null);
   }
@@ -54,4 +54,4 @@
     }
   };
   module.exports = DOMChildrenOperations;
-})(require("process"));
+})(require('process'));

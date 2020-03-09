@@ -1,7 +1,7 @@
 /* */ 
 'use strict';
-var EventConstants = require("./EventConstants");
-var emptyFunction = require("./emptyFunction");
+var EventConstants = require('./EventConstants');
+var emptyFunction = require('./emptyFunction');
 var topLevelTypes = EventConstants.topLevelTypes;
 var MobileSafariClickEventPlugin = {
   eventTypes: null,

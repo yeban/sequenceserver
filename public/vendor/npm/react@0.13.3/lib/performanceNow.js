@@ -1,5 +1,5 @@
 /* */ 
-var performance = require("./performance");
+var performance = require('./performance');
 if (!performance || !performance.now) {
   performance = Date;
 }

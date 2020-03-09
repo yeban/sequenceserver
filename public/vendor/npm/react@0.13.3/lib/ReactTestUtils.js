@@ -1,20 +1,20 @@
 /* */ 
 'use strict';
-var EventConstants = require("./EventConstants");
-var EventPluginHub = require("./EventPluginHub");
-var EventPropagators = require("./EventPropagators");
-var React = require("./React");
-var ReactElement = require("./ReactElement");
-var ReactEmptyComponent = require("./ReactEmptyComponent");
-var ReactBrowserEventEmitter = require("./ReactBrowserEventEmitter");
-var ReactCompositeComponent = require("./ReactCompositeComponent");
-var ReactInstanceHandles = require("./ReactInstanceHandles");
-var ReactInstanceMap = require("./ReactInstanceMap");
-var ReactMount = require("./ReactMount");
-var ReactUpdates = require("./ReactUpdates");
-var SyntheticEvent = require("./SyntheticEvent");
-var assign = require("./Object.assign");
-var emptyObject = require("./emptyObject");
+var EventConstants = require('./EventConstants');
+var EventPluginHub = require('./EventPluginHub');
+var EventPropagators = require('./EventPropagators');
+var React = require('./React');
+var ReactElement = require('./ReactElement');
+var ReactEmptyComponent = require('./ReactEmptyComponent');
+var ReactBrowserEventEmitter = require('./ReactBrowserEventEmitter');
+var ReactCompositeComponent = require('./ReactCompositeComponent');
+var ReactInstanceHandles = require('./ReactInstanceHandles');
+var ReactInstanceMap = require('./ReactInstanceMap');
+var ReactMount = require('./ReactMount');
+var ReactUpdates = require('./ReactUpdates');
+var SyntheticEvent = require('./SyntheticEvent');
+var assign = require('./Object.assign');
+var emptyObject = require('./emptyObject');
 var topLevelTypes = EventConstants.topLevelTypes;
 function Event(suffix) {}
 var ReactTestUtils = {

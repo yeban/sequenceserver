@@ -1,16 +1,16 @@
 /* */ 
 'use strict';
-var DOMProperty = require("./DOMProperty");
-var EventPluginHub = require("./EventPluginHub");
-var ReactComponentEnvironment = require("./ReactComponentEnvironment");
-var ReactClass = require("./ReactClass");
-var ReactEmptyComponent = require("./ReactEmptyComponent");
-var ReactBrowserEventEmitter = require("./ReactBrowserEventEmitter");
-var ReactNativeComponent = require("./ReactNativeComponent");
-var ReactDOMComponent = require("./ReactDOMComponent");
-var ReactPerf = require("./ReactPerf");
-var ReactRootIndex = require("./ReactRootIndex");
-var ReactUpdates = require("./ReactUpdates");
+var DOMProperty = require('./DOMProperty');
+var EventPluginHub = require('./EventPluginHub');
+var ReactComponentEnvironment = require('./ReactComponentEnvironment');
+var ReactClass = require('./ReactClass');
+var ReactEmptyComponent = require('./ReactEmptyComponent');
+var ReactBrowserEventEmitter = require('./ReactBrowserEventEmitter');
+var ReactNativeComponent = require('./ReactNativeComponent');
+var ReactDOMComponent = require('./ReactDOMComponent');
+var ReactPerf = require('./ReactPerf');
+var ReactRootIndex = require('./ReactRootIndex');
+var ReactUpdates = require('./ReactUpdates');
 var ReactInjection = {
   Component: ReactComponentEnvironment.injection,
   Class: ReactClass.injection,

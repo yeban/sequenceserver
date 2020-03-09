@@ -1,10 +1,10 @@
 /* */ 
 'use strict';
-var EventConstants = require("./EventConstants");
-var EventPropagators = require("./EventPropagators");
-var SyntheticMouseEvent = require("./SyntheticMouseEvent");
-var ReactMount = require("./ReactMount");
-var keyOf = require("./keyOf");
+var EventConstants = require('./EventConstants');
+var EventPropagators = require('./EventPropagators');
+var SyntheticMouseEvent = require('./SyntheticMouseEvent');
+var ReactMount = require('./ReactMount');
+var keyOf = require('./keyOf');
 var topLevelTypes = EventConstants.topLevelTypes;
 var getFirstReactDOM = ReactMount.getFirstReactDOM;
 var eventTypes = {

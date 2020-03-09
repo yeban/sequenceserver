@@ -1,6 +1,6 @@
 /* */ 
 (function(process) {
-  var invariant = require("./invariant");
+  var invariant = require('./invariant');
   var CSSCore = {
     addClass: function(element, className) {
       ("production" !== process.env.NODE_ENV ? invariant(!/\s/.test(className), 'CSSCore.addClass takes only a single class name. "%s" contains ' + 'multiple classes.', className) : invariant(!/\s/.test(className)));
@@ -36,4 +36,4 @@
     }
   };
   module.exports = CSSCore;
-})(require("process"));
+})(require('process'));

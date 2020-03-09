@@ -1,10 +1,10 @@
 /* */ 
 (function(process) {
   'use strict';
-  var ReactBrowserComponentMixin = require("./ReactBrowserComponentMixin");
-  var ReactClass = require("./ReactClass");
-  var ReactElement = require("./ReactElement");
-  var warning = require("./warning");
+  var ReactBrowserComponentMixin = require('./ReactBrowserComponentMixin');
+  var ReactClass = require('./ReactClass');
+  var ReactElement = require('./ReactElement');
+  var warning = require('./warning');
   var option = ReactElement.createFactory('option');
   var ReactDOMOption = ReactClass.createClass({
     displayName: 'ReactDOMOption',
@@ -20,4 +20,4 @@
     }
   });
   module.exports = ReactDOMOption;
-})(require("process"));
+})(require('process'));

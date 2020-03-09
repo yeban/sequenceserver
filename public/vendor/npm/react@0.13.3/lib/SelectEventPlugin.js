@@ -1,13 +1,13 @@
 /* */ 
 'use strict';
-var EventConstants = require("./EventConstants");
-var EventPropagators = require("./EventPropagators");
-var ReactInputSelection = require("./ReactInputSelection");
-var SyntheticEvent = require("./SyntheticEvent");
-var getActiveElement = require("./getActiveElement");
-var isTextInputElement = require("./isTextInputElement");
-var keyOf = require("./keyOf");
-var shallowEqual = require("./shallowEqual");
+var EventConstants = require('./EventConstants');
+var EventPropagators = require('./EventPropagators');
+var ReactInputSelection = require('./ReactInputSelection');
+var SyntheticEvent = require('./SyntheticEvent');
+var getActiveElement = require('./getActiveElement');
+var isTextInputElement = require('./isTextInputElement');
+var keyOf = require('./keyOf');
+var shallowEqual = require('./shallowEqual');
 var topLevelTypes = EventConstants.topLevelTypes;
 var eventTypes = {select: {
     phasedRegistrationNames: {

@@ -24,9 +24,9 @@
       "packages": "public/vendor"
     },
     "dependencies": {
+      "@fortawesome/fontawesome-free": "npm:@fortawesome/fontawesome-free@^5.12.1",
       "bootstrap": "github:twbs/bootstrap@^3.3.5",
       "d3": "github:mbostock/d3@^3.5.6",
-      "font-awesome": "npm:font-awesome@^4.4.0",
       "jquery": "github:components/jquery@^2.1.4",
       "jquery-ui": "github:components/jqueryui@^1.11.4",
       "nicgirault/circosJs": "github:nicgirault/circosJs@^1.7.0",
@@ -35,9 +35,9 @@
       "webshim": "npm:webshim@^1.15.8"
     },
     "devDependencies": {
-      "babel": "npm:babel-core@^5.8.22",
-      "babel-runtime": "npm:babel-runtime@^5.8.20",
-      "core-js": "npm:core-js@^1.1.0"
+      "babel": "npm:babel-core@^5.8.24",
+      "babel-runtime": "npm:babel-runtime@^5.8.24",
+      "core-js": "npm:core-js@^1.1.4"
     },
     "overrides": {
       "npm:webshim@1.15.8": {

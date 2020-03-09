@@ -1,15 +1,15 @@
 /* */ 
 (function(process) {
   'use strict';
-  var CallbackQueue = require("./CallbackQueue");
-  var PooledClass = require("./PooledClass");
-  var ReactCurrentOwner = require("./ReactCurrentOwner");
-  var ReactPerf = require("./ReactPerf");
-  var ReactReconciler = require("./ReactReconciler");
-  var Transaction = require("./Transaction");
-  var assign = require("./Object.assign");
-  var invariant = require("./invariant");
-  var warning = require("./warning");
+  var CallbackQueue = require('./CallbackQueue');
+  var PooledClass = require('./PooledClass');
+  var ReactCurrentOwner = require('./ReactCurrentOwner');
+  var ReactPerf = require('./ReactPerf');
+  var ReactReconciler = require('./ReactReconciler');
+  var Transaction = require('./Transaction');
+  var assign = require('./Object.assign');
+  var invariant = require('./invariant');
+  var warning = require('./warning');
   var dirtyComponents = [];
   var asapCallbackQueue = CallbackQueue.getPooled();
   var asapEnqueued = false;
@@ -136,4 +136,4 @@
     asap: asap
   };
   module.exports = ReactUpdates;
-})(require("process"));
+})(require('process'));

@@ -1,14 +1,14 @@
 /* */ 
 (function(process) {
   'use strict';
-  var ReactLifeCycle = require("./ReactLifeCycle");
-  var ReactCurrentOwner = require("./ReactCurrentOwner");
-  var ReactElement = require("./ReactElement");
-  var ReactInstanceMap = require("./ReactInstanceMap");
-  var ReactUpdates = require("./ReactUpdates");
-  var assign = require("./Object.assign");
-  var invariant = require("./invariant");
-  var warning = require("./warning");
+  var ReactLifeCycle = require('./ReactLifeCycle');
+  var ReactCurrentOwner = require('./ReactCurrentOwner');
+  var ReactElement = require('./ReactElement');
+  var ReactInstanceMap = require('./ReactInstanceMap');
+  var ReactUpdates = require('./ReactUpdates');
+  var assign = require('./Object.assign');
+  var invariant = require('./invariant');
+  var warning = require('./warning');
   function enqueueUpdate(internalInstance) {
     if (internalInstance !== ReactLifeCycle.currentlyMountingInstance) {
       ReactUpdates.enqueueUpdate(internalInstance);
@@ -104,4 +104,4 @@
     }
   };
   module.exports = ReactUpdateQueue;
-})(require("process"));
+})(require('process'));

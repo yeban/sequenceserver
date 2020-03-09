@@ -1,13 +1,13 @@
 /* */ 
 (function(process) {
   'use strict';
-  var CSSPropertyOperations = require("./CSSPropertyOperations");
-  var DOMChildrenOperations = require("./DOMChildrenOperations");
-  var DOMPropertyOperations = require("./DOMPropertyOperations");
-  var ReactMount = require("./ReactMount");
-  var ReactPerf = require("./ReactPerf");
-  var invariant = require("./invariant");
-  var setInnerHTML = require("./setInnerHTML");
+  var CSSPropertyOperations = require('./CSSPropertyOperations');
+  var DOMChildrenOperations = require('./DOMChildrenOperations');
+  var DOMPropertyOperations = require('./DOMPropertyOperations');
+  var ReactMount = require('./ReactMount');
+  var ReactPerf = require('./ReactPerf');
+  var invariant = require('./invariant');
+  var setInnerHTML = require('./setInnerHTML');
   var INVALID_PROPERTY_ERRORS = {
     dangerouslySetInnerHTML: '`dangerouslySetInnerHTML` must be set using `updateInnerHTMLByID()`.',
     style: '`style` must be set using `updateStylesByID()`.'
@@ -60,4 +60,4 @@
     dangerouslyProcessChildrenUpdates: 'dangerouslyProcessChildrenUpdates'
   });
   module.exports = ReactDOMIDOperations;
-})(require("process"));
+})(require('process'));

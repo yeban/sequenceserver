@@ -1,8 +1,8 @@
 /* */ 
 (function(process) {
   'use strict';
-  var EventConstants = require("./EventConstants");
-  var invariant = require("./invariant");
+  var EventConstants = require('./EventConstants');
+  var invariant = require('./invariant');
   var injection = {
     Mount: null,
     injectMount: function(InjectedMount) {
@@ -118,4 +118,4 @@
     useTouchEvents: false
   };
   module.exports = EventPluginUtils;
-})(require("process"));
+})(require('process'));

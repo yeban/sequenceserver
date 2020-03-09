@@ -1,10 +1,10 @@
 /* */ 
 (function(process) {
   'use strict';
-  var ReactBrowserEventEmitter = require("./ReactBrowserEventEmitter");
-  var accumulateInto = require("./accumulateInto");
-  var forEachAccumulated = require("./forEachAccumulated");
-  var invariant = require("./invariant");
+  var ReactBrowserEventEmitter = require('./ReactBrowserEventEmitter');
+  var accumulateInto = require('./accumulateInto');
+  var forEachAccumulated = require('./forEachAccumulated');
+  var invariant = require('./invariant');
   function remove(event) {
     event.remove();
   }
@@ -23,4 +23,4 @@
     }
   };
   module.exports = LocalEventTrapMixin;
-})(require("process"));
+})(require('process'));

@@ -1,9 +1,9 @@
 /* */ 
 (function(process) {
   'use strict';
-  var ReactElement = require("./ReactElement");
-  var ReactInstanceMap = require("./ReactInstanceMap");
-  var invariant = require("./invariant");
+  var ReactElement = require('./ReactElement');
+  var ReactInstanceMap = require('./ReactInstanceMap');
+  var invariant = require('./invariant');
   var component;
   var nullComponentIDsRegistry = {};
   var ReactEmptyComponentInjection = {injectEmptyComponent: function(emptyComponent) {
@@ -44,4 +44,4 @@
     isNullComponentID: isNullComponentID
   };
   module.exports = ReactEmptyComponent;
-})(require("process"));
+})(require('process'));

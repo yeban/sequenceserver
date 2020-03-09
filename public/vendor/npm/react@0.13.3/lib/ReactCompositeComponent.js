@@ -1,24 +1,24 @@
 /* */ 
 (function(process) {
   'use strict';
-  var ReactComponentEnvironment = require("./ReactComponentEnvironment");
-  var ReactContext = require("./ReactContext");
-  var ReactCurrentOwner = require("./ReactCurrentOwner");
-  var ReactElement = require("./ReactElement");
-  var ReactElementValidator = require("./ReactElementValidator");
-  var ReactInstanceMap = require("./ReactInstanceMap");
-  var ReactLifeCycle = require("./ReactLifeCycle");
-  var ReactNativeComponent = require("./ReactNativeComponent");
-  var ReactPerf = require("./ReactPerf");
-  var ReactPropTypeLocations = require("./ReactPropTypeLocations");
-  var ReactPropTypeLocationNames = require("./ReactPropTypeLocationNames");
-  var ReactReconciler = require("./ReactReconciler");
-  var ReactUpdates = require("./ReactUpdates");
-  var assign = require("./Object.assign");
-  var emptyObject = require("./emptyObject");
-  var invariant = require("./invariant");
-  var shouldUpdateReactComponent = require("./shouldUpdateReactComponent");
-  var warning = require("./warning");
+  var ReactComponentEnvironment = require('./ReactComponentEnvironment');
+  var ReactContext = require('./ReactContext');
+  var ReactCurrentOwner = require('./ReactCurrentOwner');
+  var ReactElement = require('./ReactElement');
+  var ReactElementValidator = require('./ReactElementValidator');
+  var ReactInstanceMap = require('./ReactInstanceMap');
+  var ReactLifeCycle = require('./ReactLifeCycle');
+  var ReactNativeComponent = require('./ReactNativeComponent');
+  var ReactPerf = require('./ReactPerf');
+  var ReactPropTypeLocations = require('./ReactPropTypeLocations');
+  var ReactPropTypeLocationNames = require('./ReactPropTypeLocationNames');
+  var ReactReconciler = require('./ReactReconciler');
+  var ReactUpdates = require('./ReactUpdates');
+  var assign = require('./Object.assign');
+  var emptyObject = require('./emptyObject');
+  var invariant = require('./invariant');
+  var shouldUpdateReactComponent = require('./shouldUpdateReactComponent');
+  var warning = require('./warning');
   function getDeclarationErrorAddendum(component) {
     var owner = component._currentElement._owner || null;
     if (owner) {
@@ -371,4 +371,4 @@
   });
   var ReactCompositeComponent = {Mixin: ReactCompositeComponentMixin};
   module.exports = ReactCompositeComponent;
-})(require("process"));
+})(require('process'));

@@ -1,11 +1,11 @@
 /* */ 
 (function(process) {
   'use strict';
-  var ExecutionEnvironment = require("./ExecutionEnvironment");
-  var createNodesFromMarkup = require("./createNodesFromMarkup");
-  var emptyFunction = require("./emptyFunction");
-  var getMarkupWrap = require("./getMarkupWrap");
-  var invariant = require("./invariant");
+  var ExecutionEnvironment = require('./ExecutionEnvironment');
+  var createNodesFromMarkup = require('./createNodesFromMarkup');
+  var emptyFunction = require('./emptyFunction');
+  var getMarkupWrap = require('./getMarkupWrap');
+  var invariant = require('./invariant');
   var OPEN_TAG_NAME_EXP = /^(<[^ \/>]+)/;
   var RESULT_INDEX_ATTR = 'data-danger-index';
   function getNodeName(markup) {
@@ -64,4 +64,4 @@
     }
   };
   module.exports = Danger;
-})(require("process"));
+})(require('process'));

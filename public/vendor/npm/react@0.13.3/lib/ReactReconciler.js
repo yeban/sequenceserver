@@ -1,8 +1,8 @@
 /* */ 
 (function(process) {
   'use strict';
-  var ReactRef = require("./ReactRef");
-  var ReactElementValidator = require("./ReactElementValidator");
+  var ReactRef = require('./ReactRef');
+  var ReactElementValidator = require('./ReactElementValidator');
   function attachRefs() {
     ReactRef.attachRefs(this, this._currentElement);
   }
@@ -41,4 +41,4 @@
     }
   };
   module.exports = ReactReconciler;
-})(require("process"));
+})(require('process'));

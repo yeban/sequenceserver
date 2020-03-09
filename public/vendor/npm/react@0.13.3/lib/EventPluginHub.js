@@ -1,11 +1,11 @@
 /* */ 
 (function(process) {
   'use strict';
-  var EventPluginRegistry = require("./EventPluginRegistry");
-  var EventPluginUtils = require("./EventPluginUtils");
-  var accumulateInto = require("./accumulateInto");
-  var forEachAccumulated = require("./forEachAccumulated");
-  var invariant = require("./invariant");
+  var EventPluginRegistry = require('./EventPluginRegistry');
+  var EventPluginUtils = require('./EventPluginUtils');
+  var accumulateInto = require('./accumulateInto');
+  var forEachAccumulated = require('./forEachAccumulated');
+  var invariant = require('./invariant');
   var listenerBank = {};
   var eventQueue = null;
   var executeDispatchesAndRelease = function(event) {
@@ -100,4 +100,4 @@
     }
   };
   module.exports = EventPluginHub;
-})(require("process"));
+})(require('process'));

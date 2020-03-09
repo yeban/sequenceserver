@@ -1,9 +1,9 @@
 /* */ 
 (function(process) {
   'use strict';
-  var ReactUpdateQueue = require("./ReactUpdateQueue");
-  var invariant = require("./invariant");
-  var warning = require("./warning");
+  var ReactUpdateQueue = require('./ReactUpdateQueue');
+  var invariant = require('./invariant');
+  var warning = require('./warning');
   function ReactComponent(props, context) {
     this.props = props;
     this.context = context;
@@ -47,4 +47,4 @@
     }
   }
   module.exports = ReactComponent;
-})(require("process"));
+})(require('process'));

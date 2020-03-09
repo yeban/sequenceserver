@@ -1,8 +1,8 @@
 /* */ 
 (function(process) {
   'use strict';
-  var assign = require("./Object.assign");
-  var invariant = require("./invariant");
+  var assign = require('./Object.assign');
+  var invariant = require('./invariant');
   var autoGenerateWrapperClass = null;
   var genericComponentClass = null;
   var tagToComponentClass = {};
@@ -50,4 +50,4 @@
     injection: ReactNativeComponentInjection
   };
   module.exports = ReactNativeComponent;
-})(require("process"));
+})(require('process'));

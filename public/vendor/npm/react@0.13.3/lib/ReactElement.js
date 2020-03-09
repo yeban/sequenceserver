@@ -1,10 +1,10 @@
 /* */ 
 (function(process) {
   'use strict';
-  var ReactContext = require("./ReactContext");
-  var ReactCurrentOwner = require("./ReactCurrentOwner");
-  var assign = require("./Object.assign");
-  var warning = require("./warning");
+  var ReactContext = require('./ReactContext');
+  var ReactCurrentOwner = require('./ReactCurrentOwner');
+  var assign = require('./Object.assign');
+  var warning = require('./warning');
   var RESERVED_PROPS = {
     key: true,
     ref: true
@@ -148,4 +148,4 @@
     return isElement;
   };
   module.exports = ReactElement;
-})(require("process"));
+})(require('process'));

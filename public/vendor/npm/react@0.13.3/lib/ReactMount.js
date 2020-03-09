@@ -1,27 +1,27 @@
 /* */ 
 (function(process) {
   'use strict';
-  var DOMProperty = require("./DOMProperty");
-  var ReactBrowserEventEmitter = require("./ReactBrowserEventEmitter");
-  var ReactCurrentOwner = require("./ReactCurrentOwner");
-  var ReactElement = require("./ReactElement");
-  var ReactElementValidator = require("./ReactElementValidator");
-  var ReactEmptyComponent = require("./ReactEmptyComponent");
-  var ReactInstanceHandles = require("./ReactInstanceHandles");
-  var ReactInstanceMap = require("./ReactInstanceMap");
-  var ReactMarkupChecksum = require("./ReactMarkupChecksum");
-  var ReactPerf = require("./ReactPerf");
-  var ReactReconciler = require("./ReactReconciler");
-  var ReactUpdateQueue = require("./ReactUpdateQueue");
-  var ReactUpdates = require("./ReactUpdates");
-  var emptyObject = require("./emptyObject");
-  var containsNode = require("./containsNode");
-  var getReactRootElementInContainer = require("./getReactRootElementInContainer");
-  var instantiateReactComponent = require("./instantiateReactComponent");
-  var invariant = require("./invariant");
-  var setInnerHTML = require("./setInnerHTML");
-  var shouldUpdateReactComponent = require("./shouldUpdateReactComponent");
-  var warning = require("./warning");
+  var DOMProperty = require('./DOMProperty');
+  var ReactBrowserEventEmitter = require('./ReactBrowserEventEmitter');
+  var ReactCurrentOwner = require('./ReactCurrentOwner');
+  var ReactElement = require('./ReactElement');
+  var ReactElementValidator = require('./ReactElementValidator');
+  var ReactEmptyComponent = require('./ReactEmptyComponent');
+  var ReactInstanceHandles = require('./ReactInstanceHandles');
+  var ReactInstanceMap = require('./ReactInstanceMap');
+  var ReactMarkupChecksum = require('./ReactMarkupChecksum');
+  var ReactPerf = require('./ReactPerf');
+  var ReactReconciler = require('./ReactReconciler');
+  var ReactUpdateQueue = require('./ReactUpdateQueue');
+  var ReactUpdates = require('./ReactUpdates');
+  var emptyObject = require('./emptyObject');
+  var containsNode = require('./containsNode');
+  var getReactRootElementInContainer = require('./getReactRootElementInContainer');
+  var instantiateReactComponent = require('./instantiateReactComponent');
+  var invariant = require('./invariant');
+  var setInnerHTML = require('./setInnerHTML');
+  var shouldUpdateReactComponent = require('./shouldUpdateReactComponent');
+  var warning = require('./warning');
   var SEPARATOR = ReactInstanceHandles.SEPARATOR;
   var ATTR_NAME = DOMProperty.ID_ATTRIBUTE_NAME;
   var nodeCache = {};
@@ -344,4 +344,4 @@
     _mountImageIntoNode: '_mountImageIntoNode'
   });
   module.exports = ReactMount;
-})(require("process"));
+})(require('process'));

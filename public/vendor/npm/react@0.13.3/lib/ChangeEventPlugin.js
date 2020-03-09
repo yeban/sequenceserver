@@ -1,15 +1,15 @@
 /* */ 
 (function(process) {
   'use strict';
-  var EventConstants = require("./EventConstants");
-  var EventPluginHub = require("./EventPluginHub");
-  var EventPropagators = require("./EventPropagators");
-  var ExecutionEnvironment = require("./ExecutionEnvironment");
-  var ReactUpdates = require("./ReactUpdates");
-  var SyntheticEvent = require("./SyntheticEvent");
-  var isEventSupported = require("./isEventSupported");
-  var isTextInputElement = require("./isTextInputElement");
-  var keyOf = require("./keyOf");
+  var EventConstants = require('./EventConstants');
+  var EventPluginHub = require('./EventPluginHub');
+  var EventPropagators = require('./EventPropagators');
+  var ExecutionEnvironment = require('./ExecutionEnvironment');
+  var ReactUpdates = require('./ReactUpdates');
+  var SyntheticEvent = require('./SyntheticEvent');
+  var isEventSupported = require('./isEventSupported');
+  var isTextInputElement = require('./isTextInputElement');
+  var keyOf = require('./keyOf');
   var topLevelTypes = EventConstants.topLevelTypes;
   var eventTypes = {change: {
       phasedRegistrationNames: {
@@ -171,4 +171,4 @@
     }
   };
   module.exports = ChangeEventPlugin;
-})(require("process"));
+})(require('process'));

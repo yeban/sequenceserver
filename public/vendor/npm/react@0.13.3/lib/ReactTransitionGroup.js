@@ -1,10 +1,10 @@
 /* */ 
 'use strict';
-var React = require("./React");
-var ReactTransitionChildMapping = require("./ReactTransitionChildMapping");
-var assign = require("./Object.assign");
-var cloneWithProps = require("./cloneWithProps");
-var emptyFunction = require("./emptyFunction");
+var React = require('./React');
+var ReactTransitionChildMapping = require('./ReactTransitionChildMapping');
+var assign = require('./Object.assign');
+var cloneWithProps = require('./cloneWithProps');
+var emptyFunction = require('./emptyFunction');
 var ReactTransitionGroup = React.createClass({
   displayName: 'ReactTransitionGroup',
   propTypes: {

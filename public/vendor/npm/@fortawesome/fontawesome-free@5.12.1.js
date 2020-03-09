@@ -1,0 +1,1 @@
+module.exports = require("npm:@fortawesome/fontawesome-free@5.12.1/js/fontawesome.js");

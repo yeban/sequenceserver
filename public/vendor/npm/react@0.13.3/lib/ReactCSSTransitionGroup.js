@@ -1,9 +1,9 @@
 /* */ 
 'use strict';
-var React = require("./React");
-var assign = require("./Object.assign");
-var ReactTransitionGroup = React.createFactory(require("./ReactTransitionGroup"));
-var ReactCSSTransitionGroupChild = React.createFactory(require("./ReactCSSTransitionGroupChild"));
+var React = require('./React');
+var assign = require('./Object.assign');
+var ReactTransitionGroup = React.createFactory(require('./ReactTransitionGroup'));
+var ReactCSSTransitionGroupChild = React.createFactory(require('./ReactCSSTransitionGroupChild'));
 var ReactCSSTransitionGroup = React.createClass({
   displayName: 'ReactCSSTransitionGroup',
   propTypes: {

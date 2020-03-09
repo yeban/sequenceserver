@@ -6,4 +6,4 @@
     currentlyUnmountingInstance: null
   };
   module.exports = ReactLifeCycle;
-})(require("process"));
+})(require('process'));

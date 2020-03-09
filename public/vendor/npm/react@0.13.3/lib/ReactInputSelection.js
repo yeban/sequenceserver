@@ -1,9 +1,9 @@
 /* */ 
 'use strict';
-var ReactDOMSelection = require("./ReactDOMSelection");
-var containsNode = require("./containsNode");
-var focusNode = require("./focusNode");
-var getActiveElement = require("./getActiveElement");
+var ReactDOMSelection = require('./ReactDOMSelection');
+var containsNode = require('./containsNode');
+var focusNode = require('./focusNode');
+var getActiveElement = require('./getActiveElement');
 function isInDocument(node) {
   return containsNode(document.documentElement, node);
 }

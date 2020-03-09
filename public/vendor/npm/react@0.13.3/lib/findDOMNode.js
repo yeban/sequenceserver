@@ -1,12 +1,12 @@
 /* */ 
 (function(process) {
   'use strict';
-  var ReactCurrentOwner = require("./ReactCurrentOwner");
-  var ReactInstanceMap = require("./ReactInstanceMap");
-  var ReactMount = require("./ReactMount");
-  var invariant = require("./invariant");
-  var isNode = require("./isNode");
-  var warning = require("./warning");
+  var ReactCurrentOwner = require('./ReactCurrentOwner');
+  var ReactInstanceMap = require('./ReactInstanceMap');
+  var ReactMount = require('./ReactMount');
+  var invariant = require('./invariant');
+  var isNode = require('./isNode');
+  var warning = require('./warning');
   function findDOMNode(componentOrElement) {
     if ("production" !== process.env.NODE_ENV) {
       var owner = ReactCurrentOwner.current;
@@ -28,4 +28,4 @@
     ("production" !== process.env.NODE_ENV ? invariant(false, 'Element appears to be neither ReactComponent nor DOMNode (keys: %s)', Object.keys(componentOrElement)) : invariant(false));
   }
   module.exports = findDOMNode;
-})(require("process"));
+})(require('process'));

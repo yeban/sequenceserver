@@ -1,8 +1,8 @@
 /* */ 
 (function(process) {
   'use strict';
-  var ReactPropTypes = require("./ReactPropTypes");
-  var invariant = require("./invariant");
+  var ReactPropTypes = require('./ReactPropTypes');
+  var invariant = require('./invariant');
   var hasReadOnlyValue = {
     'button': true,
     'checkbox': true,
@@ -71,4 +71,4 @@
     }
   };
   module.exports = LinkedValueUtils;
-})(require("process"));
+})(require('process'));
